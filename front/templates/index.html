@@ -4,7 +4,7 @@
 		<aside id="fh5co-hero">
 			<div class="flexslider">
 				<ul class="slides">
-			   	<li style="background-image: url(images/img_bg_1.jpg);">
+			   	<li style="background-image: url({{ url_for('static', filename='images/img_bg_1.jpg') }});">
 			   		<div class="overlay-gradient"></div>
 			   		<div class="container-fluid">
 			   			<div class="row">
@@ -18,7 +18,7 @@
 				   		</div>
 			   		</div>
 			   	</li>
-			   	<li style="background-image: url(images/img_bg_2.jpg);">
+			   	<li style="background-image: url({{ url_for('static', filename='images/img_bg_2.jpg') }});">
 			   		<div class="overlay-gradient"></div>
 			   		<div class="container-fluid">
 			   			<div class="row">
@@ -32,7 +32,7 @@
 				   		</div>
 			   		</div>
 			   	</li>
-			   	<li style="background-image: url(images/img_bg_3.jpg);">
+			   	<li style="background-image: url({{ url_for('static', filename='images/img_bg_3.jpg') }});">
 			   		<div class="overlay-gradient"></div>
 			   		<div class="container-fluids">
 			   			<div class="row">
@@ -46,7 +46,7 @@
 				   		</div>
 			   		</div>
 			   	</li>
-			   	<li style="background-image: url(images/img_bg_4.jpg);">
+			   	<li style="background-image: url({{ url_for('static', filename='images/img_bg_4.jpg') }});">
 			   		<div class="overlay-gradient"></div>
 			   		<div class="container-fluid">
 			   			<div class="row">
@@ -110,7 +110,7 @@
 			</div>
 			<div class="row">
 				<div class="col-md-4 text-center animate-box">
-					<a href="{{ url_for('workSingle') }}" class="work"  style="background-image: url(images/portfolio-1.jpg);">
+					<a href="{{ url_for('workSingle') }}" class="work"  style="background-image: url({{ url_for('static', filename='images/portfolio-1.jpg') }});">
 						<div class="desc">
 							<h3>Project Name</h3>
 							<span>Illustration</span>
@@ -118,7 +118,7 @@
 					</a>
 				</div>
 				<div class="col-md-4 text-center animate-box">
-					<a href="{{ url_for('workSingle') }}" class="work" style="background-image: url(images/portfolio-2.jpg);">
+					<a href="{{ url_for('workSingle') }}" class="work" style="background-image: url({{ url_for('static', filename='images/portfolio-2.jpg') }});">
 						<div class="desc">
 							<h3>Project Name</h3>
 							<span>Brading</span>
@@ -126,7 +126,7 @@
 					</a>
 				</div>
 				<div class="col-md-4 text-center animate-box">
-					<a href="{{ url_for('workSingle') }}" class="work" style="background-image: url(images/portfolio-3.jpg);">
+					<a href="{{ url_for('workSingle') }}" class="work" style="background-image: url({{ url_for('static', filename='images/portfolio-3.jpg') }});">
 						<div class="desc">
 							<h3>Project Name</h3>
 							<span>Illustration</span>
@@ -167,7 +167,7 @@
 		</div>
 
 		<div id="fh5co-blog" class="blog-flex">
-			<div class="featured-blog" style="background-image: url(images/blog-1.jpg);">
+			<div class="featured-blog" style="background-image: url({{ url_for('static', filename='images/blog-1.jpg') }});">
 				<div class="desc-t">
 					<div class="desc-tc">
 						<span class="featured-head">Featured Posts</span>
@@ -185,7 +185,7 @@
 				<div class="row">
 					<div class="col-md-12 animate-box">
 						<a href="#" class="blog-post">
-							<span class="img" style="background-image: url(images/blog-2.jpg);"></span>
+							<span class="img" style="background-image: url({{ url_for('static', filename='images/blog-2.jpg') }});"></span>
 							<div class="desc">
 								<h3>26 Best Education WordPress Themes 2017 You Need To See</h3>
 								<span class="cat">Collection</span>
@@ -194,7 +194,7 @@
 					</div>
 					<div class="col-md-12 animate-box">
 						<a href="#" class="blog-post">
-							<span class="img" style="background-image: url(images/blog-1.jpg);"></span>
+							<span class="img" style="background-image: url({{ url_for('static', filename='images/blog-1.jpg') }});"></span>
 							<div class="desc">
 								<h3>16 Outstanding Photography WordPress Themes You Must See</h3>
 								<span class="cat">Collection</span>
@@ -203,7 +203,7 @@
 					</div>
 					<div class="col-md-12 animate-box">
 						<a href="#" class="blog-post">
-							<span class="img" style="background-image: url(images/blog-3.jpg);"></span>
+							<span class="img" style="background-image: url({{ url_for('static', filename='images/blog-3.jpg') }});"></span>
 							<div class="desc">
 								<h3>16 Outstanding Photography WordPress Themes You Must See</h3>
 								<span class="cat">Collection</span>
