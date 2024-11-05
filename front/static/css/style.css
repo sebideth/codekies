@@ -16,7 +16,8 @@ body {
   font-size: 14px;
   line-height: 1.7;
   color: gray;
-  background: #e8e8e8;
+  background: #FFFFB3;
+  background-image: url('../images/fondomain3.jpg');
 }
 
 #page {
@@ -81,14 +82,14 @@ h1, h2, h3, h4, h5, h6, figure {
 
 ::selection {
   color: #fff;
-  background: #66D37E;
+  background: #190bdd;
 }
 
 .container-wrap {
   max-width: 1060px;
   margin: 0 auto;
   margin-bottom: 1em;
-  background: #fff;
+  background: #FFFFB3;
 }
 @media screen and (max-width: 768px) {
   .container-wrap {
@@ -106,6 +107,8 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 .fh5co-nav .top-menu {
   padding: 34px 30px;
+  background-color: #856342;
+  box-shadow: 5px 5px 10px black;
 }
 @media screen and (max-width: 768px) {
   .fh5co-nav .top-menu {
@@ -121,11 +124,11 @@ h1, h2, h3, h4, h5, h6, figure {
   font-family: "Source Sans Pro", sans-serif;
 }
 .fh5co-nav #fh5co-logo a span {
-  color: #66D37E;
+  color: black;
 }
 .fh5co-nav a {
   padding: 5px 10px;
-  color: #000;
+  color: #382000;
 }
 @media screen and (max-width: 768px) {
   .fh5co-nav .menu-1 {
@@ -150,7 +153,7 @@ h1, h2, h3, h4, h5, h6, figure {
   position: relative;
   font-size: 13px;
   padding: 30px 12px;
-  color: rgba(0, 0, 0, 0.3);
+  color: #382000;
   -webkit-transition: 0.5s;
   -o-transition: 0.5s;
   transition: 0.5s;
@@ -163,7 +166,7 @@ h1, h2, h3, h4, h5, h6, figure {
   content: '';
   width: 58%;
   height: 2px;
-  background: #66D37E;
+  background: #000000;
   margin: 0 auto;
   opacity: 0;
   -webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
@@ -359,6 +362,7 @@ h1, h2, h3, h4, h5, h6, figure {
 #fh5co-hero .flexslider .slides {
   position: relative;
   overflow: hidden;
+  background-color: FFFFB3;
 }
 #fh5co-hero .flexslider .slides li {
   background-repeat: no-repeat;
@@ -404,6 +408,7 @@ h1, h2, h3, h4, h5, h6, figure {
   vertical-align: middle;
   min-height: 700px;
   padding: 2em;
+
 }
 @media screen and (max-width: 768px) {
   #fh5co-hero .flexslider .slider-text > .slider-text-inner {
@@ -1269,21 +1274,21 @@ input[type="text"] {
 }
 
 .btn-primary {
-  background: #66D37E;
+  background: #DCAB6B;
   color: #fff;
-  border: 2px solid #66D37E;
+  border: 2px solid #DCAB6B;
 }
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
-  background: #7ad98f !important;
-  border-color: #7ad98f !important;
+  background: #FFFFB3 !important;
+  border-color: #FFFFB3 !important;
 }
 .btn-primary.btn-outline {
-  background: transparent;
-  color: #66D37E;
-  border: 2px solid #66D37E;
+  background-color: #DCAB6B;
+  color: #fff;
+  border: 2px solid #DCAB6B;
 }
 .btn-primary.btn-outline:hover, .btn-primary.btn-outline:focus, .btn-primary.btn-outline:active {
-  background: #66D37E;
+  background: #DCAB6B;
   color: #fff;
 }
 
@@ -1473,4 +1478,80 @@ input[type="text"] {
   font-weight: 400;
 }
 
-/*# sourceMappingURL=style.css.map */
+.container{
+  position: relative;
+  align-items: center;
+  max-width: 430px;
+  width: 100%;
+  background: #fff;
+  border-radius: 7px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+}
+.container .registration{
+  display: none;
+}
+#check:checked ~ .registration{
+  display: block;
+}
+#check:checked ~ .login{
+  display: none;
+}
+#check{
+  display: none;
+}
+.container .form{
+  padding: 2rem;
+}
+.form header{
+  font-size: 2rem;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+ .form input{
+   height: 60px;
+   width: 100%;
+   padding: 0 15px;
+   font-size: 17px;
+   margin-bottom: 1.3rem;
+   border: 1px solid #ddd;
+   border-radius: 6px;
+   outline: none;
+ }
+ .form input:focus{
+   box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+ }
+.form a{
+  font-size: 16px;
+  color: #009579;
+  text-decoration: none;
+}
+.form a:hover{
+  text-decoration: underline;
+}
+.form input.button{
+  color: #fff;
+  background: #009579;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin-top: 1.7rem;
+  cursor: pointer;
+  transition: 0.4s;
+}
+.form input.button:hover{
+  background: #006653;
+}
+.signup{
+  font-size: 17px;
+  text-align: center;
+}
+.signup label{
+  color: #009579;
+  cursor: pointer;
+}
+.signup label:hover{
+  text-decoration: underline;
+}
+
+/*# sourceMappingURL=style.css.map

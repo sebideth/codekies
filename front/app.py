@@ -26,5 +26,9 @@ def workSingle():
 def work():
     return render_template('work.html')
 
+@app.route('/auth')
+def auth():
+    return render_template('auth.html')
+
 if __name__ == '__main__':
     app.run("127.0.0.1", port="5000", debug=True)

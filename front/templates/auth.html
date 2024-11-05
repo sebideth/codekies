@@ -1,0 +1,34 @@
+{%extends 'base.html' %}
+{%block body %}
+  <div class="container">
+    <input type="checkbox" id="check">
+    <div class="login form">
+      <header>Iniciar Sesión</header>
+      <form action="#">
+        <input type="text" placeholder="Ingrese su e-mail">
+        <input type="password" placeholder="Ingrese su contraseña">
+        <a href="#">Olvidé mi contraseña</a>
+        <input type="button" class="button" value="Iniciar Sesión">
+      </form>
+      <div class="signup">
+         <label for="check">Registrarse</label>
+        </span>
+      </div>
+    </div>
+    <div class="registration form">
+      <header>Registrarse</header>
+      <form action="#">
+        <input type="text" placeholder="Ingrese su email">
+        <input type="text" placeholder="Ingrese su teléfono">
+        <input type="password" placeholder="Crear contraseña">
+        <input type="password" placeholder="Confirmar contraseña">
+        <input type="button" class="button" value="Registrarse">
+      </form>
+      <div class="signup">
+        <span class="signup">Ya tiene cuenta?
+         <label for="check">Iniciar sesión</label>
+        </span>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
