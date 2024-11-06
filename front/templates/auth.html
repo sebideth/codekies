@@ -4,11 +4,11 @@
     <input type="checkbox" id="check">
     <div class="login form">
       <header>Iniciar Sesión</header>
-      <form action="#">
-        <input type="text" placeholder="Ingrese su e-mail">
-        <input type="password" placeholder="Ingrese su contraseña">
+      <form action="{{ url_for('auth')}}" method="post">
+        <input type="text" name="mail" id="mail" placeholder="Ingrese su e-mail">
+        <input type="password" name="passwd" id="passwd" placeholder="Ingrese su contraseña">
         <a href="#">Olvidé mi contraseña</a>
-        <input type="button" class="button" value="Iniciar Sesión">
+        <input type="submit" class="button" value="Iniciar Sesión">
       </form>
       <div class="signup">
          <label for="check">Registrarse</label>
@@ -17,12 +17,12 @@
     </div>
     <div class="registration form">
       <header>Registrarse</header>
-      <form action="#">
-        <input type="text" placeholder="Ingrese su email">
-        <input type="text" placeholder="Ingrese su teléfono">
-        <input type="password" placeholder="Crear contraseña">
+      <form action="{{ url_for('auth')}}" method="post">
+        <input type="text" name="newemail" id="newemail" placeholder="Ingrese su email">
+        <input type="text" name="newphone" id="newphone" placeholder="Ingrese su teléfono">
+        <input type="password" name="newpasswd" id="newpasswd" placeholder="Crear contraseña">
         <input type="password" placeholder="Confirmar contraseña">
-        <input type="button" class="button" value="Registrarse">
+        <input type="submit" class="button" value="Registrarse">
       </form>
       <div class="signup">
         <span class="signup">Ya tiene cuenta?
