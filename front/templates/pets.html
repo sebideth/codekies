@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block body %}
+	<div class="container-wrap">
+		<aside id="fh5co-hero" class="fondoa">
+			<div class="flexslider">
+				<ul class="slides">
+			   	<li style="background-image: url(images/img_bg_3.jpg);">
+			   		<div class="overlay-gradient"></div>
+			   		<div class="container-fluids">
+			   			<div class="row">
+				   			<div class="col-md-6 col-md-offset-3 slider-text slider-text-bg">
+								<div class="slider-text-inner text-center">
+									<h1 class="titulo-pets">Encontrá tu mascota</h1>
+									<p><a class="btn btn-primary btn-demo" href="{{url_for('petsFiltro', condicion='perdido')}}"></i> Perdidas </a> 
+										<a class="btn btn-primary btn-demo" href="{{url_for('petsFiltro', condicion='encontrado' )}}">Encontradas</a></p>
+
+									<form method="get" action="{{ url_for('pets') }}" >
+										<label for="filtro">Filtrar por:</label>
+										<select name="estado">
+											<option value="">Estado</option>
+											<option value="perdido">Perdidas</option>
+											<option value="encontrado">Encontradas</option>
+										</select>
+										<select name="raza">
+											<option value="">raza</option>
+											<option value="labrador">labrador</option>
+											<option value="mestizo">mestizo</option>
+										</select>
+
+										<select name="color">
+											<option value="">Color</option>
+											<option value="negro">negro</option>
+											<option value="blanco">blanco</option>
+										</select>
+										<button type="submit">Filtrar</button>
+									</form>
+
+								</div>
+								
+				   			</div>
+				   		</div>
+			   		</div>
+			   	</li>		   	
+			  	</ul>
+		  	</div>
+		</aside>		
+		<div id="fh5co-blog">
+			<div class="row">
+
+				{% for i in range(3) %}
+
+				<div class="col-md-4">
+					<div class="fh5co-blog animate-box">
+						<img src="{{ url_for('static',filename='images/fatiga.jpg') }}" alt="foto de la mascota" class="img-fluid img-pets">
+						<div class="blog-text">
+							<span class="posted_on">Fecha perdido</span>
+							<h3><a href="#">Nombre: </a></h3>
+							<p>Description</p>
+							<p>Raza</p>
+							<ul class="stuff">
+								<li><i class="icon-heart3"></i>249</li>
+								<li><i class="icon-eye2"></i>1,308</li>
+								<li><a href="#" class="botoninfo">Mas detalles<i class="icon-arrow-right22"></i></a></li>
+							</ul>
+						</div> 
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="fh5co-blog animate-box">
+						<img src="{{ url_for('static',filename='images/gato.jpg') }}" alt="foto de la mascota" class="img-fluid img-pets">
+						<div class="blog-text">
+							<span class="posted_on">Fecha perdido</span>
+							<h3><a href="#">Nombre: </a></h3>
+							<p>Description</p>
+							<p>Raza</p>
+							<ul class="stuff">
+								<li><i class="icon-heart3"></i>249</li>
+								<li><i class="icon-eye2"></i>1,308</li>
+								<li><a href="#" class="botoninfo">Mas detalles<i class="icon-arrow-right22"></i></a></li>
+							</ul>
+						</div> 
+					</div>
+				</div>
+				
+				{% endfor %}
+			</div>
+		</div>
+	</div><!-- END container-wrap -->
+	{% endblock %}
+

@@ -22,7 +22,6 @@
 
 	<link href="https://fonts.googleapis.com/css?family=Oxygen:300,400" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700" rel="stylesheet">
-	
 	<!-- Animate.css -->
 	<link rel="stylesheet" href="{{ url_for('static', filename = 'css/animate.css') }}">
 	<!-- Icomoon Icon Fonts-->
@@ -45,10 +44,9 @@
 	<!--[if lt IE 9]>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
-
 	</head>
 	<body>
-		
+
 	<div class="fh5co-loader"></div>
 	<div class="main">
 	<div id="page">
@@ -62,7 +60,7 @@
 					<div class="col-xs-10 text-right menu-1">
 						<ul>
 							<li class="active"><a href="{{ url_for('home') }}">Inicio</a></li>
-							<li><a href="{{ url_for('publicaciones') }}">Mascotas</a></li>
+							<li><a href="{{ url_for('pets') }}">Pets</a></li>
 							<li class="has-dropdown">
 								<a href="{{ url_for('auth') }}">Login</a>
 								<!-- <ul class="dropdown">
@@ -77,7 +75,6 @@
 						</ul>
 					</div>
 				</div>
-				
 			</div>
 		</div>
 	</nav>
@@ -112,10 +109,10 @@
 
 			</div>
 
-			<div class="row copyright">
+			<!-- <div class="row copyright">
 				<div class="col-md-12 text-center">
 					<p>
-						<small class="block">&copy; 2016 Free HTML5. All Rights Reserved.</small> 
+						<small class="block">&copy; 2016 Free HTML5. All Rights Reserved.</small>
 						<small class="block">Designed by <a href="http://freehtml5.co/" target="_blank">FreeHTML5.co</a> Demo Images: <a href="http://unsplash.co/" target="_blank">Unsplash</a></small>
 					</p>
 					<p>
@@ -127,7 +124,7 @@
 						</ul>
 					</p>
 				</div>
-			</div>
+			</div> -->
 		</footer>
 	</div><!-- END container-wrap -->
 	</div>
@@ -135,7 +132,7 @@
 	<div class="gototop js-top">
 		<a href="#" class="js-gotop"><i class="icon-arrow-up2"></i></a>
 	</div>
-	
+
 	<!-- jQuery -->
 	<script src="{{ url_for('static', filename = 'js/jquery.min.js') }}"></script>
 	<!-- jQuery Easing -->
