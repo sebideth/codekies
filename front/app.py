@@ -6,9 +6,20 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
-@app.route('/blog')
-def blog():
-    return render_template('blog.html')
+@app.route('/pets')
+def pets():
+    estado = request.args.get('estado')
+    raza = request.args.get('raza')
+    color = request.args.get('color')
+    
+    filtro = [estado, raza, color]
+
+    return render_template('pets.html', filtro = filtro)
+
+@app.route('/pets/<condicion>')
+def petsFiltro(condicion):
+    
+    return render_template('pets.html', condicion=condicion)
 
 @app.route('/contact')
 def contact():
