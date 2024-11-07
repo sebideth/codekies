@@ -1,4 +1,5 @@
 from flask import Flask, redirect, render_template, url_for, request
+from werkzeug import exceptions
 
 app = Flask(__name__)
 
@@ -57,6 +58,10 @@ def upload_pet(logeado):
         else:
             return(redirect(url_for('auth.html')))
     return render_template('upload_pet.html')
+
+@app.errorhandler(exceptions.InternalServerError)
+def handle_internal_server_error(e):
+    return render_template('critical_errors.html')
 
 if __name__ == '__main__':
     app.run("127.0.0.1", port="5000", debug=True)
