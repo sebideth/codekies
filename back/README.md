@@ -69,7 +69,7 @@ Recibe un JSON con la información del usuario y devuelve 201 y el JSON si la cr
 - verbo: POST
 - Ejemplos:
 
-Recibe
+Recibe:
 
 ```json
 {    
@@ -82,7 +82,7 @@ Recibe
 }
 ```
 
-Devuelve
+Devuelve:
 
 ```json
 {    
@@ -122,11 +122,12 @@ http://localhost:5001/api/usuarios/saznarez
 
 Recibe un JSON con los nuevos datos y devuelve todos los datos actualizados del usuario (como el endpoint de obtener ususario por nombre de ususario)
 
-- url: - url: http://localhost:5001/api/usuarios/<nombreUsuario>
+- url: http://localhost:5001/api/usuarios/<nombreUsuario>
 - verbo: PUT
 - Ejemplos: 
 
-Recibe
+Recibe:
+
 ```json
 {
     "nombre": "Sebastián",
@@ -136,7 +137,8 @@ Recibe
 }
 ```
 
-Devuelve
+Devuelve:
+
 ```json
 {
     "id": 1,
@@ -249,7 +251,7 @@ Devuelve un JSON con una lista de todas las mascotas cargadas
             "descripcion": "descripcion2",
             "fecha": 20241022,
             "resuelto": false,
-            "userID": 1 
+            "userID": 1
         },
         {
             "id": 3,
@@ -262,7 +264,7 @@ Devuelve un JSON con una lista de todas las mascotas cargadas
             "descripcion": "descripcion3",
             "fecha": 20241101,
             "resuelto": true,
-            "userID": 2 
+            "userID": 2
         }
     ]   
 }
@@ -291,7 +293,7 @@ http://localhost:5001/api/mascotas/2
     "descripcion": "descripcion3",
     "fecha": 20241101,
     "resuelto": true,
-    "userID": 2 
+    "userID": 2
 }
 ```
 `200`
@@ -326,7 +328,7 @@ Recibe:
     "descripcion": "descripcion3",
     "fecha": 20241101,
     "resuelto": true,
-    "userID": 2 
+    "userID": 2
 }
 ```
 Devuelve:
@@ -343,7 +345,7 @@ Devuelve:
     "descripcion": "descripcion3",
     "fecha": 20241101,
     "resuelto": true,
-    "userID": 2 
+    "userID": 2
 }
 ```
 `201`
@@ -370,7 +372,7 @@ Recibe:
     "descripcion": "otra descripcion",
     "fecha": 20241107,
     "resuelto": false,
-    "userID": 2 
+    "userID": 2
 }
 ```
 
@@ -388,7 +390,7 @@ Devuelve:
     "descripcion": "otra descripcion",
     "fecha": 20241107,
     "resuelto": false,
-    "userID": 2 
+    "userID": 2
 }
 ```
 `200`
@@ -415,7 +417,7 @@ http://localhost:5001/api/mascotas/2
     "descripcion": "descripcion3",
     "fecha": 20241101,
     "resuelto": true,
-    "userID": 2 
+    "userID": 2
 }
 ```
 `200`
@@ -444,7 +446,7 @@ http://localhost:5001/api/mascotas/usuario/2
             "descripcion": "descripcion1",
             "fecha": 20241104,
             "resuelto": false,
-            "userID": 2 
+            "userID": 2
         },
         {
             "id": 2,
@@ -457,7 +459,7 @@ http://localhost:5001/api/mascotas/usuario/2
             "descripcion": "descripcion3",
             "fecha": 20241101,
             "resuelto": true,
-            "userID": 2 
+            "userID": 2
         }
     ]
 }
@@ -481,7 +483,7 @@ Dado un JSON con una serie de caracteristicas, devuelve un JSON con la lista de 
 - verbo: GET
 - Ejemplos:
 
-Recibe
+Recibe:
 
 ```json
 {
@@ -489,6 +491,8 @@ Recibe
     "condicion": "perdido"
 }
 ```
+
+Devuelve:
 
 ```json
 {
@@ -504,7 +508,7 @@ Recibe
             "descripcion": "descripcion1",
             "fecha": 20241104,
             "resuelto": false,
-            "userID": 2 
+            "userID": 2
         },
         {
             "id": 2,
@@ -517,7 +521,7 @@ Recibe
             "descripcion": "descripcion3",
             "fecha": 20241101,
             "resuelto": true,
-            "userID": 2 
+            "userID": 2
         }
     ]
 }
