@@ -30,7 +30,7 @@ def work():
 def auth():
     return render_template('auth.html')
 
-@app.route('publicaciones')
+@app.route('/publicaciones')
 def publicaciones():
     return render_template('publicaciones.html')
 
