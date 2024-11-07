@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, url_for, request
+from flask import Flask, redirect, render_template, url_for, request, session
 from werkzeug import exceptions
 
 app = Flask(__name__)
@@ -42,10 +42,9 @@ def publicaciones():
     return render_template('publicaciones.html')
 
 @app.route('/upload_pet', methods=["GET","POST"])
-def upload_pet(logeado):
+def upload_pet():
     if request.method == "POST":
-        #definir logeado
-        if logeado:
+        if session.get('logged_in'):
             animal = request.form.get('animal')
             raza = request.form.get('raza')
             condicion = request.form.get('condicion')
