@@ -37,8 +37,14 @@ def workSingle():
 def work():
     return render_template('work.html')
 
-@app.route('/auth')
+@app.route('/auth', methods=["POST", "GET"])
 def auth():
+    if request.method == 'POST':
+        mail = request.form.get("mail")
+        passwd = request.form.get('passwd')
+        newemail = request.form.get("newemail")
+        newphone = request.form.get("newphone")
+        newpasswd = request.form.get("newpasswd")
     return render_template('auth.html')
 
 @app.route('/publicaciones')
