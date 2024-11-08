@@ -1608,4 +1608,8 @@ form button {
   width: 100%;
   height: 100%;
 }
+.row-center{
+  display: flex;
+  justify-content: center;
+}
 /*# sourceMappingURL=style.css.map

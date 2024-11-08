@@ -69,6 +69,30 @@ def upload_pet():
             return(redirect(url_for('auth.html')))
     return render_template('upload_pet.html')
 
+@app.route('/profile', methods=["GET"])
+def profile():
+    #TODO: llamar al cackend para obtener el user
+    return render_template('profile.html', user={
+    "nombre": "Sebastian",
+    "apellido": "Aznarez",
+    "email": "saznarez@fi.uba.ar",
+    "telefono": "1123456789"
+})
+@app.route('/profile', methods=["POST"])
+def profile_update():
+    name = request.form.get('name')
+    email = request.form.get('email')
+    password = request.form.get('password')
+    cellphone = request.form.get('cellphone')
+    print(name, email, password,cellphone)
+    return render_template('profile.html', user={
+    "nombre": name,
+    "apellido": "Aznarez",
+    "email": email,
+    "telefono": cellphone
+})
+    
+
 @app.errorhandler(exceptions.InternalServerError)
 def handle_internal_server_error(e):
     return render_template('critical_errors.html')
