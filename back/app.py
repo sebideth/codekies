@@ -1,29 +1,26 @@
 import click
 from flask import Flask
-from colorama import init
 from colorama import Fore, Style
 from sqlalchemy import text
-from db import engine
+
+import config
+from db import engine_with_no_database
 
 
 app = Flask(__name__)
 
 
 @app.cli.command("init-database", help="Initialize the database.")
-@click.argument("host", default="localhost")
-@click.argument("username", default="root")
-@click.argument("password", default="change_me")
-@click.argument("database", default="codekis")
-def init_database(host, username, password, database):
+@click.argument("database", default=config.database)
+def init_database(database):
     print(f"[{Fore.GREEN}*{Style.RESET_ALL}] Initializing database...")
-    print(f"[{Fore.GREEN}*{Style.RESET_ALL}] Username -> {username}")
-    print(f"[{Fore.GREEN}*{Style.RESET_ALL}] Password -> {password}")
-    print(f"[{Fore.GREEN}*{Style.RESET_ALL}] Host -> {host}")
+    print(f"[{Fore.GREEN}*{Style.RESET_ALL}] Database name {database}")
     try:
-        connection = engine.connect()
-        connection.execute(text(f"DROP DATABASE {database}"))
+        connection = engine_with_no_database().connect()
+        connection.execute(text(f"DROP DATABASE IF EXISTS {database}"))
         connection.execute(text(f"CREATE DATABASE {database}"))
         connection.execute(text(f"USE {database}"))
+        # TODO: Se puede mejorar agregando tablas de Raza, Animal
         connection.execute(text("CREATE TABLE usuarios ("
                                 "id INT AUTO_INCREMENT PRIMARY KEY,"
                                 "nombreUsuario VARCHAR(100) NOT NULL UNIQUE,"
@@ -52,9 +49,9 @@ def init_database(host, username, password, database):
                                 "FOREIGN KEY (userID) REFERENCES usuarios(id))"
                                 )
                            )
-        # TODO: Se puede mejorar agregando tablas de Raza, Animal
+        print(f"[{Fore.GREEN}*{Style.RESET_ALL}] Created successfully!")
     except Exception as e:
-        print(e)
+        print(f"[{Fore.RED}*{Style.RESET_ALL}] Could not create database -> {e}")
 
 
 if __name__ == "__main__":

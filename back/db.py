@@ -1,11 +1,11 @@
 from sqlalchemy import create_engine
+from config import username, password, host, collation, database
+
+connection_string = f"mysql+mysqlconnector://{username}:{password}@{host}/{database}?collation={collation}"
+
+engine = create_engine(connection_string, echo=False)
 
 
-# TODO: add config file
-collation = "utf8mb4_general_ci"
-username = "root"
-password = "change_me"
-host = "localhost:3306"
-database = "codekis"
-connection_string = f"mysql+mysqlconnector://{username}:{password}@{host}?collation={collation}"
-engine = create_engine(connection_string, echo=True)
+def engine_with_no_database():
+    connection_string = f"mysql+mysqlconnector://{username}:{password}@{host}?collation={collation}"
+    return create_engine(connection_string, echo=False)
