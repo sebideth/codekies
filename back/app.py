@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 
 @app.cli.command("init-database", help="Initialize the database.")
-@click.argument("database", default=config.database)
+@click.argument("database", default=config.db_name)
 def init_database(database):
     print(f"[{Fore.GREEN}*{Style.RESET_ALL}] Initializing database...")
     print(f"[{Fore.GREEN}*{Style.RESET_ALL}] Database name {database}")

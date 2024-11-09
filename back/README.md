@@ -1,5 +1,13 @@
 # Backend
 
+## Install
+
+```bash
+cd back
+pipenv shell
+pipenv install
+```
+
 ## Estructura de la base de datos
 
 ### usuarios
@@ -78,11 +86,12 @@ pipenv sync
 Creamos un archivo `.env` con el siguiente contenido que tenés que modificar en base a tu propia configuración:
 
 ```
-collation = "utf8mb4_general_ci" # esto puede quedar asi
-username = "root"  # usuario de tu mysql
-password = "change_me"  # password de tu mysql
-host = "localhost:3306"  # donde esta escuchando mysql
-database = "codekies" # nombre de nuestra base
+# database
+db_collation = "utf8mb4_general_ci"
+db_username = "root"
+db_password = "change_me" # password
+db_host = "localhost:3306"
+db_name = "codekies"
 ```
 
 Ahora si, corremos el comando:
