@@ -1,0 +1,108 @@
+/* pet_info css*/
+
+.columnas-petinf {
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    max-width: 1060px;
+    max-height: 420px;
+    gap: 5px;
+}
+
+.cuadro-img-petinf {
+    padding: 10px;
+    background-color: rgb(243, 225, 200);
+    box-shadow:  1px 1px 10px 0px  black;
+    width: 700px;
+}
+
+.filas-petinf {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.cuadro-nombre-petinf {
+    background-color: rgb(243, 225, 200);
+    box-shadow:  1px 1px 10px 0px  black;
+    height: 60px;
+    width: 355px;
+}
+
+.cuadro-caracteristicas-petinf {
+    padding: 10px;
+    background-color: rgb(243, 225, 200);
+    box-shadow:  1px 1px 10px 0px  black;
+    height: 500px;
+}
+
+.cuadro-descripcion-petinf {
+    padding: 10px;
+    background-color: rgb(243, 225, 200);
+    box-shadow:  1px 1px 10px 0px  black;
+    max-width: 1060px;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.fotitopet {
+    width: 680px;
+    max-height: 400px;
+    border-radius: 3px;
+}
+
+/* letras */
+
+.nombre-mascota {
+    font-family: "Oxygen", sans-serif;
+    color: rgb(49, 22, 3);
+    font-size: 29px;
+    font-weight: 900;
+    text-align: center;
+    padding: 12px;
+}
+
+.caracteristicas-mascota {
+    font-family: "Oxygen", sans-serif;
+    color: rgb(49, 22, 3);
+    font-size: 24px;
+    font-weight: 650;
+    padding-left: 4px; 
+    margin-top: 4px;
+    margin-bottom: 12px;
+}
+
+.descripcion-mascota {
+    font-family: "Oxygen", sans-serif;
+    color: rgb(49, 22, 3);
+    font-size: 24px;
+    font-weight: 650;
+    padding-left: 14px; 
+    padding-top: 8px; 
+    margin-top: 4px;
+    margin-bottom: 12px;
+}
+
+.texto-mascota {
+    font-family: "Oxygen", sans-serif;
+    margin-bottom: 10px;
+    padding-top: 5px;
+    padding-left: 8px;  
+    padding-bottom: 5px; 
+    border-bottom: 1px solid rgba(49, 22, 3, 0.192); 
+    color: rgb(70, 45, 15);
+    font-size: 16px;
+}
+
+
+.textodes-mascota {
+    font-family: "Oxygen", sans-serif;
+    margin-bottom: 10px;
+    padding-top: 5px;
+    padding-left: 20px;  
+    padding-bottom: 5px; 
+    color: rgb(70, 45, 15);
+    font-size: 18px;
+}
+
+
