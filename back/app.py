@@ -17,10 +17,14 @@ def init_database(database):
     print(f"[{Fore.GREEN}*{Style.RESET_ALL}] Database name {database}")
     try:
         connection = engine_with_no_database().connect()
+        print(f"[{Fore.YELLOW}*{Style.RESET_ALL}] Dropping existing database ...")
         connection.execute(text(f"DROP DATABASE IF EXISTS {database}"))
+        print(f"[{Fore.YELLOW}*{Style.RESET_ALL}] Creating database ...")
         connection.execute(text(f"CREATE DATABASE {database}"))
+        print(f"[{Fore.YELLOW}*{Style.RESET_ALL}] Selecting database ...")
         connection.execute(text(f"USE {database}"))
         # TODO: Se puede mejorar agregando tablas de Raza, Animal
+        print(f"[{Fore.YELLOW}*{Style.RESET_ALL}] Creating tables ...")
         connection.execute(text("CREATE TABLE usuarios ("
                                 "id INT AUTO_INCREMENT PRIMARY KEY,"
                                 "nombreUsuario VARCHAR(100) NOT NULL UNIQUE,"
