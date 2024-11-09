@@ -4,6 +4,26 @@
 
 ### usuarios
 
+```sql
+create or replace table codekies.usuarios
+(
+    id            int auto_increment
+        primary key,
+    nombreUsuario varchar(100) not null,
+    password      varchar(255) not null,
+    nombre        varchar(255) null,
+    apellido      varchar(255) null,
+    email         varchar(255) null,
+    telefono      varchar(20)  null,
+    fechaAlta     datetime     not null,
+    constraint email
+        unique (email),
+    constraint nombreUsuario
+        unique (nombreUsuario)
+);
+```
+
+
 | id | nombreUsuario | password | nombre    | apellido  | email              | telefono   |
 |----|---------------|----------|-----------|-----------|--------------------|------------|
 | 1  | saznarez      | 1234     | Sebastian | Aznarez   | saznarez@fi.uba.ar | 1123456789 |
@@ -14,6 +34,27 @@ Todos los campos deben ser obligatorios. Ademas de `id`, `nombreUsuario` y `emai
 
 ### mascotas
 
+```sql
+create or replace table codekies.animales
+(
+    id              int auto_increment
+        primary key,
+    animal          varchar(255)         not null,
+    raza            varchar(255)         not null,
+    condicion       varchar(255)         not null,
+    color           varchar(50)          null,
+    ubicacion       varchar(255)         null,
+    urlFoto         varchar(255)         null,
+    descripcion     text                 null,
+    fechaPerdido    datetime             not null,
+    fechaEncontrado datetime             not null,
+    fechaAlta       datetime             not null,
+    resuelto        tinyint(1) default 0 null,
+    userID          int                  null,
+    constraint animales_ibfk_1
+        foreign key (userID) references codekies.usuarios (id)
+);
+```
 | id | animal | raza     | condicion  | color  | ubicacion     | urlFoto                     | descripcion  | fecha    | resuelto | userID |
 |----|--------|----------|------------|--------|---------------|-----------------------------|--------------|----------|----------|--------|
 | 1  | perro  | labrador | perdido    | marron | (coordenadas) | /static/images/mascota1.jpg | descripcion1 | 20241104 | false    | 2      |
@@ -23,6 +64,27 @@ Todos los campos deben ser obligatorios. Ademas de `id`, `nombreUsuario` y `emai
 Todos los campos son obligatorios, salvo `raza` y `descripcion`.
 El campo `resuelto` indica si la mascota se reencontró con su dueño/a. 
 Cada mascota se relaciona con el usuario que la carga (mediante `userID`)
+
+### Creación de la base de datos desde la consola
+
+Dentro del projecto de `back`:
+
+```
+> flask init-database
+```
+
+El resultado debería ser algo como
+
+```bash
+[*] Initializing database...
+[*] Database name codekies
+[*] Dropping existing database ...
+[*] Creating database ...
+[*] Selecting database ...
+[*] Creating tables ...
+[*] Created successfully!
+```
+
 
 -----------------------------
 
