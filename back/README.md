@@ -75,6 +75,7 @@ username = "root"  # usuario de tu mysql
 password = "change_me"  # password de tu mysql
 host = "localhost:3306"  # donde esta escuchando mysql
 database = "codekies" # nombre de nuestra base
+debug = True # app con debug o no. Los valores validos son True o true o False o false
 ```
 
 Dentro del projecto de `back`:
