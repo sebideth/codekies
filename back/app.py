@@ -4,15 +4,17 @@ import http.client
 from urllib import request
 
 import click
-from flask import Flask, abort, request, jsonify
+from flask import Flask, request, jsonify, session
 from colorama import Fore, Style
 from sqlalchemy import text, exc
 
 import config
-from db import engine_with_no_database, engine, INSERT_USER
+from db import engine_with_no_database, engine, INSERT_USER, LOGIN_USER_QUERY
 
 logger = logging.getLogger(__name__)
 app = Flask(__name__)
+
+app.secret_key = 'super secret key'
 
 
 # Commands
@@ -82,6 +84,36 @@ def register():
             logger.error(f"Could not create user {user_data.get('username')}. {error}")
             return jsonify({"error": "Usuario o email existentes"}), http.client.BAD_REQUEST
     return jsonify({"message": "Usuario creado correctamente"}), http.client.CREATED
+
+
+@app.route("/login", methods=["POST"])
+def login():
+
+    if session.get('logged_in'):
+        return jsonify({'error': 'Ya estabas loggeado ...'}), http.client.BAD_REQUEST
+
+    validate_fields = ['username', 'password']
+    user_data = request.get_json()
+    for key in validate_fields:
+        if key not in user_data:
+            return jsonify({'error': f'Keys obligatorias {validate_fields}'}), http.client.BAD_REQUEST
+
+    with engine.connect() as connection:
+        try:
+            user = connection.execute(LOGIN_USER_QUERY, user_data).fetchone()
+            if not user:
+                return jsonify({'error': 'Usuario o Password invalidos'}), http.client.FORBIDDEN
+        except Exception as error:
+            logger.error(f"Could not fetch user {user_data.get('username')}. {error}")
+            return jsonify({"error": "Usuario o email existentes"}), http.client.INTERNAL_SERVER_ERROR
+    session["logged_in"] = True
+    return jsonify({"message": "Login exitoso"}), http.client.OK
+
+
+@app.route("/logout", methods=["GET"])
+def logout():
+    session.clear()
+    return jsonify({"message": "Bye"}), http.client.NOT_MODIFIED
 
 
 if __name__ == "__main__":
