@@ -67,7 +67,15 @@ Cada mascota se relaciona con el usuario que la carga (mediante `userID`)
 
 ### Creación de la base de datos desde la consola
 
-Dentro del projecto general de `codekies` crear archivo `.env` para que tome la configuración de la base de datos.
+Primero actualizamos nuestro entorno
+
+```bash
+cd back
+pipenv shell
+pipenv sync
+```
+
+Creamos un archivo `.env` con el siguiente contenido que tenés que modificar en base a tu propia configuración:
 
 ```
 collation = "utf8mb4_general_ci" # esto puede quedar asi
@@ -77,14 +85,13 @@ host = "localhost:3306"  # donde esta escuchando mysql
 database = "codekies" # nombre de nuestra base
 ```
 
-Dentro del projecto de `back`:
-
+Ahora si, corremos el comando:
 
 ```
 > flask init-database
 ```
 
-El resultado debería ser algo como
+El resultado debería ser algo como:
 
 ```bash
 [*] Initializing database...
