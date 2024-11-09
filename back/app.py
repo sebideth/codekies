@@ -21,17 +21,18 @@ def init_database(host, username, password, database):
     print(f"[{Fore.GREEN}*{Style.RESET_ALL}] Host -> {host}")
     try:
         connection = engine.connect()
-        connection.execute(text("DROP DATABASE codekis"))
-        connection.execute(text("CREATE DATABASE codekis"))
+        connection.execute(text(f"DROP DATABASE {database}"))
+        connection.execute(text(f"CREATE DATABASE {database}"))
         connection.execute(text(f"USE {database}"))
-        connection.execute(text("CREATE TABLE users ("
+        connection.execute(text("CREATE TABLE usuarios ("
                                 "id INT AUTO_INCREMENT PRIMARY KEY,"
                                 "nombreUsuario VARCHAR(100) NOT NULL UNIQUE,"
                                 "password VARCHAR(255) NOT NULL,"
                                 "nombre VARCHAR(255),"
                                 "apellido VARCHAR(255),"
-                                "email VARCHAR(255) UNIQUE"
-                                "telefono VARCHAR(20))"
+                                "email VARCHAR(255) UNIQUE,"
+                                "telefono VARCHAR(20),"
+                                "fechaAlta DATETIME NOT NULL)"
                                 )
                            )
         connection.execute(text("CREATE TABLE animales ("
@@ -40,15 +41,18 @@ def init_database(host, username, password, database):
                                 "raza VARCHAR(255) NOT NULL,"
                                 "condicion VARCHAR(255) NOT NULL,"
                                 "color VARCHAR(50),"
-                                "ubicacion VARCHAR(255)"
-                                ",urlFoto VARCHAR(255),"
-                                " descripcion TEXT,"
-                                "fecha DATETIME NOT NULL,"
+                                "ubicacion VARCHAR(255),"
+                                "urlFoto VARCHAR(255),"
+                                "descripcion TEXT,"
+                                "fechaPerdido DATETIME NOT NULL,"
+                                "fechaEncontrado DATETIME NOT NULL,"
+                                "fechaAlta DATETIME NOT NULL,"
                                 "resuelto BOOLEAN DEFAULT FALSE,"
                                 "userID INT,"
-                                "FOREIGN KEY (userID) REFERENCES users(id))"
+                                "FOREIGN KEY (userID) REFERENCES usuarios(id))"
                                 )
                            )
+        # TODO: Se puede mejorar agregando tablas de Raza, Animal
     except Exception as e:
         print(e)
 
