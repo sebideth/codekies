@@ -4,9 +4,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-username = os.getenv("username")
-password = os.getenv("password")
-database = os.getenv("database")
-host = os.getenv("host")
-collation = os.getenv("collation")
 debug = True if os.getenv("debug") in ["True", "true"] else False
+
+# Database config
+db_username = os.getenv("db_username")
+db_password = os.getenv("db_password")
+db_name = os.getenv("db_name")
+db_host = os.getenv("db_host")
+db_collation = os.getenv("db_collation")
