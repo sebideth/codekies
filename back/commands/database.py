@@ -32,7 +32,7 @@ def init_database(database):
                                 "apellido VARCHAR(255),"
                                 "email VARCHAR(255) UNIQUE,"
                                 "telefono VARCHAR(20),"
-                                "fechaAlta DATETIME NOT NULL)"
+                                "fechaAlta DATETIME NOT NULL DEFAULT NOW())"
                                 )
                            )
         connection.execute(text("CREATE TABLE animales ("
@@ -46,7 +46,7 @@ def init_database(database):
                                 "descripcion TEXT,"
                                 "fechaPerdido DATETIME NOT NULL,"
                                 "fechaEncontrado DATETIME NOT NULL,"
-                                "fechaAlta DATETIME NOT NULL,"
+                                "fechaAlta DATETIME NOT NULL  DEFAULT NOW(),"
                                 "resuelto BOOLEAN DEFAULT FALSE,"
                                 "userID INT,"
                                 "FOREIGN KEY (userID) REFERENCES usuarios(id))"

@@ -8,7 +8,7 @@ from sqlalchemy import exc
 
 import config
 from commands.database import database_cli
-from db import INSERT_USER
+from db import INSERT_USER, engine
 
 logger = logging.getLogger(__name__)
 app = Flask(__name__)
