@@ -83,7 +83,7 @@ pipenv shell
 pipenv sync
 ```
 
-Creamos un archivo `.env` con el siguiente contenido que tenés que modificar en base a tu propia configuración:
+Creamos un archivo `.env` (dentro de la carpeta back) con el siguiente contenido que tenés que modificar en base a tu propia configuración:
 
 ```
 # database
@@ -97,7 +97,7 @@ db_name = "codekies"
 Ahora si, corremos el comando:
 
 ```
-> flask init-database
+> flask database init
 ```
 
 El resultado debería ser algo como:
