@@ -1,5 +1,13 @@
 # Backend
 
+## Install
+
+```bash
+cd back
+pipenv shell
+pipenv install
+```
+
 ## Estructura de la base de datos
 
 ### usuarios
@@ -65,27 +73,69 @@ Todos los campos son obligatorios, salvo `raza` y `descripcion`.
 El campo `resuelto` indica si la mascota se reencontró con su dueño/a. 
 Cada mascota se relaciona con el usuario que la carga (mediante `userID`)
 
+### Instalación de docker y mysql
+
+Instalar docker usando [esta guía](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
+
+Moverse a `/codekies/back/docker` y correr este comando:
+
+`sudo docker compose up --build -d`
+
+Para ver los containers que estan corriendo docker podemos usar este comando:
+
+`sudo docker ps`
+
+Y deberia mostrar algo así:
+
+```
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS                                                  NAMES
+c67a2e7f31b6   mysql     "docker-entrypoint.s…"   18 minutes ago   Up 18 minutes   0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   docker-db-1
+```
+
+Para conectarse a mysql y hacer consultas por consola (probar una vez creada la base de datos en el siguiente paso):
+
+`sudo docker exec -it docker-db-1 mysql -u root -p codekies`
+
+La contraseña es la seteada en `/codekies/back/docker/docker-compose.yaml` (`change_me` es la default). 
+
+Para parar un container (`docker-db-1` en este caso):
+
+`sudo docker stop docker-db-1`
+
+Para volver a levantar el container:
+
+`sudo docker start docker-db-1`
+
 ### Creación de la base de datos desde la consola
 
-Dentro del projecto general de `codekies` crear archivo `.env` para que tome la configuración de la base de datos.
+Primero actualizamos nuestro entorno
 
-```
-collation = "utf8mb4_general_ci" # esto puede quedar asi
-username = "root"  # usuario de tu mysql
-password = "change_me"  # password de tu mysql
-host = "localhost:3306"  # donde esta escuchando mysql
-database = "codekies" # nombre de nuestra base
-debug = True # app con debug o no. Los valores validos son True o true o False o false
+```bash
+cd back
+pipenv shell
+pipenv sync
 ```
 
-Dentro del projecto de `back`:
-
+Creamos un archivo `.env` (dentro de la carpeta back) con el siguiente contenido que tenés que modificar en base a tu propia configuración:
 
 ```
-> flask init-database
+# database
+db_collation = "utf8mb4_general_ci"
+db_username = "root"
+db_password = "change_me" # password
+db_host = "localhost:3306"
+db_name = "codekies"
 ```
 
-El resultado debería ser algo como
+Nota: esta configuración debe coincidir con la que está en `/codekies/back/docker/docker-compose.yaml`
+
+Ahora si, corremos el comando:
+
+```
+> flask database init
+```
+
+El resultado debería ser algo como:
 
 ```bash
 [*] Initializing database...

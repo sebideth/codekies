@@ -51,6 +51,10 @@ def auth():
 @app.route('/publicaciones')
 def publicaciones():
     return render_template('publicaciones.html')
+    
+@app.route('/mascotas/<estado>/<id>')
+def petinfo(estado, id):
+    return render_template('pet_info.html', estado="perdidas", id=20)
 
 @app.route('/upload_pet', methods=["GET","POST"])
 def upload_pet():
