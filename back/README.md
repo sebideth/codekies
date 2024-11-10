@@ -73,6 +73,39 @@ Todos los campos son obligatorios, salvo `raza` y `descripcion`.
 El campo `resuelto` indica si la mascota se reencontró con su dueño/a. 
 Cada mascota se relaciona con el usuario que la carga (mediante `userID`)
 
+### Instalación de docker y mysql
+
+Instalar docker usando [esta guía](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
+
+Moverse a `/codekies/back/docker` y correr este comando:
+
+`sudo docker compose up --build -d`
+
+Para ver los containers que estan corriendo docker podemos usar este comando:
+
+`sudo docker ps`
+
+Y deberia mostrar algo así:
+
+```
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS                                                  NAMES
+c67a2e7f31b6   mysql     "docker-entrypoint.s…"   18 minutes ago   Up 18 minutes   0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   docker-db-1
+```
+
+Para conectarse a mysql y hacer consultas por consola (probar una vez creada la base de datos en el siguiente paso):
+
+`sudo docker exec -it docker-db-1 mysql -u root -p codekies`
+
+La contraseña es la seteada en `/codekies/back/docker/docker-compose.yaml` (`change_me` es la default). 
+
+Para parar un container (`docker-db-1` en este caso):
+
+`sudo docker stop docker-db-1`
+
+Para volver a levantar el container:
+
+`sudo docker start docker-db-1`
+
 ### Creación de la base de datos desde la consola
 
 Primero actualizamos nuestro entorno
@@ -93,6 +126,8 @@ db_password = "change_me" # password
 db_host = "localhost:3306"
 db_name = "codekies"
 ```
+
+Nota: esta configuración debe coincidir con la que está en `/codekies/back/docker/docker-compose.yaml`
 
 Ahora si, corremos el comando:
 
