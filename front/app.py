@@ -52,21 +52,23 @@ def publicaciones():
     return render_template('publicaciones.html')
 
 @app.route('/upload_pet', methods=["GET","POST"])
-def upload_pet(logeado):
-    if request.method == "POST":
+def upload_pet():
+    #if request.method == "POST":
         #definir logeado
-        if logeado:
-            animal = request.form.get('animal')
-            raza = request.form.get('raza')
-            condicion = request.form.get('condicion')
-            color = request.form.get('color')
-            descripcion = request.form.get('descripcion')
-            fecha = request.form.get('fecha')
-            foto = request.files.get('foto')
-            resuelto = request.form.get('resuelto')
-            return redirect(url_for('publicaciones.html'))
-        else:
-            return(redirect(url_for('auth.html')))
+        #if logeado:
+            #animal = request.form.get('animal')
+            #raza = request.form.get('raza')
+            #condicion = request.form.get('condicion')
+            #color = request.form.get('color')
+            #descripcion = request.form.get('descripcion')
+            #fecha = request.form.get('fecha')
+            #foto = request.files.get('foto')
+            #ubicacion = request.files.get('ubicacion')
+            #resuelto = request.form.get('resuelto')
+            #return redirect(url_for('publicaciones.html'))
+            
+        #else:
+            #return(redirect(url_for('auth.html')))
     return render_template('upload_pet.html')
 
 if __name__ == '__main__':
