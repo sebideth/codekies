@@ -3,29 +3,29 @@
 {% block body %}
 <div class="columnas-petinf">
     <div class="cuadro-img-petinf">
-        <img src="{{ url_for('static', filename='images/doge.png') }}" alt="foto de la mascota" class="fotitopet">
+        <img src="{{ mascotas.urlFoto }}" alt="foto de la mascota" class="fotitopet">
     </div>
 
     <div class="filas-petinf">
         <div class="cuadro-nombre-petinf">
-            <h1 class="nombre-mascota">Doge</h1>
+            <h1 class="nombre-mascota">{{ mascotas.animal }}</h1>
         </div>
 
         <div class="cuadro-caracteristicas-petinf">
             <h5 class="caracteristicas-mascota">Características:</h5>
-            <p class="texto-mascota"><strong>Especie:</strong> Perro</p>
-            <p class="texto-mascota"><strong>Raza:</strong> Shiba inu</p>
-            <p class="texto-mascota"><strong>Color:</strong> Crema</p>
-            <p class="texto-mascota"><strong>Edad:</strong> Adulto</p>
-            <p class="texto-mascota"><strong>Condicion:</strong> Perdido</p>
-            <p class="texto-mascota"><strong>Fecha de perdida:</strong> 01/11/2024</p>                
+            <p class="texto-mascota"><strong>Especie:</strong> {{ mascotas.animal }}</p>
+            <p class="texto-mascota"><strong>Raza:</strong> {{ mascotas.raza }}</p>
+            <p class="texto-mascota"><strong>Color:</strong> {{ mascotas.color }}</p>
+            <p class="texto-mascota"><strong>Edad:</strong> {{ mascotas.edad }}</p>
+            <p class="texto-mascota"><strong>Condición:</strong> {{ mascotas.condicion }}</p>
+            <p class="texto-mascota"><strong>Fecha de pérdida:</strong> {{ mascotas.fecha }}</p>
         </div>
     </div>
 </div>
 
 <div class="cuadro-descripcion-petinf">
     <h3 class="descripcion-mascota">Descripción:</h3>
-    <p class="textodes-mascota">No tiene collar </p>
+    <p class="textodes-mascota">{{ pet.descripcion }}</p>
 </div>
 
 {% endblock %}
