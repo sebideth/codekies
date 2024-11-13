@@ -58,24 +58,8 @@ def petinfo(estado, id):
 
 @app.route('/upload_pet', methods=["GET","POST"])
 def upload_pet():
-<<<<<<< HEAD
-    if request.method == "POST":
-        if session.get('logged_in'):
-            animal = request.form.get('animal')
-            raza = request.form.get('raza')
-            condicion = request.form.get('condicion')
-            color = request.form.get('color')
-            descripcion = request.form.get('descripcion')
-            fecha = request.form.get('fecha')
-            foto = request.files.get('foto')
-            resuelto = request.form.get('resuelto')
-            return redirect(url_for('publicaciones.html'))
-        else:
-            return(redirect(url_for('auth.html')))
-=======
     #if request.method == "POST":
-        #definir logeado
-        #if logeado:
+        #if session.get('logged_in'):
             #animal = request.form.get('animal')
             #raza = request.form.get('raza')
             #condicion = request.form.get('condicion')
@@ -83,13 +67,10 @@ def upload_pet():
             #descripcion = request.form.get('descripcion')
             #fecha = request.form.get('fecha')
             #foto = request.files.get('foto')
-            #ubicacion = request.files.get('ubicacion')
             #resuelto = request.form.get('resuelto')
             #return redirect(url_for('publicaciones.html'))
-            
         #else:
             #return(redirect(url_for('auth.html')))
->>>>>>> diseño
     return render_template('upload_pet.html')
 
 @app.route('/profile', methods=["GET"])
