@@ -40,7 +40,7 @@ create or replace table codekies.usuarios
 
 Todos los campos deben ser obligatorios. Ademas de `id`, `nombreUsuario` y `email` deben ser únicos.
 
-### mascotas
+### animales
 
 ```sql
 create or replace table codekies.animales
@@ -351,13 +351,13 @@ http://localhost:5001/api/usuarios/email/pepito@gmail.com
 
 ---------------------------
 
-### mascotas
+### animales
 
-#### Obtener todas las mascotas
+#### Obtener todas los animales
 
-Devuelve un JSON con una lista de todas las mascotas cargadas
+Devuelve un JSON con una lista de todos los animales cargados
 
-- url: http://localhost:5001/api/mascotas
+- url: http://localhost:5001/api/animales
 - verbo: GET
 - Ejemplos:
 
@@ -395,15 +395,15 @@ Devuelve un JSON con una lista de todas las mascotas cargadas
 ```
 `200`
 
-#### Obtener mascotas por id
+#### Obtener animales por id
 
 Devuelve un JSON con la información de la mascota, o 404 en el caso de que no exista.
 
-- url: http://localhost:5001/api/mascotas/<id>
+- url: http://localhost:5001/api/animales/<id>
 - verbo: GET
 - Ejemplos:
 
-http://localhost:5001/api/mascotas/2
+http://localhost:5001/api/animales/2
 
 ```json
 {
@@ -422,20 +422,20 @@ http://localhost:5001/api/mascotas/2
 ```
 `200`
 
-http://localhost:5001/api/mascotas/6
+http://localhost:5001/api/animales/6
 
 ```json
 {
-    "error": "No se encontró la mascota"
+    "error": "No se encontró el animal"
 }
 ```
 `404`
 
-#### Cargar una mascota
+#### Cargar un animal
 
-Recibe un JSON con la información de la mascota, devuelve 201 y el JSON cuando la creación es exitosa.
+Recibe un JSON con la información del animal, devuelve 201 y el JSON cuando la creación es exitosa.
 
-- url: http://localhost:5001/api/mascotas
+- url: http://localhost:5001/api/animales
 - verbo: POST
 - Ejemplos:
 
@@ -476,9 +476,9 @@ Devuelve:
 
 #### Actualizar una mascota
 
-Recibe un JSON con la información a actualizar de la mascota, devuelve 200 y el JSON cuando la actualización es exitosa.
+Recibe un JSON con la información a actualizar del animal, devuelve 200 y el JSON cuando la actualización es exitosa.
 
-- url: http://localhost:5001/api/mascotas
+- url: http://localhost:5001/api/animales
 - verbo: PUT
 - Ejemplos:
 
@@ -519,15 +519,15 @@ Devuelve:
 ```
 `200`
 
-#### Borrar una mascota
+#### Borrar un animal
 
 Recibe id de la mascota a borrar, devuelve 200 y el JSON cuando el borrado es exitoso.
 
-- url: http://localhost:5001/api/mascotas/<id>
+- url: http://localhost:5001/api/animales/<id>
 - verbo: DELETE
 - Ejemplos:
 
-http://localhost:5001/api/mascotas/2
+http://localhost:5001/api/animales/2
 
 ```json
 {
@@ -546,15 +546,15 @@ http://localhost:5001/api/mascotas/2
 ```
 `200`
 
-#### Obtener todas las mascotas cargadas por un ususario
+#### Obtener todos los animales cargados por un ususario
 
-Devuelve un JSON con todas las mascotas cargadas por el usuario con el id dado, o 404 en el caso de que no exista.
+Devuelve un JSON con todos los animales cargadas por el usuario con el id dado, o 404 en el caso de que no exista.
 
-- url: http://localhost:5001/api/mascotas/usuario/<id>
+- url: http://localhost:5001/api/animales/usuario/<id>
 - verbo: GET
 - Ejemplos:
 
-http://localhost:5001/api/mascotas/usuario/2
+http://localhost:5001/api/animales/usuario/2
 
 ```json
 {
@@ -590,7 +590,7 @@ http://localhost:5001/api/mascotas/usuario/2
 ```
 `200`
 
-http://localhost:5001/api/mascotas/usuario/6
+http://localhost:5001/api/animales/usuario/6
 
 ```json
 {
@@ -601,9 +601,9 @@ http://localhost:5001/api/mascotas/usuario/6
 
 #### Filtrar
 
-Dado un JSON con una serie de caracteristicas, devuelve un JSON con la lista de mascotas que cumplan con el filtro.
+Dado un JSON con una serie de caracteristicas, devuelve un JSON con la lista de animales que cumplan con el filtro.
 
-- url: http://localhost:5001/api/mascotas/filtrar
+- url: http://localhost:5001/api/animales/filtrar
 - verbo: GET
 - Ejemplos:
 
