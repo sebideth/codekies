@@ -52,9 +52,21 @@ def auth():
 def publicaciones():
     return render_template('publicaciones.html')
     
-@app.route('/mascotas/<estado>/<id>')
+@app.route('/pets/<estado>/<id>')
 def petinfo(estado, id):
-    return render_template('pet_info.html', estado="perdidas", id=20)
+    mascotas = {
+        "urlFoto": url_for('static', filename='images/doge.png'),  
+        "nombre": "Doge", 
+        "animal": "Perro",  
+        "raza": "Shiba Inu",  
+        "color": "Amarillo", 
+        "condicion": "Perdido", 
+        "latitud": -34.6083,
+        "longitud": -58.3712,
+        "fecha": "2024-11-01", 
+        "descripcion": "Tiene ojitos chiquitos."
+    }    
+    return render_template('pet_info.html', estado="perdidas", id=20, mascotas=mascotas)
 
 @app.route('/upload_pet', methods=["GET","POST"])
 def upload_pet():
