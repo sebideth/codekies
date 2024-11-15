@@ -16,7 +16,6 @@ def get_all_animales():
     except Exception as e:
         #Cambiar mensaje de error para no mostrar errores de la DB
         return jsonify({'error': str(e)}), 500
-    print(result)
     return jsonify(result), 200
 
 @app.route('/api/animales/<int:id>', methods=['GET'])

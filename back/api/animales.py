@@ -65,7 +65,7 @@ def to_dict(data):
             'fechaPerdido':     row[8],
             'fechaEncontrado':  row[9],
             'fechaAlta':        row[10],
-            'resuelto':         row[11],
+            'resuelto':         bool(row[11]),
             'userID':           row[12],
         })
     return result
