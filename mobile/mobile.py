@@ -7,20 +7,21 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.config import Config
 from kivy.core.window import Window
+from kivy.uix.boxlayout import BoxLayout
 
 Config.set('graphics', 'width', '200')
 Config.set('graphics', 'height', '200')
-Window.size = (414, 896)
+Window.size = (414, 736)
 
 class Login(Screen):
-    email = ObjectProperty(None)
+    user = ObjectProperty(None)
     password = ObjectProperty(None)
 
     #Email y contraseña provisorios para realizar pruebas, luego se hará la integración con la base de datos.
 
     def loginBtn(self):
-        if self.email.text == "admin" and self.password.text == "1234":
-            Main.current = self.email.text
+        if self.user.text == "admin" and self.password.text == "1234":
+            Main.current = self.user.text
             self.reset()
             screen.current = "main"
         else:
@@ -31,9 +32,9 @@ class Login(Screen):
         screen.current = "create"
 
     def reset(self):
-        self.email.text = ""
+        self.user.text = ""
         self.password.text = ""
-    #El metodo reset() "limpia" los labels en los que el usuario ingresa contraseña y email.
+    #El metodo reset() "limpia" los labels en los que el usuario ingresa contraseña y nombre de usuario.
 
 class Main(Screen):
     animal = ObjectProperty(None)
@@ -75,4 +76,4 @@ class App(App):
 if __name__ == "__main__":
     App().run()
 
-#Emprolijar estéticamente y obtener el input de los usuarios. Agregar mapa y poder cargar foto.
+#Emprolijar estéticamente y obtener el input de los usuarios. Agregar mapa y poder cargar foto. -> cambiar el input de 'foto' a un boton para subir imagen

@@ -1,48 +1,45 @@
 <Login>:
     name: "login"
 
-    email: email
+    user: user
     password: password
 
-    FloatLayout:
-
+    BoxLayout:
+        size: root.width, root.height
+        padding: 50
+        spacing: 20
+        orientation: 'vertical'
         Label:
-            text:"Email: "
+            text:"Iniciar Sesión"
             font_size: 24
-            pos_hint: {"x":0.1, "top":0.9}
-            size_hint: None, None
-            size: self.texture_size
+            pos_hint: {'center_x': .5}
 
         TextInput:
-            id: email
+            id: user
             font_size: 24
             multiline: False
-            pos_hint: {"x": 0.30 , "top":0.9}
-            size_hint: 0.4, 0.07
-
-        Label:
-            text:"Password: "
-            font_size: 24
-            pos_hint: {"x":0.1, "top":0.7}
-            size_hint: None, None
-            size: self.texture_size
-
+            pos_hint: {'center_x': .5}
+            size_hint: 0.9, 0.1
+            hint_text: 'Ingrese su usuario'
         TextInput:
             id: password
             font_size: 24
             multiline: False
             password: True
-            pos_hint: {"x": 0.30, "top":0.7}
-            size_hint: 0.4, 0.07
+            pos_hint: {'center_x': .5}
+            size_hint: 0.9, 0.1
+            hint_text: 'Ingrese su contraseña'
 
         Button:
-            pos_hint:{"x":0.2,"y":0.05}
-            size_hint: 0.3, 0.15
+            pos_hint:{'center_x': .5}
+            size_hint: (None, None)
             font_size: 24
             text: "Login"
             on_release:
                 root.manager.transition.direction = "up"
                 root.loginBtn()
+            width: 150
+            height: 50
 
 
 <Main>:
@@ -54,109 +51,84 @@
     fecha: fecha
     foto: foto
 
-    FloatLayout:
+    BoxLayout:
+        size: root.width, root.height
+        padding: 50
+        spacing: 20
+        orientation: 'vertical'
 
         Label:
-            text:"Animal (Gato/Perro): "
-            font_size: 24
-            pos_hint: {"x":0.1, "top":1}
-            size_hint: None, None
+            pos_hint: {'center_x': .5}
+            text: 'Ingrese las características de la mascota'
+            font_size: 22
+            size_hint: (None, None)
             size: self.texture_size
-
+  
         TextInput:
             id: animal
-            font_size: 24
+            font_size: 22
             multiline: False
-            pos_hint: {"x": 0.45 , "top":1}
-            size_hint: 0.4, 0.07
-
-        Label:
-            text:"Raza: "
-            font_size: 24
-            pos_hint: {"x":0.1, "top":0.9}
-            size_hint: None, None
-            size: self.texture_size
+            pos_hint: {'center_x': .5}
+            size_hint: 1, 0.1
+            hint_text: 'Tipo de mascota (gato/perro)'
 
         TextInput:
             id: raza
-            font_size: 24
+            font_size: 22
             multiline: False
-            pos_hint: {"x": 0.45, "top":0.9}
-            size_hint: 0.4, 0.07
-
-        Label:
-            text:"Condición (Perdido/encontrado): "
-            font_size: 24
-            pos_hint: {"x":0.1, "top":0.8}
-            size_hint: None, None
-            size: self.texture_size
+            pos_hint: {'center_x': .5}
+            size_hint: 1, 0.1
+            hint_text: 'Raza (si no tiene, dejar vacío)'
 
         TextInput:
             id: condicion
-            font_size: 24
+            font_size: 22
             multiline: False
-            pos_hint: {"x": 0.45 , "top":0.8}
-            size_hint: 0.4, 0.07
-
-        Label:
-            text:"Color: "
-            font_size: 24
-            pos_hint: {"x":0.1, "top":0.7}
-            size_hint: None, None
-            size: self.texture_size
+            pos_hint: {'center_x': .5}
+            size_hint: 1, 0.1
+            hint_text: 'Perdido/Encontrado' 
 
         TextInput:
             id: color
-            font_size: 24
+            font_size: 22
             multiline: False
-            pos_hint: {"x": 0.45 , "top":0.7}
-            size_hint: 0.4, 0.07
-        
-        Label:
-            text:"Datos relevantes sobre el animal (edad, nombre, etc.): "
-            font_size: 24
-            pos_hint: {"x":0.1, "top":0.6}
-            size_hint: None, None
-            size: self.texture_size
+            pos_hint: {'center_x': .5}
+            size_hint: 1, 0.1
+            hint_text: 'Color'
 
         TextInput:
             id: datos
-            font_size: 24
-            multiline: False
-            pos_hint: {"x": 0.45 , "top":0.6}
-            size_hint: 0.4, 0.07
-        
-        Label:
-            text:"Fecha en la que se perdió/encontró: "
-            font_size: 24
-            pos_hint: {"x":0.1, "top":0.5}
-            size_hint: None, None
-            size: self.texture_size
+            font_size: 20
+            multiline: True
+            pos_hint: {'center_x': .5}
+            size_hint: 1, 0.15
+            hint_text: 'Información relevante (edad, tamaño, etc)'
 
         TextInput:
             id: fecha
-            font_size: 24
+            font_size: 22
             multiline: False
-            pos_hint: {"x": 0.45 , "top":0.5}
-            size_hint: 0.4, 0.07
-
-        Label:
-            text:"Añadir imagen de la mascota: "
-            font_size: 24
-            pos_hint: {"x":0.1, "top":0.4}
-            size_hint: None, None
-            size: self.texture_size
+            pos_hint: {'center_x': .5}
+            size_hint: 1, 0.1
+            hint_text: 'Fecha de perdido/encontrado'
 
         TextInput:
             id: foto
-            font_size: 24
+            font_size: 22
             multiline: False
-            pos_hint: {"x": 0.45 , "top":0.4}
-            size_hint: 0.4, 0.07
+            pos_hint: {'center_x': .5}
+            size_hint: 1, 0.1
 
         Button:
-            pos_hint:{"x":0.2, "y": 0.1}
-            size_hint: 0.3, 0.15
+            pos_hint:{'center_x': .5}
+            size_hint: 0.5, 0.15
+            text: "Añadir"
+            on_release:
+                app.root.current = "login"
+                root.manager.transition.direction = "down"
+        Button:
+            pos_hint:{'center_x': .5}
+            size_hint: 0.5, 0.15
             text: "Salir"
             on_release:
                 app.root.current = "login"
