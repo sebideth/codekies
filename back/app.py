@@ -28,7 +28,7 @@ app.cli.add_command(database_cli)
 
 
 # Users
-@app.route("/register", methods=["POST"])
+@app.route("/api/register", methods=["POST"])
 def register():
     validate_fields = ['username', 'password', 'email', 'telefono', 'nombre', 'apellido']
     user_data = request.get_json()
@@ -50,11 +50,11 @@ def register():
         return jsonify({"error": "Usuario o email existentes"}), http.client.BAD_REQUEST
     finally:
         connection.close()
+    user_data.pop("password")
+    return jsonify(user_data), http.client.CREATED
 
-    return jsonify({"message": "Usuario creado correctamente"}), http.client.CREATED
 
-
-@app.route("/login", methods=["POST"])
+@app.route("/api/login", methods=["POST"])
 def login():
 
     if session.get('logged_in'):
@@ -83,10 +83,10 @@ def login():
         return jsonify({"error": "Usuario o email existentes"}), http.client.INTERNAL_SERVER_ERROR
     finally:
         connection.close()
-    return jsonify({"message": "Login exitoso"}), http.client.OK
+    return jsonify(user_data), http.client.OK
 
 
-@app.route("/logout", methods=["GET"])
+@app.route("/api/logout", methods=["GET"])
 def logout():
     session.clear()
     return jsonify({"message": "Bye"}), http.client.OK
