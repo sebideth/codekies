@@ -1,108 +1,120 @@
-/* pet_info css*/
+/* pet_info */
 
-.columnas-petinf {
+/* estilos */
+
+.pf-characBox {
+    height: 360px
+}
+
+.pf-characBox,.pf-descBox,.pf-mapBox {
+    padding: 10px;
+    background-color: #f3e1c8;
+    box-shadow: 1px 1px 10px 0#000;
+    overflow: hidden
+}
+
+.pf-columns {
     display: flex;
     flex-direction: row;
-    margin: auto;
-    max-width: 1060px;
-    max-height: 420px;
-    gap: 5px;
+    margin: auto auto 20px;
+    width: 1060px;
+    height: 425px;
+    gap: 5px
 }
 
-.cuadro-img-petinf {
-    padding: 10px;
-    background-color: rgb(243, 225, 200);
-    box-shadow:  1px 1px 10px 0px  black;
-    width: 700px;
-}
-
-.filas-petinf {
+.pf-files {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 5px
 }
 
-.cuadro-nombre-petinf {
-    background-color: rgb(243, 225, 200);
-    box-shadow:  1px 1px 10px 0px  black;
+.pf-nameBox {
+    background-color: #f3e1c8;
+    box-shadow: 1px 1px 10px 0#000;
     height: 60px;
-    width: 355px;
+    width: 355px
 }
 
-.cuadro-caracteristicas-petinf {
+.pf-descBox,.pf-mapBox {
+    width: 530px;
+    height: 315px
+}
+
+.pf-mapBox {
+    height: 425px
+}
+
+.pf-photoBox {
     padding: 10px;
-    background-color: rgb(243, 225, 200);
-    box-shadow:  1px 1px 10px 0px  black;
-    height: 500px;
+    background-color: #f3e1c8;
+    box-shadow: 1px 1px 10px 0#000;
+    width: 700px;
+    height: 425px
 }
 
-.cuadro-descripcion-petinf {
-    padding: 10px;
-    background-color: rgb(243, 225, 200);
-    box-shadow:  1px 1px 10px 0px  black;
-    max-width: 1060px;
-    margin: auto;
-    margin-top: 20px;
-}
-
-.fotitopet {
+.pf-photo {
     width: 680px;
     max-height: 400px;
-    border-radius: 3px;
+    border-radius: 3px
+}
+
+.map {
+    margin-top: 15px;
+    margin-left: 3px;
+    width: 500px;
+    height: 320px
 }
 
 /* letras */
 
-.nombre-mascota {
-    font-family: "Oxygen", sans-serif;
-    color: rgb(49, 22, 3);
+.typo-petName {
+    font-family: "Oxygen",sans-serif;
+    color: #311603;
     font-size: 29px;
     font-weight: 900;
     text-align: center;
-    padding: 12px;
+    padding: 12px
 }
 
-.caracteristicas-mascota {
-    font-family: "Oxygen", sans-serif;
-    color: rgb(49, 22, 3);
+.typo-characTitle,.typo-descPet {
+    font-family: "Oxygen",sans-serif;
+    color: #311603;
     font-size: 24px;
     font-weight: 650;
-    padding-left: 4px; 
+    padding-left: 4px;
     margin-top: 4px;
-    margin-bottom: 12px;
+    margin-bottom: 12px
 }
 
-.descripcion-mascota {
-    font-family: "Oxygen", sans-serif;
-    color: rgb(49, 22, 3);
-    font-size: 24px;
-    font-weight: 650;
-    padding-left: 14px; 
-    padding-top: 8px; 
-    margin-top: 4px;
-    margin-bottom: 12px;
+.typo-descTitle {
+    padding-left: 14px;
+    padding-bottom: 14px;
+    margin-bottom: 8px;
+    padding-top: 8px;
+    border-bottom: 1px solid rgba(49,22,3,.192);
 }
 
-.texto-mascota {
-    font-family: "Oxygen", sans-serif;
+.typo-characPet {
+    padding-top: 5px
+}
+
+.typo-characPet,.typo-descChar {
+    font-family: "Oxygen",sans-serif;
     margin-bottom: 10px;
-    padding-top: 5px;
-    padding-left: 8px;  
-    padding-bottom: 5px; 
-    border-bottom: 1px solid rgba(49, 22, 3, 0.192); 
-    color: rgb(70, 45, 15);
-    font-size: 16px;
+    padding-bottom: 5px;
+    color: #462d0f
 }
 
+.typo-characPet {
+    padding-left: 8px;
+    border-bottom: 1px solid rgba(49,22,3,.192);
+    font-size: 16px
+}
 
-.textodes-mascota {
-    font-family: "Oxygen", sans-serif;
-    margin-bottom: 10px;
-    padding-top: 5px;
-    padding-left: 20px;  
-    padding-bottom: 5px; 
-    color: rgb(70, 45, 15);
-    font-size: 18px;
+.typo-descChar {
+    padding-left: 20px;
+    font-size: 15.5px;
+    overflow-wrap: break-word
 }
 
 
