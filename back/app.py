@@ -1,11 +1,11 @@
 import logging
 
 import http.client
+from functools import wraps
 from urllib import request
 
 from flask import (
     Flask,
-    abort,
     request,
     jsonify,
     session,
@@ -25,6 +25,15 @@ app = Flask(__name__)
 app.secret_key = 'super secret key'
 
 app.cli.add_command(database_cli)
+
+
+def login_required(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if session.get('logged_in') is None:
+            return jsonify({'message': 'Para usar este recurso es necesario estar loggeado.'}), 401
+        return func(*args, **kwargs)
+    return wrapper
 
 
 # Users
@@ -82,7 +91,7 @@ def login():
         return jsonify({"error": "Usuario o email existentes"}), http.client.INTERNAL_SERVER_ERROR
     finally:
         connection.close()
-    return jsonify(user_data), http.client.OK
+    return jsonify({"message": "Bienvenido!"}), http.client.OK
 
 
 @app.route("/api/logout", methods=["GET"])
