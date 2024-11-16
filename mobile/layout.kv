@@ -1,18 +1,39 @@
 <Login>:
     name: "login"
-
     user: user
     password: password
+    canvas.before:
+        Color:
+            rgba: (1, 1, 179/255, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
 
     BoxLayout:
         size: root.width, root.height
         padding: 50
         spacing: 20
         orientation: 'vertical'
+        
+        Label:
+            text:"Mascotas\nperdidas"
+            color: (1, 1, 179/255, 1)
+            outline_color: (89/255, 10/255, 10/255)
+            outline_width: 2
+            font_size: 48
+            bold: True
+            italic: True
+            pos_hint: {'center_x': .5}
+
+
         Label:
             text:"Iniciar Sesión"
+            color: (148/255, 114/255, 70/255, 1)
             font_size: 24
+            italic: True
             pos_hint: {'center_x': .5}
+            size_hint: (None, None)
+            size: self.texture_size
 
         TextInput:
             id: user
@@ -34,6 +55,9 @@
             pos_hint:{'center_x': .5}
             size_hint: (None, None)
             font_size: 24
+            background_color: (220/255, 171/255, 107/255, 1) if self.state == 'normal' else (106/255, 56/255, 31/255, 1)
+            background_normal: ''
+            background_down: ''
             text: "Login"
             on_release:
                 root.manager.transition.direction = "up"
@@ -56,11 +80,18 @@
         padding: 50
         spacing: 20
         orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: (1, 1, 179/255, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
 
         Label:
             pos_hint: {'center_x': .5}
             text: 'Ingrese las características de la mascota'
             font_size: 22
+            color: (148/255, 114/255, 70/255, 1)
             size_hint: (None, None)
             size: self.texture_size
   
@@ -112,24 +143,28 @@
             size_hint: 1, 0.1
             hint_text: 'Fecha de perdido/encontrado'
 
-        TextInput:
+        Button:
             id: foto
-            font_size: 22
-            multiline: False
-            pos_hint: {'center_x': .5}
-            size_hint: 1, 0.1
+            pos_hint:{'center_x': .5}
+            size_hint: 1, 0.15
+            text: "Subir imagen de la mascota"
+            background_color: (220/255, 171/255, 107/255, 1) if self.state == 'normal' else (106/255, 56/255, 31/255, 1)
+            background_normal: ''
+            background_down: ''
 
         Button:
             pos_hint:{'center_x': .5}
-            size_hint: 0.5, 0.15
+            size_hint: 1, 0.15
             text: "Añadir"
+            background_color: (0, 1, 0, .5)
             on_release:
                 app.root.current = "login"
                 root.manager.transition.direction = "down"
         Button:
             pos_hint:{'center_x': .5}
-            size_hint: 0.5, 0.15
+            size_hint: 1, 0.15
             text: "Salir"
+            background_color: (1, 0, 0, .75)
             on_release:
                 app.root.current = "login"
                 root.manager.transition.direction = "down"

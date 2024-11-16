@@ -1,13 +1,11 @@
 from kivy.app import App
 from kivy.lang import Builder
-from kivy.uix.scrollview import ScrollView
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import ObjectProperty
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.config import Config
 from kivy.core.window import Window
-from kivy.uix.boxlayout import BoxLayout
 
 Config.set('graphics', 'width', '200')
 Config.set('graphics', 'height', '200')
@@ -17,7 +15,7 @@ class Login(Screen):
     user = ObjectProperty(None)
     password = ObjectProperty(None)
 
-    #Email y contraseña provisorios para realizar pruebas, luego se hará la integración con la base de datos.
+    #Usuario y contraseña provisorios para realizar pruebas, luego se hará la integración con la base de datos.
 
     def loginBtn(self):
         if self.user.text == "admin" and self.password.text == "1234":
