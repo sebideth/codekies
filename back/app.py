@@ -3,7 +3,13 @@ import logging
 import http.client
 from urllib import request
 
-from flask import Flask, abort, request, jsonify, session
+from flask import (
+    Flask,
+    abort,
+    request,
+    jsonify,
+    session,
+)
 from sqlalchemy import exc
 
 import config
