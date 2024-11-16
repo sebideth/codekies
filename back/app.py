@@ -13,7 +13,7 @@ from sqlalchemy import exc
 
 import config
 from commands.database import database_cli
-from api import animales
+from api import animales, usuarios
 from db import (
     INSERT_USER,
     engine,
@@ -171,6 +171,21 @@ def logout():
     return jsonify({"message": "Bye"}), http.client.OK
 
 
+@app.route('/api/usuarios/<int:id>', methods=['PUT'])
+def update_user(id):
+    if not usuarios.exist_user(id): 
+        return jsonify({'error': "usuario no encontrado"}), 404
+    datos = request.get_json()
+    is_valid, column = usuarios.validate_all_columns(datos)
+    if not is_valid:
+        return jsonify({'error': f"{column} no puede ser null" }), 400
+    try:
+        usuarios.update_user(id,datos)
+    except Exception as e:
+        #Cambiar mensaje de error para no mostrar errores de la DB
+        return jsonify({'error': str(e)}), 500
+    return jsonify(usuarios.usuario_by_id(id)), 200
+
+
 if __name__ == "__main__":
     app.run("127.0.0.1", port=5001, debug=config.debug)
-
