@@ -56,7 +56,6 @@ def register():
 
 @app.route("/api/login", methods=["POST"])
 def login():
-
     if session.get('logged_in'):
         return jsonify({'error': 'Ya estabas loggeado ...'}), http.client.BAD_REQUEST
 
