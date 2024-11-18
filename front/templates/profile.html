@@ -2,7 +2,7 @@
 {% block body %}
 <div class="container-wrap">
     <div class="row-center" >
-        <form class="col-md-6 animate-box" action="/profile" method="post">
+        <form class="col-md-6 animate-box" action=" {{ url_for('profile_update')}}" method="post">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">

@@ -1,22 +1,36 @@
 {% extends 'base.html' %}
 {% block body %}
-    <h2>
-        Formulario de Mascota
-    </h2>
-    <!-- agregar la ruta de envio -->
-    <form action="/ruta-de-envio" method="post">
-        <!-- Required implica que el usuario debe completar el campo para poder completar el formulario -->
-        <input type="text" name="animal" placeholder="Animal" required>
-        <input type="text" name="raza" placeholder="Raza">
-        <input type="text" name="condicion" placeholder="Condicion del animal (perdido o encontrado)" required>
-        <input type="text" name="color" placeholder="Color" required>
-        <input type="text" name="descripcion" placeholder="Datos relevantes sobre el animal">
-        <input type="date" name="fecha" placeholder="Fecha de perdido o de encontrado" required>
-        <!-- Permite al usuario subir un archivo, pero este tiene la condicion de ser algun tipo de imagen -->
-        <input type="file" name="foto" placeholder="Suba una foto de la mascota" accept="image/*" required>
-        <!-- Campo oculto que no vera el usuario, lo inicializo en falso y se cambiara a verdadero cuando la mascota sea encontrada o entregada a su dueño -->
-        <input type="hidden" name="resuelto" value="false">
-        <button type="submit">Enviar</button>
-        <!-- falta pedirle la ubicacion de la mascota al usuario y mostrarle el mapa para que la pueda confirmar, usando la api de openstreetmap-->
-    </form>
+<div class="container">
+    <div class="login form">
+        <!-- agregar la ruta de envio -->
+        <form action="/ruta-de-envio" method="post">
+            <header>
+                    Formulario de Mascota
+            </header>
+            <!-- Required implica que el usuario debe completar el campo para poder completar el formulario -->
+            <label for="animal">Indique la especie de la mascota. Ejemplo: Gato</label>
+                <input type="text" name="animal" id="animal" required>
+            <label for="raza">Indique la raza de la mascota (opcional)</label>
+                <input type="text" name="raza" id="raza">
+            <label for="condicion">Indique el estado de la mascota</label>
+            <select id="condicion" name="condicion" required>
+                <option>Perdido</option>
+                <option>Encontrado sin dueño</option>
+            </select>
+            <label for="color">Indique el color de la mascota</label>
+                <input type="text" name="color" id="color" required>
+            <label for="fecha">Indique la fecha de perdida/encontrada</label>
+                <input type="date" name="fecha" id="fecha" required>
+            <label for="foto">Suba una imágen de la mascota</label>
+                <!-- Permite al usuario subir un archivo, pero este tiene la condicion de ser algun tipo de imagen -->
+                <input type="file" name="foto" id="foto" accept="image/*" required>
+            <label for="ubicacion">Indique la ubicacion donde se perdió/encontró</label>
+                <input type="text" id="ubicacion"name="ubicacion" required>
+            <input type="text" name="descripcion" placeholder="Datos relevantes sobre la mascota">
+            <!-- Campo oculto que no vera el usuario, lo inicializo en falso y se cambiara a verdadero cuando la mascota sea encontrada o entregada a su dueño -->
+            <input type="hidden" name="resuelto" value="false">
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+</div>
 {% endblock %}
