@@ -5,8 +5,8 @@ QUERY_TODOS_LOS_ANIMALES = 'SELECT * FROM animales'
 QUERY_ANIMAL_POR_ID = 'SELECT * FROM animales WHERE id = :id'
 
 QUERY_CARGAR_ANIMAL = '''
-INSERT INTO animales (animal, raza, condicion, color, ubicacion, urlFoto, descripcion, fechaPerdido, fechaEncontrado, fechaAlta, resuelto, userID)
-VALUES (:animal, :raza, :condicion, :color, :ubicacion, :urlFoto, :descripcion, :fechaPerdido, :fechaEncontrado, :fechaAlta, :resuelto, :userID)
+INSERT INTO animales (animal, raza, condicion, color, ubicacion, urlFoto, descripcion, fechaPerdido, fechaEncontrado, resuelto, userID)
+VALUES (:animal, :raza, :condicion, :color, :ubicacion, :urlFoto, :descripcion, :fechaPerdido, :fechaEncontrado, :resuelto, :userID)
 '''
 
 QUERY_BORRAR_ANIMAL = 'DELETE FROM animales WHERE id = :id'
