@@ -11,15 +11,15 @@
 				   			<div class="col-md-6 col-md-offset-3 slider-text slider-text-bg">
 								<div class="slider-text-inner text-center">
 									<h1 class="titulo-pets">Encontrá tu mascota</h1>
-									<p><a class="btn btn-primary btn-demo" href="{{url_for('petsFiltro', condicion='perdido')}}"></i> Perdidas </a> 
-										<a class="btn btn-primary btn-demo" href="{{url_for('petsFiltro', condicion='encontrado' )}}">Encontradas</a></p>
+									<p><a class="btn btn-primary btn-demo" href=""></i> Perdidas </a> 
+										<a class="btn btn-primary btn-demo" href="">Encontradas</a></p>
 
-									<form method="get" action="{{ url_for('pets') }}" >
+									<form method="get" action="{{ url_for('pets_search') }}" >
 										<label for="filtro">Filtrar por:</label>
 										<select name="estado">
 											<option value="">Estado</option>
-											<option value="perdido">Perdidas</option>
-											<option value="encontrado">Encontradas</option>
+											<option value="Perdido">Perdidas</option>
+											<option value="Encontrado">Encontradas</option>
 										</select>
 										<select name="raza">
 											<option value="">raza</option>
@@ -31,6 +31,13 @@
 											<option value="">Color</option>
 											<option value="negro">negro</option>
 											<option value="blanco">blanco</option>
+											<option value="Dorado">Dorado</option>
+										</select>
+										<select name="animal">
+											<option value="">Animal</option>
+											<option value="Perro">Perro</option>
+											<option value="Gato">Gato</option>
+											<option value="Pez">Pez</option>
 										</select>
 										<button type="submit">Filtrar</button>
 									</form>
@@ -46,33 +53,16 @@
 		</aside>		
 		<div id="fh5co-blog">
 			<div class="row">
-
-				{% for i in range(3) %}
+				{% for animal in animales %}
 
 				<div class="col-md-4">
 					<div class="fh5co-blog animate-box">
-						<img src="{{ url_for('static',filename='images/fatiga.jpg') }}" alt="foto de la mascota" class="img-fluid img-pets">
+						<img src="{{animal.urlFoto}}" alt="foto de la mascota" class="img-fluid img-pets">
 						<div class="blog-text">
-							<span class="posted_on">Fecha perdido</span>
-							<h3><a href="#">Nombre: </a></h3>
-							<p>Description</p>
-							<p>Raza</p>
-							<ul class="stuff">
-								<li><i class="icon-heart3"></i>249</li>
-								<li><i class="icon-eye2"></i>1,308</li>
-								<li><a href="#" class="botoninfo">Mas detalles<i class="icon-arrow-right22"></i></a></li>
-							</ul>
-						</div> 
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="fh5co-blog animate-box">
-						<img src="{{ url_for('static',filename='images/gato.jpg') }}" alt="foto de la mascota" class="img-fluid img-pets">
-						<div class="blog-text">
-							<span class="posted_on">Fecha perdido</span>
-							<h3><a href="#">Nombre: </a></h3>
-							<p>Description</p>
-							<p>Raza</p>
+							<span class="posted_on">{{animal.fechaPerdido}}</span>
+							<h3><a href="#">{{animal.animal}}</a></h3>
+							<p>{{animal.descripcion}}</p>
+							<p>{{animal.raza}}</p>
 							<ul class="stuff">
 								<li><i class="icon-heart3"></i>249</li>
 								<li><i class="icon-eye2"></i>1,308</li>

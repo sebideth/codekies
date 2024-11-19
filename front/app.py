@@ -1,5 +1,5 @@
-from flask import Flask, redirect, render_template, url_for, request, session
-from werkzeug import exceptions
+from flask import Flask, redirect, render_template, url_for, request, session, abort
+import requests
 
 app = Flask(__name__)
 
@@ -9,18 +9,47 @@ def home():
 
 @app.route('/pets')
 def pets():
+
+    try:
+        response = requests.get('http://localhost:5001/api/animales')  
+        response.raise_for_status()  
+        animales = response.json() 
+    except Exception as e:
+        animales = [] 
+        print(f"Error al obtener animales: {e}")
+
+    return render_template('pets.html', animales=animales)
+
+
+@app.route('/pets/search', methods=['GET'])
+def pets_search():
+     
     estado = request.args.get('estado')
     raza = request.args.get('raza')
     color = request.args.get('color')
+    animal = request.args.get('animal')
+ 
+    filtro = {}
+    if estado:
+        filtro['condicion'] = estado
+    if raza:
+        filtro['raza'] = raza
+    if color:
+        filtro['color'] = color
+    if animal:
+        filtro['animal'] = animal
     
-    filtro = [estado, raza, color]
+    try:
+        
+        response = requests.get('http://localhost:5001/api/animales/buscar', json=filtro)
+        response.raise_for_status() 
+        animales = response.json()  
+    except Exception as e:
+        animales = []  
+        print(f"Error al obtener animales: {e}")
 
-    return render_template('pets.html', filtro = filtro)
-
-@app.route('/pets/<condicion>')
-def petsFiltro(condicion):
     
-    return render_template('pets.html', condicion=condicion)
+    return render_template('pets.html', animales=animales)
 
 @app.route('/contact')
 def contact():
@@ -108,10 +137,9 @@ def profile_update():
     "telefono": cellphone
 })
     
-
-@app.errorhandler(exceptions.InternalServerError)
-def handle_internal_server_error(e):
-    return render_template('critical_errors.html')
+@app.errorhandler(500)
+def internal_server_error(error):
+    return render_template('critical_errors.html'), 500
 
 @app.errorhandler(404)
 def page_not_found(error):
