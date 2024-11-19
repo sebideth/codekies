@@ -14,6 +14,11 @@
         padding: 50
         spacing: 20
         orientation: 'vertical'
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'assets/images/fondomain3.jpg'
         
         Label:
             text:"Mascotas\nperdidas"
@@ -28,9 +33,11 @@
 
         Label:
             text:"Iniciar Sesión"
-            color: (148/255, 114/255, 70/255, 1)
+            color: (1, 1, 179/255, 1)
             font_size: 24
             italic: True
+            outline_color: (89/255, 10/255, 10/255)
+            outline_width: 1.5
             pos_hint: {'center_x': .5}
             size_hint: (None, None)
             size: self.texture_size
@@ -42,6 +49,7 @@
             pos_hint: {'center_x': .5}
             size_hint: 0.9, 0.1
             hint_text: 'Ingrese su usuario'
+        
         TextInput:
             id: password
             font_size: 24
@@ -86,22 +94,41 @@
             Rectangle:
                 pos: self.pos
                 size: self.size
+                source: 'assets/images/fondomain3.jpg'
 
         Label:
             pos_hint: {'center_x': .5}
             text: 'Ingrese las características de la mascota'
             font_size: 22
-            color: (148/255, 114/255, 70/255, 1)
+            color: (89/255, 10/255, 10/255)
+            outline_color: (1, 1, 179/255, 1)
+            outline_width: 2
             size_hint: (None, None)
             size: self.texture_size
   
-        TextInput:
+        Spinner:
             id: animal
+            text: 'Tipo de mascota'
+            values: ['Perro', 'Gato']
             font_size: 22
-            multiline: False
+            background_color: (220/255, 171/255, 107/255, 1) if self.state == 'normal' else (106/255, 56/255, 31/255, 1)
+            background_normal: ''
+            background_down: ''
             pos_hint: {'center_x': .5}
             size_hint: 1, 0.1
-            hint_text: 'Tipo de mascota (gato/perro)'
+            on_text: root.obtenerAnimal(animal.text)
+
+        Spinner:
+            id: condicion
+            text: 'Condición'
+            values: ['Perdido', 'Encontrado']
+            font_size: 22
+            background_color: (220/255, 171/255, 107/255, 1) if self.state == 'normal' else (106/255, 56/255, 31/255, 1)
+            background_normal: ''
+            background_down: ''
+            pos_hint: {'center_x': .5}
+            size_hint: 1, 0.1
+            on_text: root.obtenerCondicion(condicion.text)
 
         TextInput:
             id: raza
@@ -111,13 +138,6 @@
             size_hint: 1, 0.1
             hint_text: 'Raza (si no tiene, dejar vacío)'
 
-        TextInput:
-            id: condicion
-            font_size: 22
-            multiline: False
-            pos_hint: {'center_x': .5}
-            size_hint: 1, 0.1
-            hint_text: 'Perdido/Encontrado' 
 
         TextInput:
             id: color
@@ -156,10 +176,10 @@
             pos_hint:{'center_x': .5}
             size_hint: 1, 0.15
             text: "Añadir"
-            background_color: (0, 1, 0, .5)
+            background_color: (0, 1, 0, .75)
             on_release:
-                app.root.current = "login"
-                root.manager.transition.direction = "down"
+                root.manager.transition.direction = "up"
+                root.añadirBtn()
         Button:
             pos_hint:{'center_x': .5}
             size_hint: 1, 0.15

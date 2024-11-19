@@ -6,6 +6,7 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.config import Config
 from kivy.core.window import Window
+from kivy.network.urlrequest import UrlRequest
 
 Config.set('graphics', 'width', '200')
 Config.set('graphics', 'height', '200')
@@ -24,10 +25,6 @@ class Login(Screen):
             screen.current = "main"
         else:
             invalidLogin()
-    
-    def createBtn(self):
-        self.reset()
-        screen.current = "create"
 
     def reset(self):
         self.user.text = ""
@@ -44,7 +41,17 @@ class Main(Screen):
     foto = ObjectProperty(None)
 
     current = ""
-    
+
+    def obtenerAnimal(self,value):
+        self.animal.text = value
+
+    def obtenerCondicion(self,value):
+        self.condicion.text = value
+
+    def añadirBtn(self):
+        #Test
+        print(self.foto.text)
+
     def logOut(self):
         screen.current = "login"
         
@@ -58,7 +65,7 @@ def invalidLogin():
                 size_hint = (None, None), size = (400, 400))
     pop.open()
 
-kv = Builder.load_file("layout.kv")
+kv = Builder.load_file("templates/layout.kv")
 
 screen = WindowManager()
 
@@ -74,4 +81,4 @@ class App(App):
 if __name__ == "__main__":
     App().run()
 
-#Emprolijar estéticamente y obtener el input de los usuarios. Agregar mapa y poder cargar foto. -> cambiar el input de 'foto' a un boton para subir imagen
+# Implementar FileChooser en un pop-up o boton
