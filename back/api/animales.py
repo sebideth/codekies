@@ -11,7 +11,9 @@ VALUES (:animal, :raza, :condicion, :color, :ubicacion, :urlFoto, :descripcion, 
 
 QUERY_BORRAR_ANIMAL = 'DELETE FROM animales WHERE id = :id'
 
-COLUMNAS = ['animal', 'raza', 'condicion', 'color', 'ubicacion', 'urlFoto', 'descripcion', 'fechaPerdido', 'fechaEncontrado', 'fechaAlta', 'resuelto', 'userID']
+COLUMNAS = ['animal', 'raza', 'condicion', 'color', 'ubicacion', 'urlFoto', 'descripcion', 'fechaPerdido', 'fechaEncontrado', 'resuelto', 'userID']
+
+COLUMNAS_FILTRO = ['animal', 'raza', 'condicion', 'color', 'ubicacion', 'fechaPerdido', 'fechaEncontrado', 'resuelto']
 
 connection = get_connection(engine())
 
@@ -69,3 +71,27 @@ def to_dict(data):
             'userID':           row[12],
         })
     return result
+
+
+def to_dict_filtro(data):
+    result = []
+    for row in data:
+        result.append(row[0])
+    return result
+
+def datos_animales():
+
+    datos_unicos = {}
+
+    for columna in COLUMNAS_FILTRO:
+        
+        query = f"SELECT DISTINCT {columna} FROM animales"
+        try:
+           
+            datos_unicos[columna] = to_dict_filtro(run_query(connection, query).fetchall())
+            
+        except Exception as e:
+            print(f"Error al obtener datos unicos para '{columna}': {e}")
+            datos_unicos[columna] = [] 
+
+    return datos_unicos
