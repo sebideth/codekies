@@ -16,29 +16,20 @@
 
 									<form method="get" action="{{ url_for('pets_search') }}" >
 										<label for="filtro">Filtrar por:</label>
-										<select name="estado">
-											<option value="">Estado</option>
-											<option value="Perdido">Perdidas</option>
-											<option value="Encontrado">Encontradas</option>
-										</select>
-										<select name="raza">
-											<option value="">raza</option>
-											<option value="labrador">labrador</option>
-											<option value="mestizo">mestizo</option>
-										</select>
+										
+										{% for filtro, valores in datos_filtro.items() %}
 
-										<select name="color">
-											<option value="">Color</option>
-											<option value="negro">negro</option>
-											<option value="blanco">blanco</option>
-											<option value="Dorado">Dorado</option>
-										</select>
-										<select name="animal">
-											<option value="">Animal</option>
-											<option value="Perro">Perro</option>
-											<option value="Gato">Gato</option>
-											<option value="Pez">Pez</option>
-										</select>
+											<select name="{{filtro}}">
+												<option value="">{{filtro}}</option>
+
+												{% for valor in valores %}
+												<option value="{{ valor }}">{{ valor }}</option>
+												{% endfor %}
+
+											</select>
+
+										{% endfor %}
+										
 										<button type="submit">Filtrar</button>
 									</form>
 
@@ -50,9 +41,11 @@
 			   	</li>		   	
 			  	</ul>
 		  	</div>
+			{{datos_filtro}}
 		</aside>		
 		<div id="fh5co-blog">
 			<div class="row">
+				{{animales}}
 				{% for animal in animales %}
 
 				<div class="col-md-4">
@@ -66,12 +59,12 @@
 							<ul class="stuff">
 								<li><i class="icon-heart3"></i>249</li>
 								<li><i class="icon-eye2"></i>1,308</li>
-								<li><a href="#" class="botoninfo">Mas detalles<i class="icon-arrow-right22"></i></a></li>
+								<li><a href="{{ url_for('petinfo', id=animal.id)}}" class="botoninfo">Mas detalles<i class="icon-arrow-right22"></i></a></li>
 							</ul>
 						</div> 
 					</div>
 				</div>
-				
+	
 				{% endfor %}
 			</div>
 		</div>
