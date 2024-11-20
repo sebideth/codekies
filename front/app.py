@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, url_for, request, session, abort
+from flask import Flask, redirect, render_template, url_for, request, session, abort,jsonify
 import requests
 
 app = Flask(__name__)
@@ -9,47 +9,82 @@ def home():
 
 @app.route('/pets')
 def pets():
-
     try:
-        response = requests.get('http://localhost:5001/api/animales')  
-        response.raise_for_status()  
-        animales = response.json() 
-    except Exception as e:
-        animales = [] 
-        print(f"Error al obtener animales: {e}")
 
-    return render_template('pets.html', animales=animales)
+        animales_response = requests.get('http://localhost:5001/api/animales')
+        datos_filtro_response = requests.get('http://localhost:5001/api/animales/datos')
+        
+        animales_response.raise_for_status()
+        datos_filtro_response.raise_for_status()
+        
+        animales = animales_response.json()
+        datos_filtro = datos_filtro_response.json()
 
+    except requests.exceptions.RequestException as e:
+      
+        print(f"e: {e}")
+
+        animales = []
+        datos_filtro = [] 
+
+    return render_template('pets.html', animales=animales, datos_filtro=datos_filtro)
 
 @app.route('/pets/search', methods=['GET'])
 def pets_search():
-     
-    estado = request.args.get('estado')
-    raza = request.args.get('raza')
-    color = request.args.get('color')
+
+
+    try:
+
+        datos_filtro_response = requests.get('http://localhost:5001/api/animales/datos')
+        
+        datos_filtro_response.raise_for_status()
+
+        datos_filtro = datos_filtro_response.json()
+
+    except requests.exceptions.RequestException as e:
+      
+        print(f"e: {e}")
+        datos_filtro = [] 
+
     animal = request.args.get('animal')
- 
+    color = request.args.get('color')
+    condicion = request.args.get('condicion')
+    fecha_encontrado = request.args.get('fecha_encontrado')
+    fecha_perdido = request.args.get('fecha_perdido')
+    raza = request.args.get('raza')
+    resuelto = request.args.get('resuelto')
+    ubicacion = request.args.get('ubicacion')
+
     filtro = {}
-    if estado:
-        filtro['condicion'] = estado
-    if raza:
-        filtro['raza'] = raza
-    if color:
-        filtro['color'] = color
+
     if animal:
         filtro['animal'] = animal
+    if color:
+        filtro['color'] = color
+    if condicion:
+        filtro['condicion'] = condicion
+    if fecha_encontrado:
+        filtro['fecha_encontrado'] = fecha_encontrado 
+    if fecha_perdido:
+        filtro['fecha_perdido'] = fecha_perdido
+    if raza:
+        filtro['raza'] = raza
+    if resuelto:
+        filtro['resuelto'] = resuelto
+    if ubicacion:
+        filtro['ubicacion'] = ubicacion
     
     try:
         
         response = requests.get('http://localhost:5001/api/animales/buscar', json=filtro)
         response.raise_for_status() 
         animales = response.json()  
-    except Exception as e:
+        
+    except requests.exceptions.RequestException as e:
         animales = []  
         print(f"Error al obtener animales: {e}")
 
-    
-    return render_template('pets.html', animales=animales)
+    return render_template('pets.html', animales=animales, datos_filtro= datos_filtro)
 
 @app.route('/contact')
 def contact():
@@ -81,21 +116,21 @@ def auth():
 def publicaciones():
     return render_template('publicaciones.html')
     
-@app.route('/pets/<estado>/<id>')
-def petinfo(estado, id):
-    mascotas = {
-        "urlFoto": url_for('static', filename='images/doge.png'),  
-        "nombre": "Doge", 
-        "animal": "Perro",  
-        "raza": "Shiba Inu",  
-        "color": "Amarillo", 
-        "condicion": "Perdido", 
-        "latitud": -34.6083,
-        "longitud": -58.3712,
-        "fecha": "2024-11-01", 
-        "descripcion": "Tiene ojitos chiquitos."
-    }    
-    return render_template('pet_info.html', estado="perdidas", id=20, mascotas=mascotas)
+@app.route('/pets/<int:id>')
+def petinfo(id):
+    
+    try:
+        
+        response = requests.get(f'http://localhost:5001/api/animales/{id}')
+        response.raise_for_status()  
+        mascota = response.json()
+
+    except requests.exceptions.RequestException as e:
+
+        print(f"error:{e}")
+        mascota = []
+        
+    return render_template('pet_info.html', mascota=mascota[0])
 
 @app.route('/upload_pet', methods=["GET","POST"])
 def upload_pet():
