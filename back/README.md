@@ -189,7 +189,7 @@ http://localhost:5001/api/usuarios/pepito
 
 Recibe un JSON con la información del usuario y devuelve 201 y el JSON si la creación fue exitosa
 
-- url: http://localhost:5001/api/usuarios
+- url: http://localhost:5001/api/register
 - verbo: POST
 - Ejemplos:
 
@@ -197,7 +197,7 @@ Recibe:
 
 ```json
 {    
-    "nombreUsuario": "saznarez",
+    "username": "saznarez",
     "password": "1234",
     "nombre": "Sebastian",
     "apellido": "Aznarez",
@@ -211,7 +211,7 @@ Devuelve:
 ```json
 {    
     "id": 1,
-    "nombreUsuario": "saznarez",
+    "username": "saznarez",
     "nombre": "Sebastian",
     "apellido": "Aznarez",
     "email": "saznarez@fi.uba.ar",
@@ -279,7 +279,7 @@ Devuelve:
 
 Dados nombre de usuario y contraseña en formato JSON, devuelve 200 si el login es exitoso y 404 para el caso contrario.
 
-- url: http://localhost:5001/api/usuarios/login
+- url: http://localhost:5001/api/login
 - verbo: GET
 - Ejemplos:
 
@@ -287,7 +287,7 @@ Recibe:
 
 ```json
 {
-    "nombreUsuario": "saznarez",
+    "username": "saznarez",
     "password": "1234"
 }
 ```

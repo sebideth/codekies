@@ -105,8 +105,6 @@ def get_all_animales_from_usuario(id):
         return jsonify({'error': str(e)}), 500
     return jsonify(result), 200
 
-if __name__ == "__main__":
-    app.run("127.0.0.1", port=5001, debug=True)
 
 def login_required(func):
     @wraps(func)
