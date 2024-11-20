@@ -55,17 +55,25 @@ def pets_search():
     resuelto = request.args.get('resuelto')
     ubicacion = request.args.get('ubicacion')
 
-    filtro = {
-        "animal": animal,
-        "color" : color,
-        "condicion": condicion,
-        "fecha_encontrado": fecha_encontrado,
-        "fecha_perdido": fecha_perdido,
-        "raza": raza,
-        "resuelto": resuelto,
-        "ubicacion": ubicacion
-    }
+    filtro = {}
 
+    if animal:
+        filtro['animal'] = animal
+    if color:
+        filtro['color'] = color
+    if condicion:
+        filtro['condicion'] = condicion
+    if fecha_encontrado:
+        filtro['fecha_encontrado'] = fecha_encontrado 
+    if fecha_perdido:
+        filtro['fecha_perdido'] = fecha_perdido
+    if raza:
+        filtro['raza'] = raza
+    if resuelto:
+        filtro['resuelto'] = resuelto
+    if ubicacion:
+        filtro['ubicacion'] = ubicacion
+    
     try:
         
         response = requests.get('http://localhost:5001/api/animales/buscar', json=filtro)
@@ -76,7 +84,7 @@ def pets_search():
         animales = []  
         print(f"Error al obtener animales: {e}")
 
-    return render_template('pets.html', animales=animales, datos_filtro= datos_filtro)
+    return render_template('pets.html', animales=animales, datos_filtro = datos_filtro)
 
 @app.route('/contact')
 def contact():
@@ -104,9 +112,6 @@ def auth():
         newpasswd = request.form.get("newpasswd")
     return render_template('auth.html')
 
-@app.route('/publicaciones')
-def publicaciones():
-    return render_template('publicaciones.html')
     
 @app.route('/pets/<int:id>')
 def petinfo(id):

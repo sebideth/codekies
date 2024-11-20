@@ -1612,4 +1612,7 @@ form button {
   display: flex;
   justify-content: center;
 }
+.form_filtro{
+  width: 100%;
+}
 /*# sourceMappingURL=style.css.map
