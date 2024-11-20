@@ -52,25 +52,37 @@ def auth():
 def publicaciones():
     return render_template('publicaciones.html')
     
-@app.route('/mascotas/<estado>/<id>')
+@app.route('/pets/<estado>/<id>')
 def petinfo(estado, id):
-    return render_template('pet_info.html', estado="perdidas", id=20)
+    mascotas = {
+        "urlFoto": url_for('static', filename='images/doge.png'),  
+        "nombre": "Doge", 
+        "animal": "Perro",  
+        "raza": "Shiba Inu",  
+        "color": "Amarillo", 
+        "condicion": "Perdido", 
+        "latitud": -34.6083,
+        "longitud": -58.3712,
+        "fecha": "2024-11-01", 
+        "descripcion": "Tiene ojitos chiquitos."
+    }    
+    return render_template('pet_info.html', estado="perdidas", id=20, mascotas=mascotas)
 
 @app.route('/upload_pet', methods=["GET","POST"])
 def upload_pet():
-    if request.method == "POST":
-        if session.get('logged_in'):
-            animal = request.form.get('animal')
-            raza = request.form.get('raza')
-            condicion = request.form.get('condicion')
-            color = request.form.get('color')
-            descripcion = request.form.get('descripcion')
-            fecha = request.form.get('fecha')
-            foto = request.files.get('foto')
-            resuelto = request.form.get('resuelto')
-            return redirect(url_for('publicaciones.html'))
-        else:
-            return(redirect(url_for('auth.html')))
+    #if request.method == "POST":
+        #if session.get('logged_in'):
+            #animal = request.form.get('animal')
+            #raza = request.form.get('raza')
+            #condicion = request.form.get('condicion')
+            #color = request.form.get('color')
+            #descripcion = request.form.get('descripcion')
+            #fecha = request.form.get('fecha')
+            #foto = request.files.get('foto')
+            #resuelto = request.form.get('resuelto')
+            #return redirect(url_for('publicaciones.html'))
+        #else:
+            #return(redirect(url_for('auth.html')))
     return render_template('upload_pet.html')
 
 @app.route('/profile', methods=["GET"])
