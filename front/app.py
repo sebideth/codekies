@@ -55,25 +55,17 @@ def pets_search():
     resuelto = request.args.get('resuelto')
     ubicacion = request.args.get('ubicacion')
 
-    filtro = {}
+    filtro = {
+        "animal": animal,
+        "color" : color,
+        "condicion": condicion,
+        "fecha_encontrado": fecha_encontrado,
+        "fecha_perdido": fecha_perdido,
+        "raza": raza,
+        "resuelto": resuelto,
+        "ubicacion": ubicacion
+    }
 
-    if animal:
-        filtro['animal'] = animal
-    if color:
-        filtro['color'] = color
-    if condicion:
-        filtro['condicion'] = condicion
-    if fecha_encontrado:
-        filtro['fecha_encontrado'] = fecha_encontrado 
-    if fecha_perdido:
-        filtro['fecha_perdido'] = fecha_perdido
-    if raza:
-        filtro['raza'] = raza
-    if resuelto:
-        filtro['resuelto'] = resuelto
-    if ubicacion:
-        filtro['ubicacion'] = ubicacion
-    
     try:
         
         response = requests.get('http://localhost:5001/api/animales/buscar', json=filtro)
