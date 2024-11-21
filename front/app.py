@@ -32,7 +32,6 @@ def pets():
 @app.route('/pets/search', methods=['GET'])
 def pets_search():
 
-
     try:
 
         datos_filtro_response = requests.get('http://localhost:5001/api/animales/datos')
@@ -46,33 +45,13 @@ def pets_search():
         print(f"e: {e}")
         datos_filtro = [] 
 
-    animal = request.args.get('animal')
-    color = request.args.get('color')
-    condicion = request.args.get('condicion')
-    fecha_encontrado = request.args.get('fecha_encontrado')
-    fecha_perdido = request.args.get('fecha_perdido')
-    raza = request.args.get('raza')
-    resuelto = request.args.get('resuelto')
-    ubicacion = request.args.get('ubicacion')
+    datosFiltro = ['animal', 'color', 'condicion', 'fecha_encontrado', 'fecha_perdido', 'raza', 'resuelto', 'ubicacion']
 
     filtro = {}
-
-    if animal:
-        filtro['animal'] = animal
-    if color:
-        filtro['color'] = color
-    if condicion:
-        filtro['condicion'] = condicion
-    if fecha_encontrado:
-        filtro['fecha_encontrado'] = fecha_encontrado 
-    if fecha_perdido:
-        filtro['fecha_perdido'] = fecha_perdido
-    if raza:
-        filtro['raza'] = raza
-    if resuelto:
-        filtro['resuelto'] = resuelto
-    if ubicacion:
-        filtro['ubicacion'] = ubicacion
+    for dato in datosFiltro:
+        valor = request.args.get(dato)
+        if valor:
+            filtro[dato] = valor
     
     try:
         
