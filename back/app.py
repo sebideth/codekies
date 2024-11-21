@@ -182,9 +182,15 @@ def update_user(id):
     try:
         usuarios.update_user(id,datos)
     except Exception as e:
-        #Cambiar mensaje de error para no mostrar errores de la DB
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': "Error inesperado"}), 500
     return jsonify(usuarios.usuario_by_id(id)), 200
+
+@app.route('/api/usuarios/<int:id>', methods=['GET'])
+def get_user(id):
+    if not usuarios.exist_user(id): 
+        return jsonify({'error': "usuario no encontrado"}), 404
+    
+    return jsonify(usuarios.usuario_by_id(id)[0]), 200
 
 
 if __name__ == "__main__":
