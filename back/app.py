@@ -1,7 +1,6 @@
 import logging
 
 import http.client
-from functools import wraps
 from urllib import request
 
 from flask import (
@@ -20,6 +19,7 @@ from db import (
     engine,
     LOGIN_USER_QUERY
 )
+from utils.decorators import login_required
 
 logger = logging.getLogger(__name__)
 app = Flask(__name__)
@@ -27,9 +27,10 @@ app.secret_key = 'super secret key'
 
 app.cli.add_command(database_cli)
 
-# Animales
 
+# Animales
 @app.route('/api/animales', methods=['GET'])
+@login_required
 def get_all_animales():
     try:
         result = animales.all_animales()
@@ -104,15 +105,6 @@ def get_all_animales_from_usuario(id):
         #Cambiar mensaje de error para no mostrar errores de la DB
         return jsonify({'error': str(e)}), 500
     return jsonify(result), 200
-
-
-def login_required(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        if session.get('logged_in') is None:
-            return jsonify({'message': 'Para usar este recurso es necesario estar loggeado.'}), 401
-        return func(*args, **kwargs)
-    return wrapper
 
 
 # Users
