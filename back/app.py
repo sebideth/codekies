@@ -1,7 +1,6 @@
 import logging
 
 import http.client
-from functools import wraps
 from urllib import request
 
 from flask import (
@@ -14,12 +13,13 @@ from sqlalchemy import exc
 
 import config
 from commands.database import database_cli
-from api import animales
+from api import animales, usuarios
 from db import (
     INSERT_USER,
     engine,
     LOGIN_USER_QUERY
 )
+from utils.decorators import login_required
 
 logger = logging.getLogger(__name__)
 app = Flask(__name__)
@@ -27,9 +27,10 @@ app.secret_key = 'super secret key'
 
 app.cli.add_command(database_cli)
 
-# Animales
 
+# Animales
 @app.route('/api/animales', methods=['GET'])
+@login_required
 def get_all_animales():
     try:
         result = animales.all_animales()
@@ -105,17 +106,6 @@ def get_all_animales_from_usuario(id):
         return jsonify({'error': str(e)}), 500
     return jsonify(result), 200
 
-if __name__ == "__main__":
-    app.run("127.0.0.1", port=5001, debug=True)
-
-def login_required(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        if session.get('logged_in') is None:
-            return jsonify({'message': 'Para usar este recurso es necesario estar loggeado.'}), 401
-        return func(*args, **kwargs)
-    return wrapper
-
 
 # Users
 @app.route("/api/register", methods=["POST"])
@@ -181,6 +171,27 @@ def logout():
     return jsonify({"message": "Bye"}), http.client.OK
 
 
+@app.route('/api/usuarios/<int:id>', methods=['PUT'])
+def update_user(id):
+    if not usuarios.exist_user(id): 
+        return jsonify({'error': "usuario no encontrado"}), 404
+    datos = request.get_json()
+    is_valid, column = usuarios.validate_all_columns(datos)
+    if not is_valid:
+        return jsonify({'error': f"{column} no puede ser null" }), 400
+    try:
+        usuarios.update_user(id,datos)
+    except Exception as e:
+        return jsonify({'error': "Error inesperado"}), 500
+    return jsonify(usuarios.usuario_by_id(id)), 200
+
+@app.route('/api/usuarios/<int:id>', methods=['GET'])
+def get_user(id):
+    if not usuarios.exist_user(id): 
+        return jsonify({'error': "usuario no encontrado"}), 404
+    
+    return jsonify(usuarios.usuario_by_id(id)[0]), 200
+
+
 if __name__ == "__main__":
     app.run("127.0.0.1", port=5001, debug=config.debug)
-

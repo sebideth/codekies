@@ -28,12 +28,14 @@
     <div class="pf-descBox">
         <h3 class="typo-descTitle">Descripción:</h3>
         <p class="typo-descChar">{{ mascotas.descripcion }}</p>
+        <p><a style="width: 500px; margin-top:250px; border-color: rgb(83, 51, 2);" class="btn btn-primary btn-demo" href="{{ url_for('pets') }}"></i> Reclamar/Lo Encontre</a>
     </div>
     
     <div class="pf-mapBox">
         <h3 class="typo-descTitle">Dirección:</h3>
         <iframe class="map"
-            src="https://maps.google.com/maps?width=600&amp;height=400&amp;hl=en&amp;q={{ mascotas.latitud }},{{ mascotas.longitud }}&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe>
+            src="https://maps.google.com/maps?hl=es&q={{ mascotas.direccion }}+{{ mascotas.altura }}+{{ mascotas.ciudad }}&t=m&z=14&ie=UTF8&iwloc=B&output=embed"></iframe>
     </div>
 </div>
 {% endblock %}
+
