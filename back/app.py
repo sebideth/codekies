@@ -30,7 +30,7 @@ app.cli.add_command(database_cli)
 
 # Animales
 @app.route('/api/animales', methods=['GET'])
-@login_required
+# @login_required
 def get_all_animales():
     try:
         result = animales.all_animales()

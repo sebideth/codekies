@@ -62,7 +62,6 @@ def pets_search():
     except requests.exceptions.RequestException as e:
         animales = []  
         print(f"Error al obtener animales: {e}")
-
     return render_template('pets.html', animales=animales, datos_filtro = datos_filtro)
 
 @app.route('/contact')
