@@ -1,5 +1,5 @@
-from flask import Flask, redirect, render_template, url_for, request, session
-from werkzeug import exceptions
+from flask import Flask, redirect, render_template, url_for, request, session, abort,jsonify
+import requests
 
 app = Flask(__name__)
 
@@ -9,18 +9,60 @@ def home():
 
 @app.route('/pets')
 def pets():
-    estado = request.args.get('estado')
-    raza = request.args.get('raza')
-    color = request.args.get('color')
-    
-    filtro = [estado, raza, color]
+    try:
 
-    return render_template('pets.html', filtro = filtro)
+        animales_response = requests.get('http://localhost:5001/api/animales')
+        datos_filtro_response = requests.get('http://localhost:5001/api/animales/datos')
+        
+        animales_response.raise_for_status()
+        datos_filtro_response.raise_for_status()
+        
+        animales = animales_response.json()
+        datos_filtro = datos_filtro_response.json()
 
-@app.route('/pets/<condicion>')
-def petsFiltro(condicion):
+    except requests.exceptions.RequestException as e:
+      
+        print(f"e: {e}")
+
+        animales = []
+        datos_filtro = [] 
+
+    return render_template('pets.html', animales=animales, datos_filtro=datos_filtro)
+
+@app.route('/pets/search', methods=['GET'])
+def pets_search():
+
+    try:
+
+        datos_filtro_response = requests.get('http://localhost:5001/api/animales/datos')
+        
+        datos_filtro_response.raise_for_status()
+
+        datos_filtro = datos_filtro_response.json()
+
+    except requests.exceptions.RequestException as e:
+      
+        print(f"e: {e}")
+        datos_filtro = [] 
+
+    datosFiltro = ['animal', 'color', 'condicion', 'fecha_encontrado', 'fecha_perdido', 'raza', 'resuelto', 'ubicacion']
+
+    filtro = {}
+    for dato in datosFiltro:
+        valor = request.args.get(dato)
+        if valor:
+            filtro[dato] = valor
     
-    return render_template('pets.html', condicion=condicion)
+    try:
+        
+        response = requests.get('http://localhost:5001/api/animales/buscar', json=filtro)
+        response.raise_for_status() 
+        animales = response.json()  
+        
+    except requests.exceptions.RequestException as e:
+        animales = []  
+        print(f"Error al obtener animales: {e}")
+    return render_template('pets.html', animales=animales, datos_filtro = datos_filtro)
 
 @app.route('/contact')
 def contact():
@@ -48,25 +90,22 @@ def auth():
         newpasswd = request.form.get("newpasswd")
     return render_template('auth.html')
 
-@app.route('/publicaciones')
-def publicaciones():
-    return render_template('publicaciones.html')
     
-@app.route('/pets/<estado>/<id>')
-def petinfo(estado, id):
-    mascotas = {
-        "urlFoto": url_for('static', filename='images/doge.png'),  
-        "nombre": "Doge", 
-        "animal": "Perro",  
-        "raza": "Shiba Inu",  
-        "color": "Amarillo", 
-        "condicion": "Perdido", 
-        "latitud": -34.6083,
-        "longitud": -58.3712,
-        "fecha": "2024-11-01", 
-        "descripcion": "Tiene ojitos chiquitos."
-    }    
-    return render_template('pet_info.html', estado="perdidas", id=20, mascotas=mascotas)
+@app.route('/pets/<int:id>')
+def petinfo(id):
+    
+    try:
+        
+        response = requests.get(f'http://localhost:5001/api/animales/{id}')
+        response.raise_for_status()  
+        mascota = response.json()
+
+    except requests.exceptions.RequestException as e:
+
+        print(f"error:{e}")
+        mascota = []
+        
+    return render_template('pet_info.html', mascota=mascota[0])
 
 @app.route('/upload_pet', methods=["GET","POST"])
 def upload_pet():
@@ -108,10 +147,9 @@ def profile_update():
     "telefono": cellphone
 })
     
-
-@app.errorhandler(exceptions.InternalServerError)
-def handle_internal_server_error(e):
-    return render_template('critical_errors.html')
+@app.errorhandler(500)
+def internal_server_error(error):
+    return render_template('critical_errors.html'), 500
 
 @app.errorhandler(404)
 def page_not_found(error):
