@@ -1,7 +1,9 @@
 from flask import Flask, redirect, render_template, url_for, request, session
 from werkzeug import exceptions
-
+import requests
 app = Flask(__name__)
+
+API_URL = 'http://localhost:5001'
 
 @app.route('/')
 def home():
@@ -52,22 +54,18 @@ def auth():
 def publicaciones():
     return render_template('publicaciones.html')
     
-@app.route('/pets/<estado>/<id>')
-def petinfo(estado, id):
-    mascotas = {
-        "urlFoto": url_for('static', filename='images/doge.png'),  
-        "nombre": "Doge", 
-        "animal": "Perro",  
-        "raza": "Shiba Inu",  
-        "color": "Amarillo", 
-        "condicion": "Perdido", 
-        "latitud": -34.6083,
-        "longitud": -58.3712,
-        "fecha": "2024-11-01", 
-        "descripcion": "Tiene ojitos chiquitos."
-    }    
-    return render_template('pet_info.html', estado="perdidas", id=20, mascotas=mascotas)
+@app.route('/pets/<int:id>', methods=["GET"])
+def petInfo(id):
 
+    response = requests.get(f"{API_URL}/api/animales/{id}")
+
+    if response.status_code == 200:
+        mascotas = response.json()
+        mascotas = mascotas[0] 
+        return render_template('pet_info.html', id=id, mascotas=mascotas)
+    else:
+        return render_template('404.html')
+    
 @app.route('/upload_pet', methods=["GET","POST"])
 def upload_pet():
     #if request.method == "POST":
