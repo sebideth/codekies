@@ -7,6 +7,7 @@ from kivy.uix.label import Label
 from kivy.config import Config
 from kivy.core.window import Window
 from kivy.network.urlrequest import UrlRequest
+import json
 
 Config.set('graphics', 'width', '200')
 Config.set('graphics', 'height', '200')
@@ -40,6 +41,7 @@ class Main(Screen):
     fecha = ObjectProperty(None)
     foto = ObjectProperty(None)
     ubicacion = ObjectProperty(None)
+    request = ObjectProperty(None)
 
     current = ""
 
@@ -50,8 +52,27 @@ class Main(Screen):
         self.condicion.text = value
 
     def añadirBtn(self):
-        #Test
-        print(self.animal.text)
+        url = 'http://localhost:5001/api/animales'
+        params = {
+            "animal": self.animal.text, 
+            "raza": self.raza.text, 
+            "condicion": self.condicion.text, 
+            "color": self.color.text, 
+            "ubicacion": self.ubicacion.text, 
+            "urlFoto": 'IMGURL', 
+            "descripcion": self.datos.text, 
+            "fechaPerdido": self.fecha.text, 
+            "fechaEncontrado": None,
+            "resuelto": False,  
+            "userID": 1 
+            }
+        
+        response = json.dumps(params, indent=4)
+        self.request = UrlRequest(url, on_success = successUpload(response), req_body=response)
+
+
+
+
 
     def logOut(self):
         screen.current = "login"
@@ -65,8 +86,15 @@ class WindowManager(ScreenManager):
 def invalidLogin():
     pop = Popup(title = 'Error de inicio de sesión.',
                 content = Label(text = 'Nombre de usuario o contraseña inválidos.'),
-                size_hint = (None, None), size = (400, 400))
+                size_hint = (None, None), size = (400, 200))
     pop.open()
+
+def successUpload(response):
+    pop = Popup(title = '',
+                content = Label(text = 'Mascota añadida con éxito!'),
+                size_hint = (None, None), size = (400, 200))
+    pop.open()
+    print(response)
 
 kv = Builder.load_file("templates/layout.kv")
 
@@ -84,4 +112,4 @@ class App(App):
 if __name__ == "__main__":
     App().run()
 
-# Implementar FileChooser en un pop-up o boton 
+
