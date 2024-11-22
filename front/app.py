@@ -29,7 +29,7 @@ def pets():
 
     return render_template('pets.html', animales=animales, datos_filtro=datos_filtro)
 
-@app.route('/pets/search', methods=['GET'])
+@app.route('/pets/search', methods=['GET','POST'])
 def pets_search():
 
     try:

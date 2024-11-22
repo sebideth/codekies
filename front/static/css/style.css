@@ -54,7 +54,7 @@ a {
   transition: 0.5s;
 }
 a:hover, a:active, a:focus {
-  color: #66D37E;
+  color: #ffffff;
   outline: none;
   text-decoration: none;
 }
@@ -1586,6 +1586,7 @@ form button {
 
 .blog-text{
   background-color: #cfa26e;
+  min-height: 350px;
 }
 
 .botoninfo {
@@ -1606,7 +1607,8 @@ form button {
 
 .img-pets{
   width: 100%;
-  height: 100%;
+  max-height: 220px;
+  
 }
 .row-center{
   display: flex;
@@ -1614,5 +1616,24 @@ form button {
 }
 .form_filtro{
   width: 100%;
+}
+.descripcion{
+  max-height: 45px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: gray;
+}
+.targeta-animales{
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 1, 1);
+  min-height: 500px;
+  max-height: 510px;
+  overflow: hidden;
+}
+
+.form_filtro{
+  
+  
+  
 }
 /*# sourceMappingURL=style.css.map

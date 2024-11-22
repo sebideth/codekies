@@ -12,8 +12,8 @@
 								<div class="slider-text-inner text-center">
 									<h1 class="titulo-pets">Encontrá tu mascota</h1>
 									<p>
-										<a class="btn btn-primary btn-demo" href=""></i> Perdidas </a> 
-										<a class="btn btn-primary btn-demo" href="">Encontradas</a>
+										<a class="btn btn-primary btn-demo" href="{{ url_for('pets_search', condicion='Perdido') }}">Perdidas</a>
+										<a class="btn btn-primary btn-demo" href="{{ url_for('pets_search', condicion='encontrado') }}">Encontradas</a>
 									</p>
 									<form method="get" action="{{ url_for('pets_search') }}" class="form_filtro">
 										<label for="filtro">Filtrar por:</label>
@@ -48,13 +48,13 @@
 			<div class="row">
 				{% for animal in animales %}
 
-				<div class="col-md-4 targeta-animales">
-					<div class="fh5co-blog animate-box">
+				<div class="col-md-4 ">
+					<div class="fh5co-blog animate-box targeta-animales">
 						<img src="{{animal.urlFoto}}" alt="foto de la mascota" class="img-fluid img-pets">
 						<div class="blog-text">
 							<span class="posted_on">{{animal.fechaPerdido}}</span>
 							<h3><a href="#">{{animal.animal}}</a></h3>
-							<p>{{animal.descripcion}}</p>
+							<p class="descripcion">{{animal.descripcion}}</p>
 							<p>{{animal.raza}}</p>
 							<ul class="stuff">
 								<li><i class="icon-heart3"></i>249</li>
