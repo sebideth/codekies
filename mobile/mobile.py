@@ -39,6 +39,7 @@ class Main(Screen):
     datos = ObjectProperty(None)
     fecha = ObjectProperty(None)
     foto = ObjectProperty(None)
+    ubicacion = ObjectProperty(None)
 
     current = ""
 
@@ -50,11 +51,13 @@ class Main(Screen):
 
     def añadirBtn(self):
         #Test
-        print(self.foto.text)
+        print(self.animal.text)
 
     def logOut(self):
         screen.current = "login"
         
+class importarImagen(Screen):
+    pass
     
 class WindowManager(ScreenManager):
     pass
@@ -81,4 +84,4 @@ class App(App):
 if __name__ == "__main__":
     App().run()
 
-# Implementar FileChooser en un pop-up o boton
+# Implementar FileChooser en un pop-up o boton 

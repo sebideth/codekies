@@ -81,12 +81,13 @@
     color: color
     datos: datos
     fecha: fecha
+    ubicacion: ubicacion
     foto: foto
 
     BoxLayout:
         size: root.width, root.height
         padding: 50
-        spacing: 20
+        spacing: 15
         orientation: 'vertical'
         canvas.before:
             Color:
@@ -109,7 +110,7 @@
         Spinner:
             id: animal
             text: 'Tipo de mascota'
-            values: ['Perro', 'Gato']
+            values: ['Perro', 'Gato', 'Ave', 'Roedor', 'Reptil', 'Otro']
             font_size: 22
             background_color: (220/255, 171/255, 107/255, 1) if self.state == 'normal' else (106/255, 56/255, 31/255, 1)
             background_normal: ''
@@ -162,6 +163,14 @@
             pos_hint: {'center_x': .5}
             size_hint: 1, 0.1
             hint_text: 'Fecha de perdido/encontrado'
+
+        TextInput:
+            id: ubicacion
+            font_size: 22
+            multiline: False
+            pos_hint: {'center_x': .5}
+            size_hint: 1, 0.1
+            hint_text: 'Ubicación'
 
         Button:
             id: foto
