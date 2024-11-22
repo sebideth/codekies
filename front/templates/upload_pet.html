@@ -2,14 +2,20 @@
 {% block body %}
 <div class="container">
     <div class="login form">
-        <!-- agregar la ruta de envio -->
-        <form action="/ruta-de-envio" method="post">
+        <form action="http://127.0.0.1:5001/api/animales" method="post" enctype="multipart/form-data">
             <header>
                     Formulario de Mascota
             </header>
             <!-- Required implica que el usuario debe completar el campo para poder completar el formulario -->
-            <label for="animal">Indique la especie de la mascota. Ejemplo: Gato</label>
-                <input type="text" name="animal" id="animal" required>
+            <label for="animal">Indique la especie de la mascota</label>
+                <select id="animal" name="animal" required>
+                    <option>Perro</option>
+                    <option>Gato</option>
+                    <option>Ave</option>
+                    <option>Roedor</option>
+                    <option>Reptil</option>
+                    <option>Otro</option>
+                </select>
             <label for="raza">Indique la raza de la mascota (opcional)</label>
                 <input type="text" name="raza" id="raza">
             <label for="condicion">Indique el estado de la mascota</label>
