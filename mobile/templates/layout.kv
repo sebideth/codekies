@@ -1,0 +1,200 @@
+<Login>:
+    name: "login"
+    user: user
+    password: password
+    canvas.before:
+        Color:
+            rgba: (1, 1, 179/255, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        size: root.width, root.height
+        padding: 50
+        spacing: 20
+        orientation: 'vertical'
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'assets/images/fondomain3.jpg'
+        
+        Label:
+            text:"Mascotas\nperdidas"
+            color: (1, 1, 179/255, 1)
+            outline_color: (89/255, 10/255, 10/255)
+            outline_width: 2
+            font_size: 48
+            bold: True
+            italic: True
+            pos_hint: {'center_x': .5}
+
+
+        Label:
+            text:"Iniciar Sesión"
+            color: (1, 1, 179/255, 1)
+            font_size: 24
+            italic: True
+            outline_color: (89/255, 10/255, 10/255)
+            outline_width: 1.5
+            pos_hint: {'center_x': .5}
+            size_hint: (None, None)
+            size: self.texture_size
+
+        TextInput:
+            id: user
+            font_size: 24
+            multiline: False
+            pos_hint: {'center_x': .5}
+            size_hint: 0.9, 0.1
+            hint_text: 'Ingrese su usuario'
+        
+        TextInput:
+            id: password
+            font_size: 24
+            multiline: False
+            password: True
+            pos_hint: {'center_x': .5}
+            size_hint: 0.9, 0.1
+            hint_text: 'Ingrese su contraseña'
+
+        Button:
+            pos_hint:{'center_x': .5}
+            size_hint: (None, None)
+            font_size: 24
+            background_color: (220/255, 171/255, 107/255, 1) if self.state == 'normal' else (106/255, 56/255, 31/255, 1)
+            background_normal: ''
+            background_down: ''
+            text: "Login"
+            on_release:
+                root.manager.transition.direction = "up"
+                root.loginBtn()
+            width: 150
+            height: 50
+
+
+<Main>:
+    animal: animal
+    raza: raza
+    condicion: condicion
+    color: color
+    datos: datos
+    fecha: fecha
+    ubicacion: ubicacion
+    foto: foto
+
+    BoxLayout:
+        size: root.width, root.height
+        padding: 50
+        spacing: 15
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: (1, 1, 179/255, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'assets/images/fondomain3.jpg'
+
+        Label:
+            pos_hint: {'center_x': .5}
+            text: 'Ingrese las características de la mascota'
+            font_size: 22
+            color: (89/255, 10/255, 10/255)
+            outline_color: (1, 1, 179/255, 1)
+            outline_width: 2
+            size_hint: (None, None)
+            size: self.texture_size
+  
+        Spinner:
+            id: animal
+            text: 'Tipo de mascota'
+            values: ['Perro', 'Gato', 'Ave', 'Roedor', 'Reptil', 'Otro']
+            font_size: 22
+            background_color: (220/255, 171/255, 107/255, 1) if self.state == 'normal' else (106/255, 56/255, 31/255, 1)
+            background_normal: ''
+            background_down: ''
+            pos_hint: {'center_x': .5}
+            size_hint: 1, 0.1
+            on_text: root.obtenerAnimal(animal.text)
+
+        Spinner:
+            id: condicion
+            text: 'Condición'
+            values: ['Perdido', 'Encontrado']
+            font_size: 22
+            background_color: (220/255, 171/255, 107/255, 1) if self.state == 'normal' else (106/255, 56/255, 31/255, 1)
+            background_normal: ''
+            background_down: ''
+            pos_hint: {'center_x': .5}
+            size_hint: 1, 0.1
+            on_text: root.obtenerCondicion(condicion.text)
+
+        TextInput:
+            id: raza
+            font_size: 22
+            multiline: False
+            pos_hint: {'center_x': .5}
+            size_hint: 1, 0.1
+            hint_text: 'Raza (si no tiene, dejar vacío)'
+
+
+        TextInput:
+            id: color
+            font_size: 22
+            multiline: False
+            pos_hint: {'center_x': .5}
+            size_hint: 1, 0.1
+            hint_text: 'Color'
+
+        TextInput:
+            id: datos
+            font_size: 20
+            multiline: True
+            pos_hint: {'center_x': .5}
+            size_hint: 1, 0.15
+            hint_text: 'Información relevante (edad, tamaño, etc)'
+
+        TextInput:
+            id: fecha
+            font_size: 22
+            multiline: False
+            pos_hint: {'center_x': .5}
+            size_hint: 1, 0.1
+            hint_text: 'Fecha de perdido/encontrado'
+
+        TextInput:
+            id: ubicacion
+            font_size: 22
+            multiline: False
+            pos_hint: {'center_x': .5}
+            size_hint: 1, 0.1
+            hint_text: 'Ubicación'
+
+        Button:
+            id: foto
+            pos_hint:{'center_x': .5}
+            size_hint: 1, 0.15
+            text: "Subir imagen de la mascota"
+            background_color: (220/255, 171/255, 107/255, 1) if self.state == 'normal' else (106/255, 56/255, 31/255, 1)
+            background_normal: ''
+            background_down: ''
+
+        Button:
+            pos_hint:{'center_x': .5}
+            size_hint: 1, 0.15
+            text: "Añadir"
+            background_color: (0, 1, 0, .75)
+            on_release:
+                root.manager.transition.direction = "up"
+                root.añadirBtn()
+        Button:
+            pos_hint:{'center_x': .5}
+            size_hint: 1, 0.15
+            text: "Salir"
+            background_color: (1, 0, 0, .75)
+            on_release:
+                app.root.current = "login"
+                root.manager.transition.direction = "down"
+
