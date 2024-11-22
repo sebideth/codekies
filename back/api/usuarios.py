@@ -1,24 +1,57 @@
-from db import engine, get_connection, run_query
+from db import engine, run_query
 
 QUERY_USUARIO_POR_ID = 'SELECT * FROM usuarios WHERE id = :id'
 
+QUERY_INSERT_USER = '''
+INSERT INTO usuarios (nombreUsuario, password, nombre, apellido, email, telefono)
+VALUES (:username, :password, :nombre, :apellido, :email, :telefono)
+'''
+
+QUERY_LOGIN_USER = 'SELECT * FROM usuarios WHERE nombreUsuario = :username and password = :password'
+
 COLUMNAS_ACTUALIZAR = ['nombre', 'apellido', 'telefono', 'password']
 
-connection = get_connection(engine())
-
 def usuario_by_id(id):
-    return to_dict(run_query(connection, QUERY_USUARIO_POR_ID, {'id': id}).fetchall())
+    try:
+        connection = engine().connect()
+        result = to_dict(run_query(connection, QUERY_USUARIO_POR_ID, {'id': id}).fetchall())
+    finally:
+        if connection:
+            connection.close()
+    return result
 
 def exist_user(id):
-    return run_query(connection, QUERY_USUARIO_POR_ID, {'id': id}).fetchall() != []
+    return usuario_by_id(id) != []
+
+def register_user(datos):
+    try:
+        connection = engine().connect()
+        run_query(connection, QUERY_INSERT_USER, datos)
+    finally:
+        if connection:
+            connection.close()
+
+def login_user(datos):
+    try:
+        connection = engine().connect()
+        result = run_query(connection, QUERY_LOGIN_USER, datos).fetchone()
+    finally:
+        if connection:
+            connection.close()
+    return result
 
 def update_user(id, datos):
-    query = 'UPDATE usuarios SET'
-    for dato in datos:
-        query += f' {dato} = :{dato},'
-    query = query[:-1]
-    query += ' WHERE id = :id'
-    run_query(connection, query, {'id': id, **datos})
+    try:
+        connection = engine().connect()
+        query = 'UPDATE usuarios SET'
+        for dato in datos:
+            query += f' {dato} = :{dato},'
+        query = query[:-1]
+        query += ' WHERE id = :id'
+        run_query(connection, query, {'id': id, **datos})
+    finally:
+        if connection:
+            connection.close()
 
 def validate_all_columns(data):
     for columna in COLUMNAS_ACTUALIZAR:
@@ -30,11 +63,11 @@ def to_dict(data):
     result = []
     for row in data:
         result.append({
-            'id':               row[0],
-            'username':           row[1],
-            'nombre':        row[3],
-            'apellido':            row[4],
+            'id':           row[0],
+            'username':     row[1],
+            'nombre':       row[3],
+            'apellido':     row[4],
             'email':        row[5],
-            'telefono':          row[6],
+            'telefono':     row[6]
         })
     return result

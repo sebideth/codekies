@@ -8,7 +8,6 @@ database_cli = AppGroup('database', help='Database related commands')
 import config
 from db import engine_with_no_database
 
-
 @database_cli.command("init", help="Initialize the database.")
 @click.argument("database", default=config.db_name)
 def init_database(database):
@@ -38,17 +37,18 @@ def init_database(database):
         connection.execute(text("CREATE TABLE animales ("
                                 "id INT AUTO_INCREMENT PRIMARY KEY,"
                                 "animal VARCHAR(255) NOT NULL,"
-                                "raza VARCHAR(255),"
+                                "raza VARCHAR(255) DEFAULT NULL,"
                                 "condicion VARCHAR(255) NOT NULL,"
                                 "color VARCHAR(50),"
-                                "ubicacion VARCHAR(255),"
+                                "direccion VARCHAR(255),"
+                                "ciudad VARCHAR(255),"
                                 "urlFoto VARCHAR(255),"
                                 "descripcion TEXT,"
                                 "fechaPerdido DATETIME,"
                                 "fechaEncontrado DATETIME,"
                                 "fechaAlta DATETIME NOT NULL DEFAULT NOW(),"
                                 "resuelto BOOLEAN DEFAULT FALSE,"
-                                "userID INT,"
+                                "userID INT NOT NULL,"
                                 "FOREIGN KEY (userID) REFERENCES usuarios(id))"
                                 )
                            )
