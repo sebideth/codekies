@@ -30,7 +30,7 @@ app.cli.add_command(database_cli)
 
 # Animales
 @app.route('/api/animales', methods=['GET'])
-@login_required
+# @login_required
 def get_all_animales():
     try:
         result = animales.all_animales()
@@ -105,6 +105,19 @@ def get_all_animales_from_usuario(id):
         #Cambiar mensaje de error para no mostrar errores de la DB
         return jsonify({'error': str(e)}), 500
     return jsonify(result), 200
+
+
+@app.route('/api/animales/datos', methods=['GET'])
+def datos_animales_():
+    try:
+        result = animales.datos_animales()
+
+    except Exception as e:
+        
+        return jsonify({'error': str(e)}), 500
+
+    return jsonify(result),200
+
 
 
 # Users
