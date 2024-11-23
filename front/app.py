@@ -1,8 +1,11 @@
+import os
+
 from flask import Flask, redirect, render_template, url_for, request, session, abort, jsonify
 from werkzeug import exceptions
 import requests
 
 app = Flask(__name__)
+app.secret_key = 'sarasa'
 
 @app.route('/')
 def home():
@@ -11,22 +14,20 @@ def home():
 @app.route('/pets')
 def pets():
     try:
-
         animales_response = requests.get('http://localhost:5001/api/animales')
         datos_filtro_response = requests.get('http://localhost:5001/api/animales/datos')
-        
+
         animales_response.raise_for_status()
         datos_filtro_response.raise_for_status()
-        
+
         animales = animales_response.json()
         datos_filtro = datos_filtro_response.json()
 
     except requests.exceptions.RequestException as e:
-      
-        print(f"e: {e}")
 
+        print(f"e: {e}")
         animales = []
-        datos_filtro = [] 
+        datos_filtro = []
 
     return render_template('pets.html', animales=animales, datos_filtro=datos_filtro)
 
@@ -36,15 +37,15 @@ def pets_search():
     try:
 
         datos_filtro_response = requests.get('http://localhost:5001/api/animales/datos')
-        
+
         datos_filtro_response.raise_for_status()
 
         datos_filtro = datos_filtro_response.json()
 
     except requests.exceptions.RequestException as e:
-      
+
         print(f"e: {e}")
-        datos_filtro = [] 
+        datos_filtro = []
 
     datosFiltro = ['animal', 'color', 'condicion', 'fecha_encontrado', 'fecha_perdido', 'raza', 'resuelto', 'ubicacion']
 
@@ -53,15 +54,15 @@ def pets_search():
         valor = request.args.get(dato)
         if valor:
             filtro[dato] = valor
-    
+
     try:
-        
+
         response = requests.get('http://localhost:5001/api/animales/buscar', json=filtro)
-        response.raise_for_status() 
-        animales = response.json()  
-        
+        response.raise_for_status()
+        animales = response.json()
+
     except requests.exceptions.RequestException as e:
-        animales = []  
+        animales = []
         print(f"Error al obtener animales: {e}")
     return render_template('pets.html', animales=animales, datos_filtro = datos_filtro)
 
@@ -97,8 +98,10 @@ def auth():
                     "username": username,
                     "password": passwd
                 }
-            response = requests.post('http://127.0.0.1:5001/api/login', json = datos)
+            request_session = requests.Session()
+            response = request_session.post('http://127.0.0.1:5001/api/login', json = datos)
             if response.status_code == 200:
+                session['cookie'] = request_session.cookies.get_dict()
                 return render_template('index.html')
             #else:
                 #return redirect(url_for('index.html'))
@@ -115,26 +118,26 @@ def auth():
             #if response.status_code != 201:
     return render_template('auth.html')
 
-    
+
 @app.route('/pets/<int:id>')
 def petinfo(id):
-    
+
     try:
-        
+
         response = requests.get(f'http://localhost:5001/api/animales/{id}')
-        response.raise_for_status()  
+        response.raise_for_status()
         mascota = response.json()
 
     except requests.exceptions.RequestException as e:
 
         print(f"error:{e}")
         mascota = []
-        
+
     return render_template('pet_info.html', mascota=mascota[0])
 
 @app.route('/upload_pet', methods=["GET","POST"])
 def upload_pet():
-    imagenes_mascotas = '/front/static/images/imagenes_mascotas'
+    imagenes_mascotas = 'static/images/imagenes_mascotas'
     app.config['imagenes_mascotas'] = imagenes_mascotas
     #if not session.get('logged_in'):
         #return(redirect(url_for('auth.html')))
@@ -151,14 +154,13 @@ def upload_pet():
         elif condicion == "Encontrado sin dueño":
             fechaEncontrado = fecha
             fechaPerdido = None
-        foto = request.files['foto']    
+        foto = request.files['foto']
         ruta = os.path.join(app.config['imagenes_mascotas'], foto.filename)
         foto.save(ruta)
         urlfoto = f"/{app.config['imagenes_mascotas']}/{foto.filename}"
         resuelto = request.form.get('resuelto')
         ubicacion = request.form.get('ubicacion')
-        datos = jsonify(
-            {
+        datos = {
                 "animal": animal,
                 "color" : color,
                 "condicion" : condicion,
@@ -166,13 +168,13 @@ def upload_pet():
                 "fechaEncontrado" : fechaEncontrado,
                 "fechaPerdido" : fechaPerdido,
                 "raza" : raza,
-                "ubicacion" : ubicacion,
+                "direccion" : "guevara 111",
+                "ciudad" : "CABA",
                 "urlFoto" : urlfoto
             }
-        )
         if animal and color and condicion and fecha and foto and urlfoto and ubicacion:
-            requests.post('http://127.0.0.1:5001/api/animales', json = datos)
-            return redirect(url_for('publicaciones.html'))
+            requests.post('http://127.0.0.1:5001/api/animales', json=datos, cookies=session['cookie'])
+            return redirect(url_for('pets'))
     return render_template('upload_pet.html')
 
 @app.route('/profile', methods=["GET"])
@@ -197,7 +199,7 @@ def profile_update():
     "email": email,
     "telefono": cellphone
 })
-    
+
 @app.errorhandler(500)
 def internal_server_error(error):
     return render_template('critical_errors.html'), 500
@@ -205,5 +207,6 @@ def internal_server_error(error):
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('404.html'), 404
+
 if __name__ == '__main__':
     app.run("127.0.0.1", port="5000", debug=True)
