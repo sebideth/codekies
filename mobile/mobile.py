@@ -6,8 +6,7 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.config import Config
 from kivy.core.window import Window
-from kivy.network.urlrequest import UrlRequest
-import json
+import requests
 
 Config.set('graphics', 'width', '200')
 Config.set('graphics', 'height', '200')
@@ -17,15 +16,21 @@ class Login(Screen):
     user = ObjectProperty(None)
     password = ObjectProperty(None)
 
-    #Usuario y contraseña provisorios para realizar pruebas, luego se hará la integración con la base de datos.
-
     def loginBtn(self):
-        if self.user.text == "admin" and self.password.text == "1234":
-            Main.current = self.user.text
-            self.reset()
-            screen.current = "main"
-        else:
-            invalidLogin()
+            url = "http://localhost:5001/api/login"
+            datos = {
+                "username": str(self.user.text),
+                "password": str(self.password.text)
+                }
+            req = requests.Session()
+
+            response = req.post(url, json=datos)
+
+            if response.status_code == 200:
+                Main.current = self.user.text
+                screen.current = "main"
+            else:
+                invalidLogin()
 
     def reset(self):
         self.user.text = ""
@@ -53,6 +58,8 @@ class Main(Screen):
 
     def añadirBtn(self):
         url = 'http://localhost:5001/api/animales'
+        self.raza.text = self.raza.text if self.raza.text else self.raza.text = "Desconocida"
+        self.datos.text = self.datos.text if self.datos.text else self.datos.text = "Sin Descripción"
         params = {
             "animal": self.animal.text, 
             "raza": self.raza.text, 
@@ -67,12 +74,11 @@ class Main(Screen):
             "userID": 1 
             }
         
-        response = json.dumps(params, indent=4)
-        self.request = UrlRequest(url, on_success = successUpload(response), req_body=response)
-
-
-
-
+        response = requests.post(url, json = params)
+        if response.status_code == 200:
+            successUpload()
+        else:
+              print(response.text)
 
     def logOut(self):
         screen.current = "login"
@@ -89,12 +95,12 @@ def invalidLogin():
                 size_hint = (None, None), size = (400, 200))
     pop.open()
 
-def successUpload(response):
+def successUpload():
     pop = Popup(title = '',
                 content = Label(text = 'Mascota añadida con éxito!'),
                 size_hint = (None, None), size = (400, 200))
     pop.open()
-    print(response)
+
 
 kv = Builder.load_file("templates/layout.kv")
 
