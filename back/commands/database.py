@@ -2,11 +2,12 @@ import click
 from colorama import Fore, Style
 from sqlalchemy import text
 from flask.cli import AppGroup
+import config
+from db import engine_with_no_database, engine, run_query
+from api.usuarios import INSERTS_USUARIOS_DEFAULT
+from api.animales import INSERTS_ANIMALES_DEFAULT
 
 database_cli = AppGroup('database', help='Database related commands')
-
-import config
-from db import engine_with_no_database
 
 @database_cli.command("init", help="Initialize the database.")
 @click.argument("database", default=config.db_name)
@@ -21,7 +22,6 @@ def init_database(database):
         connection.execute(text(f"CREATE DATABASE {database}"))
         print(f"[{Fore.YELLOW}*{Style.RESET_ALL}] Selecting database ...")
         connection.execute(text(f"USE {database}"))
-        # TODO: Se puede mejorar agregando tablas de Raza, Animal
         print(f"[{Fore.YELLOW}*{Style.RESET_ALL}] Creating tables ...")
         connection.execute(text("CREATE TABLE usuarios ("
                                 "id INT AUTO_INCREMENT PRIMARY KEY,"
@@ -41,11 +41,10 @@ def init_database(database):
                                 "condicion VARCHAR(255) NOT NULL,"
                                 "color VARCHAR(50),"
                                 "direccion VARCHAR(255),"
-                                "ciudad VARCHAR(255),"
                                 "urlFoto VARCHAR(255),"
                                 "descripcion TEXT,"
-                                "fechaPerdido DATETIME,"
-                                "fechaEncontrado DATETIME,"
+                                "fechaPerdido DATE,"
+                                "fechaEncontrado DATE,"
                                 "fechaAlta DATETIME NOT NULL DEFAULT NOW(),"
                                 "resuelto BOOLEAN DEFAULT FALSE,"
                                 "userID INT NOT NULL,"
@@ -55,3 +54,18 @@ def init_database(database):
         print(f"[{Fore.GREEN}*{Style.RESET_ALL}] Created successfully!")
     except Exception as e:
         print(f"[{Fore.RED}*{Style.RESET_ALL}] Could not create database -> {e}")
+
+@database_cli.command("build", help="Building the database.")
+@click.argument("database", default=config.db_name)
+def init_database(database):
+    print(f"[{Fore.GREEN}*{Style.RESET_ALL}] Building database...")
+    print(f"[{Fore.GREEN}*{Style.RESET_ALL}] Database name {database}")
+    try:
+        connection = engine().connect()
+        print(f"[{Fore.YELLOW}*{Style.RESET_ALL}] Populating tables ...")
+        queries = [*INSERTS_USUARIOS_DEFAULT, *INSERTS_ANIMALES_DEFAULT]
+        for query in queries:
+            run_query(connection, query)
+        print(f"[{Fore.GREEN}*{Style.RESET_ALL}] Builded successfully!")
+    except Exception as e:
+        print(f"[{Fore.RED}*{Style.RESET_ALL}] Could not build database -> {e}")

@@ -65,21 +65,9 @@ def pets_search():
         print(f"Error al obtener animales: {e}")
     return render_template('pets.html', animales=animales, datos_filtro = datos_filtro)
 
-@app.route('/contact')
-def contact():
-    return render_template('contact.html')
-
 @app.route('/about')
 def about():
     return render_template('about.html')
-
-@app.route('/work-single')
-def workSingle():
-    return render_template('work-single.html')
-
-@app.route('/work')
-def work():
-    return render_template('work.html')
 
 @app.route('/auth', methods=["POST", "GET"])
 def auth():
@@ -159,7 +147,6 @@ def upload_pet():
         ruta = os.path.join(app.config['imagenes_mascotas'], foto.filename)
         foto.save(ruta)
         urlfoto = f"/{app.config['imagenes_mascotas']}/{foto.filename}"
-        resuelto = request.form.get('resuelto')
         ubicacion = request.form.get('ubicacion')
         datos = {
                 "animal": animal,
@@ -169,8 +156,7 @@ def upload_pet():
                 "fechaEncontrado" : fechaEncontrado,
                 "fechaPerdido" : fechaPerdido,
                 "raza" : raza,
-                "direccion" : "guevara 111",
-                "ciudad" : "CABA",
+                "direccion" : ubicacion,
                 "urlFoto" : urlfoto
             }
         if animal and color and condicion and fecha and foto and urlfoto and ubicacion:

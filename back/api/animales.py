@@ -1,19 +1,39 @@
 from db import engine, run_query
+from datetime import datetime
 
 QUERY_TODOS_LOS_ANIMALES = 'SELECT * FROM animales'
 
 QUERY_ANIMAL_POR_ID = 'SELECT * FROM animales WHERE id = :id'
 
 QUERY_CARGAR_ANIMAL = '''
-INSERT INTO animales (animal, raza, condicion, color, direccion, ciudad, urlFoto, descripcion, fechaPerdido, fechaEncontrado, userID)
-VALUES (:animal, :raza, :condicion, :color, :direccion, :ciudad, :urlFoto, :descripcion, :fechaPerdido, :fechaEncontrado, :userID)
+INSERT INTO animales (animal, raza, condicion, color, direccion, urlFoto, descripcion, fechaPerdido, fechaEncontrado, userID)
+VALUES (:animal, :raza, :condicion, :color, :direccion, :urlFoto, :descripcion, :fechaPerdido, :fechaEncontrado, :userID)
 '''
 
 QUERY_BORRAR_ANIMAL = 'DELETE FROM animales WHERE id = :id'
 
-COLUMNAS_REQUERIDAS = ['animal', 'condicion', 'color', 'direccion', 'ciudad', 'urlFoto', 'descripcion', 'fechaPerdido', 'fechaEncontrado']
+COLUMNAS_REQUERIDAS = ['animal', 'condicion', 'color', 'direccion', 'urlFoto', 'descripcion', 'fechaPerdido', 'fechaEncontrado']
 
-COLUMNAS_FILTRO = ['animal', 'raza', 'condicion', 'color', 'ciudad', 'fechaPerdido', 'fechaEncontrado', 'resuelto']
+COLUMNAS_FILTRO = ['animal', 'raza', 'condicion', 'color', 'fechaPerdido', 'fechaEncontrado', 'resuelto']
+
+INSERTS_ANIMALES_DEFAULT = [
+    '''
+    INSERT INTO animales (animal, raza, condicion, color, direccion, urlFoto, descripcion, fechaPerdido, fechaEncontrado, userID)
+    VALUES ("Perro", "Chihuahua", "Perdido", "Blanco", "Avenida Paseo Colón 805, San Telmo, C1100 AAC Buenos Aires, Argentina", "/static/images/imagenes_mascotas/chihuahua.jpg", "Es muy simpaticón, responde al nombre Pepito", "2024-11-23", null, 1);
+    ''',
+    '''
+    INSERT INTO animales (animal, raza, condicion, color, direccion, urlFoto, descripcion, fechaPerdido, fechaEncontrado, userID)
+    VALUES ("Perro", "Desconocida", "Encontrado sin dueño", "Marron claro", "Villa Devoto, Buenos Aires, Argentina", "/static/images/imagenes_mascotas/doge.png", "Sin descripción", null, "2024-06-11", 1);
+    ''',
+    '''
+    INSERT INTO animales (animal, raza, condicion, color, direccion, urlFoto, descripcion, fechaPerdido, fechaEncontrado, userID)
+    VALUES ("Gato", "Desconocida", "Encontrado sin dueño", "Negro", "UBA Facultad de Ingeniería, Avenida Paseo Colón 850, San Telmo, C1100 AAC Buenos Aires, Argentina", "/static/images/imagenes_mascotas/gato.jpg", "Sin descripción", null, "2024-06-11", 2);
+    ''',
+    '''
+    INSERT INTO animales (animal, raza, condicion, color, direccion, urlFoto, descripcion, fechaPerdido, fechaEncontrado, userID)
+    VALUES ("Gato", "Siames", "Perdido", "Marron claro", "General San Martín, B, Argentina", "/static/images/imagenes_mascotas/grumpy.jpeg", "No se lo ve muy contento", "2024-01-22", null, 3);
+    '''
+]
 
 def all_animales():
     try:
@@ -67,6 +87,7 @@ def filter_animal(filtros):
     try:
         connection = engine().connect()
         query = QUERY_TODOS_LOS_ANIMALES
+        print(filtros)
         if len(filtros) > 0:
             query += ' WHERE '
             for filtro in filtros:
@@ -85,7 +106,7 @@ def datos_animales():
         for columna in COLUMNAS_FILTRO:
             query = f"SELECT DISTINCT {columna} FROM animales"
             try:
-                datos_unicos[columna] = to_dict_filtro(run_query(connection, query).fetchall())
+                datos_unicos[columna] = to_dict_filtro(run_query(connection, query).fetchall(), columna)
             except Exception as e:
                 print(f"Error al obtener datos unicos para '{columna}': {e}")
                 datos_unicos[columna] = []
@@ -116,20 +137,23 @@ def to_dict(data):
             'condicion':        row[3],
             'color':            row[4],
             'direccion':        row[5],
-            'ciudad':           row[6],
-            'urlFoto':          row[7],
-            'descripcion':      row[8],
-            'fechaPerdido':     row[9],
-            'fechaEncontrado':  row[10],
-            'fechaAlta':        row[11],
-            'resuelto':         bool(row[12]),
-            'userID':           row[13]
+            'urlFoto':          row[6],
+            'descripcion':      row[7],
+            'fechaPerdido':     row[8].strftime('%Y-%m-%d') if row[8] else row[8],
+            'fechaEncontrado':  row[9].strftime('%Y-%m-%d') if row[9] else row[9],
+            'fechaAlta':        row[10],
+            'resuelto':         bool(row[11]),
+            'userID':           row[12]
         })
     return result
 
-def to_dict_filtro(data):
+def to_dict_filtro(data, columna):
     result = []
     for row in data:
-        result.append(row[0])
+        value = row[0]
+        if not value:
+            continue
+        if columna == 'fechaPerdido' or columna == 'fechaEncontrado':
+            value = value.strftime('%Y-%m-%d')
+        result.append(value)
     return result
-
