@@ -1,5 +1,4 @@
 import os
-
 from flask import Flask, redirect, render_template, url_for, request, session, abort, jsonify
 from werkzeug import exceptions
 import requests
