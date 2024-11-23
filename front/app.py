@@ -1,5 +1,6 @@
-from flask import Flask, redirect, render_template, url_for, request, session
+from flask import Flask, redirect, render_template, url_for, request, session, jsonify
 from werkzeug import exceptions
+import requests
 
 app = Flask(__name__)
 
@@ -41,11 +42,35 @@ def work():
 @app.route('/auth', methods=["POST", "GET"])
 def auth():
     if request.method == 'POST':
-        mail = request.form.get("mail")
+        username = request.form.get("username")
         passwd = request.form.get('passwd')
         newemail = request.form.get("newemail")
         newphone = request.form.get("newphone")
         newpasswd = request.form.get("newpasswd")
+        newname = request.form.get("newname")
+        newlastname = request.form.get("newlastname")
+        newusername = request.form.get("newusername")
+        if username and passwd:
+            datos = {
+                    "username": username,
+                    "password": passwd
+                }
+            response = requests.post('http://127.0.0.1:5001/api/login', json = datos)
+            if response.status_code == 200:
+                return render_template('index.html')
+            #else:
+                #return redirect(url_for('index.html'))
+        else:
+            datos = {
+                    "email": newemail,
+                    "password" : newpasswd,
+                    "username" : newusername,
+                    "telefono" : newphone,
+                    "nombre" : newname,
+                    "apellido" : newlastname
+                }
+            response = requests.post('http://127.0.0.1:5001/api/register', json = datos)
+            #if response.status_code != 201:
     return render_template('auth.html')
 
 @app.route('/publicaciones')
@@ -70,10 +95,11 @@ def petinfo(estado, id):
 
 @app.route('/upload_pet', methods=["GET","POST"])
 def upload_pet():
-    imagenes_mascotas = 'imagenes_mascotas'
+    imagenes_mascotas = '/front/static/images/imagenes_mascotas'
     app.config['imagenes_mascotas'] = imagenes_mascotas
+    #if not session.get('logged_in'):
+        #return(redirect(url_for('auth.html')))
     if request.method == "POST":
-        #if session.get('logged_in'):
         animal = request.form.get('animal')
         color = request.form.get('color')
         condicion = request.form.get('condicion')
@@ -101,15 +127,13 @@ def upload_pet():
                 "fechaEncontrado" : fechaEncontrado,
                 "fechaPerdido" : fechaPerdido,
                 "raza" : raza,
-                "resuelto" : resuelto,
                 "ubicacion" : ubicacion,
                 "urlFoto" : urlfoto
             }
         )
-        requests.post('http://127.0.0.1:5001/api/animales', json = datos)
-        return redirect(url_for('publicaciones.html'))
-        #else:
-            #return(redirect(url_for('auth.html')))
+        if animal and color and condicion and fecha and foto and urlfoto and ubicacion:
+            requests.post('http://127.0.0.1:5001/api/animales', json = datos)
+            return redirect(url_for('publicaciones.html'))
     return render_template('upload_pet.html')
 
 @app.route('/profile', methods=["GET"])

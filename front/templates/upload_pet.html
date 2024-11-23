@@ -3,19 +3,19 @@
 <div class="container">
     <div class="login form">
         <form action="http://127.0.0.1:5001/api/animales" method="post" enctype="multipart/form-data">
-            <header>
-                    Formulario de Mascota
-            </header>
-            <!-- Required implica que el usuario debe completar el campo para poder completar el formulario -->
+            <u>
+                <header>Formulario de Mascota</header>
+            </u>
             <label for="animal">Indique la especie de la mascota</label>
-                <select id="animal" name="animal" required>
-                    <option>Perro</option>
-                    <option>Gato</option>
-                    <option>Ave</option>
-                    <option>Roedor</option>
-                    <option>Reptil</option>
-                    <option>Otro</option>
-                </select>
+            <br>
+            <select id="animal" name="animal" required>
+                <option>Perro</option>
+                <option>Gato</option>
+                <option>Ave</option>
+                <option>Roedor</option>
+                <option>Reptil</option>
+                <option>Otro</option>
+            </select>
             <label for="raza">Indique la raza de la mascota (opcional)</label>
                 <input type="text" name="raza" id="raza">
             <label for="condicion">Indique el estado de la mascota</label>
@@ -33,8 +33,6 @@
             <label for="ubicacion">Indique la ubicacion donde se perdió/encontró</label>
                 <input type="text" id="ubicacion"name="ubicacion" required>
             <input type="text" name="descripcion" placeholder="Datos relevantes sobre la mascota">
-            <!-- Campo oculto que no vera el usuario, lo inicializo en falso y se cambiara a verdadero cuando la mascota sea encontrada o entregada a su dueño -->
-            <input type="hidden" name="resuelto" value="false">
             <button type="submit">Enviar</button>
         </form>
     </div>
