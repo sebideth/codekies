@@ -132,8 +132,8 @@ def petinfo(id):
 
         print(f"error:{e}")
         mascota = []
-
-    return render_template('pet_info.html', mascota=mascota[0])
+        
+    return render_template('pet_info.html', mascota=mascota)
 
 @app.route('/upload_pet', methods=["GET","POST"])
 def upload_pet():
