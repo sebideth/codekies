@@ -145,7 +145,9 @@ def upload_pet():
         color = request.form.get('color')
         condicion = request.form.get('condicion')
         raza = request.form.get('raza')
+        raza = raza if raza else "Desconocida"
         descripcion = request.form.get('descripcion')
+        descripcion = descripcion if descripcion else "Sin descripción"
         fecha = request.form.get('fecha')
         if condicion == "Perdido":
             fechaPerdido = fecha
