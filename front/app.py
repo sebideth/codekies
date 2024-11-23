@@ -1,4 +1,5 @@
-from flask import Flask, redirect, render_template, url_for, request, session, abort,jsonify
+from flask import Flask, redirect, render_template, url_for, request, session, abort, jsonify
+from werkzeug import exceptions
 import requests
 
 app = Flask(__name__)
@@ -83,11 +84,35 @@ def work():
 @app.route('/auth', methods=["POST", "GET"])
 def auth():
     if request.method == 'POST':
-        mail = request.form.get("mail")
+        username = request.form.get("username")
         passwd = request.form.get('passwd')
         newemail = request.form.get("newemail")
         newphone = request.form.get("newphone")
         newpasswd = request.form.get("newpasswd")
+        newname = request.form.get("newname")
+        newlastname = request.form.get("newlastname")
+        newusername = request.form.get("newusername")
+        if username and passwd:
+            datos = {
+                    "username": username,
+                    "password": passwd
+                }
+            response = requests.post('http://127.0.0.1:5001/api/login', json = datos)
+            if response.status_code == 200:
+                return render_template('index.html')
+            #else:
+                #return redirect(url_for('index.html'))
+        else:
+            datos = {
+                    "email": newemail,
+                    "password" : newpasswd,
+                    "username" : newusername,
+                    "telefono" : newphone,
+                    "nombre" : newname,
+                    "apellido" : newlastname
+                }
+            response = requests.post('http://127.0.0.1:5001/api/register', json = datos)
+            #if response.status_code != 201:
     return render_template('auth.html')
 
     
@@ -109,19 +134,45 @@ def petinfo(id):
 
 @app.route('/upload_pet', methods=["GET","POST"])
 def upload_pet():
-    #if request.method == "POST":
-        #if session.get('logged_in'):
-            #animal = request.form.get('animal')
-            #raza = request.form.get('raza')
-            #condicion = request.form.get('condicion')
-            #color = request.form.get('color')
-            #descripcion = request.form.get('descripcion')
-            #fecha = request.form.get('fecha')
-            #foto = request.files.get('foto')
-            #resuelto = request.form.get('resuelto')
-            #return redirect(url_for('publicaciones.html'))
-        #else:
-            #return(redirect(url_for('auth.html')))
+    imagenes_mascotas = '/front/static/images/imagenes_mascotas'
+    app.config['imagenes_mascotas'] = imagenes_mascotas
+    #if not session.get('logged_in'):
+        #return(redirect(url_for('auth.html')))
+    if request.method == "POST":
+        animal = request.form.get('animal')
+        color = request.form.get('color')
+        condicion = request.form.get('condicion')
+        raza = request.form.get('raza')
+        descripcion = request.form.get('descripcion')
+        fecha = request.form.get('fecha')
+        if condicion == "Perdido":
+            fechaPerdido = fecha
+            fechaEncontrado = None
+        elif condicion == "Encontrado sin dueño":
+            fechaEncontrado = fecha
+            fechaPerdido = None
+        foto = request.files['foto']    
+        ruta = os.path.join(app.config['imagenes_mascotas'], foto.filename)
+        foto.save(ruta)
+        urlfoto = f"/{app.config['imagenes_mascotas']}/{foto.filename}"
+        resuelto = request.form.get('resuelto')
+        ubicacion = request.form.get('ubicacion')
+        datos = jsonify(
+            {
+                "animal": animal,
+                "color" : color,
+                "condicion" : condicion,
+                "descripcion" : descripcion,
+                "fechaEncontrado" : fechaEncontrado,
+                "fechaPerdido" : fechaPerdido,
+                "raza" : raza,
+                "ubicacion" : ubicacion,
+                "urlFoto" : urlfoto
+            }
+        )
+        if animal and color and condicion and fecha and foto and urlfoto and ubicacion:
+            requests.post('http://127.0.0.1:5001/api/animales', json = datos)
+            return redirect(url_for('publicaciones.html'))
     return render_template('upload_pet.html')
 
 @app.route('/profile', methods=["GET"])
