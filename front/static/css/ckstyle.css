@@ -116,4 +116,33 @@
     overflow-wrap: break-word
 }
 
+/* upload_pet */
 
+#map {
+    height: 400px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+#ubicacion {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    font-size: 16px;
+}
+.suggestions {
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: white;
+    position: absolute;
+    width: 75%;
+    z-index: 1000;
+    margin-top: -10px;
+}
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+}
+.suggestion-item:hover {
+    background-color: #f0f0f0;
+}
