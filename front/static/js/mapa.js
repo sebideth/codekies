@@ -1,4 +1,4 @@
-const input = document.getElementById("ubicacion-input");
+const input = document.getElementById("ubicacion");
 const suggestionsDiv = document.getElementById("suggestions");
 const mapDiv = document.getElementById("map");
 
