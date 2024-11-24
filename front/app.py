@@ -65,6 +65,21 @@ def pets_search():
         print(f"Error al obtener animales: {e}")
     return render_template('pets.html', animales=animales, datos_filtro = datos_filtro)
 
+
+@app.route('/pets/confirm/<pet_id>', methods=['GET'])
+def pet_confirm(pet_id=None):
+    if not session.get('cookie'):
+        redirect(url_for('login'))
+    return render_template('pet_confirm.html', pet_id=pet_id)
+
+
+@app.route('/pets/found/<pet_id>', methods=['GET'])
+def pet_found(pet_id=None):
+    if not session.get('cookie'):
+        redirect(url_for('login'))
+    return render_template('pet_found.html')
+
+
 @app.route('/about')
 def about():
     return render_template('about.html')
