@@ -57,35 +57,42 @@ class Main(Screen):
         self.condicion.text = value
 
     def añadirBtn(self):
-        url = 'http://localhost:5001/api/animales'
-        self.raza.text = self.raza.text if self.raza.text else self.raza.text = "Desconocida"
-        self.datos.text = self.datos.text if self.datos.text else self.datos.text = "Sin Descripción"
-        params = {
-            "animal": self.animal.text, 
-            "raza": self.raza.text, 
-            "condicion": self.condicion.text, 
-            "color": self.color.text, 
-            "ubicacion": self.ubicacion.text, 
-            "urlFoto": 'IMGURL', 
-            "descripcion": self.datos.text, 
-            "fechaPerdido": self.fecha.text, 
-            "fechaEncontrado": None,
-            "resuelto": False,  
-            "userID": 1 
-            }
-        
-        response = requests.post(url, json = params)
-        if response.status_code == 200:
-            successUpload()
-        else:
-              print(response.text)
+        url = "http://localhost:5001/api/login"
+        datos = {
+            "username": 'test',
+            "password": 'test'
+        }
+        session = requests.Session()
+        response_login = session.post(url, json=datos)
+        if response_login.status_code == 200:
+            url = 'http://localhost:5001/api/animales'
+            self.raza.text = self.raza.text if self.raza.text else self.raza.text = "Desconocida"
+            self.datos.text = self.datos.text if self.datos.text else self.datos.text = "Sin Descripción"
+            params = {
+                "animal": self.animal.text,
+                "raza": self.raza.text,
+                "condicion": self.condicion.text,
+                "color": self.color.text,
+                "ubicacion": self.ubicacion.text,
+                "urlFoto": 'IMGURL',
+                "descripcion": self.datos.text,
+                "fechaPerdido": self.fecha.text,
+                "fechaEncontrado": None,
+                "resuelto": False,
+                "userID": 1
+                }
+            response = session.post(url, json=params)
+            if response.status_code == 200:
+                successUpload()
+            else:
+                  print(response.text)
 
     def logOut(self):
         screen.current = "login"
-        
+
 class importarImagen(Screen):
     pass
-    
+
 class WindowManager(ScreenManager):
     pass
 
