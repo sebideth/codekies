@@ -11,7 +11,7 @@ import requests
 Config.set('graphics', 'width', '200')
 Config.set('graphics', 'height', '200')
 Window.size = (414, 736)
-
+#
 class Login(Screen):
     user = ObjectProperty(None)
     password = ObjectProperty(None)
