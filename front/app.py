@@ -71,6 +71,10 @@ def about():
 
 @app.route('/auth', methods=["POST", "GET"])
 def auth():
+    if session.get('cookie'):
+        req = requests.get('http://localhost:5001/api/usuarios/login', cookies=session.get('cookie'))
+        if req.status_code == 200:
+            return redirect(url_for('pets'))
     if request.method == 'POST':
         username = request.form.get("username")
         passwd = request.form.get('passwd')
@@ -119,7 +123,7 @@ def petinfo(id):
 
         print(f"error:{e}")
         mascota = []
-        
+
     return render_template('pet_info.html', mascota=mascota)
 
 @app.route('/upload_pet', methods=["GET","POST"])
