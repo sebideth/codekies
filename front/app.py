@@ -8,7 +8,14 @@ app.secret_key = 'sarasa'
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    try:
+        animales_response = requests.get('http://localhost:5001/api/animales/ultimos/3')
+        animales_response.raise_for_status()
+        animales = animales_response.json()
+    except requests.exceptions.RequestException as e:
+        print(f"e: {e}")
+        animales = []
+    return render_template('index.html', animales=animales)
 
 @app.route('/pets')
 def pets():

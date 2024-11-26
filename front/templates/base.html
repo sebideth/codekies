@@ -63,14 +63,12 @@
 					</div>
 					<div class="col-xs-10 text-right menu-1">
 						<ul>
-							<li class="active"><a href="{{ url_for('home') }}">Inicio</a></li>
-							<li><a href="{{ url_for('pets') }}">Mascotas</a></li>
-							<li class="has-dropdown">
-								<a href="{{ url_for('auth') }}">Iniciar sesion/Registrarse</a>
-							</li>
-							<li><a href="{{ url_for('upload_pet') }}">Añadir Mascota</a></li>
-							<li><a href="{{ url_for('about') }}">Sobre nosotros</a></li>
-							<li><a href="{{ url_for('profile') }}">Perfil</a></li>
+							<li {% block indexactive %} {% endblock %}><a href="{{ url_for('home') }}">Inicio</a></li>
+							<li {% block petsactive %} {% endblock %}><a href="{{ url_for('pets') }}">Mascotas</a></li>
+							<li {% block authactive %} {% endblock %}><a href="{{ url_for('auth') }}">Iniciar sesion/Registrarse</a></li>
+							<li {% block uploadactive %} {% endblock %}><a href="{{ url_for('upload_pet') }}">Añadir Mascota</a></li>
+							<li {% block aboutactive %} {% endblock %}><a href="{{ url_for('about') }}">Sobre nosotros</a></li>
+							<li {% block profileactive %} {% endblock %}><a href="{{ url_for('profile') }}">Perfil</a></li>
 						</ul>
 					</div>
 				</div>
