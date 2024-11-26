@@ -159,18 +159,13 @@ def login():
         user = usuarios.login_user(user_data)
         if not user:
             return jsonify({'error': 'Usuario o Password invalidos'}), http.client.FORBIDDEN
+        session.clear()
         session["logged_in"] = True
         session["user_id"] = user.id
     except Exception as error:
         logger.error(f"Could not fetch user {user_data.get('username')}. {error}")
         return jsonify({"error": "Error al iniciar sesión."}), http.client.INTERNAL_SERVER_ERROR
-    return jsonify({"message": "Bienvenido!"}), http.client.OK
-
-@app.route('/api/usuarios/login')
-def is_logged_in():
-    if session.get('logged_in'):
-        return jsonify({"message": "Usuario loggeado"}), http.client.OK
-    return jsonify({"message": "No hay usuario loggeado"}), http.client.BAD_REQUEST
+    return jsonify({"message": "Bienvenido!", "user_id": session["user_id"]}), http.client.OK
 
 @app.route("/api/logout", methods=["GET"])
 def logout():
@@ -197,6 +192,12 @@ def get_user(id):
     if not usuarios.exist_user(id): 
         return jsonify({'error': ERROR_USUARIO_NO_ENCONTRADRO}), http.client.NOT_FOUND
     return jsonify(usuarios.usuario_by_id(id)[0]), http.client.OK
+
+@app.route('/api/usuarios/loggeado', methods=['GET'])
+def get_logged_user():
+    if not session.get('logged_in'):
+        return jsonify({'error': 'No hay usuario loggeado'}), http.client.BAD_REQUEST
+    return jsonify({"user_id": session['user_id']}), http.client.OK
 
 if __name__ == "__main__":
     app.run("127.0.0.1", port=5001, debug=config.debug)
