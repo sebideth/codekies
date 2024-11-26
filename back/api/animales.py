@@ -12,6 +12,8 @@ VALUES (:animal, :raza, :condicion, :color, :direccion, :urlFoto, :descripcion, 
 
 QUERY_BORRAR_ANIMAL = 'DELETE FROM animales WHERE id = :id'
 
+QUERY_ULTIMOS_N_ANIMALES = 'SELECT * FROM animales ORDER BY id DESC LIMIT :n'
+
 COLUMNAS_REQUERIDAS = ['animal', 'condicion', 'color', 'direccion', 'urlFoto', 'descripcion', 'fechaPerdido', 'fechaEncontrado']
 
 COLUMNAS_FILTRO = ['animal', 'raza', 'condicion', 'color', 'fechaPerdido', 'fechaEncontrado', 'resuelto']
@@ -39,6 +41,15 @@ def all_animales():
     try:
         connection = engine().connect()
         result = to_dict(run_query(connection, QUERY_TODOS_LOS_ANIMALES).fetchall())
+    finally:
+        if connection:
+            connection.close()
+    return result
+
+def last_n_animales(n):
+    try:
+        connection = engine().connect()
+        result = to_dict(run_query(connection, QUERY_ULTIMOS_N_ANIMALES, {'n': n}).fetchall())
     finally:
         if connection:
             connection.close()

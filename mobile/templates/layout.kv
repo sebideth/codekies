@@ -79,7 +79,7 @@
     raza: raza
     condicion: condicion
     color: color
-    datos: datos
+    descripcion: descripcion
     fecha: fecha
     ubicacion: ubicacion
     foto: foto
@@ -87,7 +87,7 @@
     BoxLayout:
         size: root.width, root.height
         padding: 50
-        spacing: 15
+        spacing: 12
         orientation: 'vertical'
         canvas.before:
             Color:
@@ -117,20 +117,19 @@
             background_down: ''
             pos_hint: {'center_x': .5}
             size_hint: 1, 0.1
-            on_text: root.obtenerAnimal(animal.text)
+            on_text: root.animal.text = animal.text
 
         Spinner:
             id: condicion
             text: 'Condición'
-            values: ['Perdido', 'Encontrado']
+            values: ['Perdido', 'Encontrado sin dueño']
             font_size: 22
             background_color: (220/255, 171/255, 107/255, 1) if self.state == 'normal' else (106/255, 56/255, 31/255, 1)
             background_normal: ''
             background_down: ''
             pos_hint: {'center_x': .5}
             size_hint: 1, 0.1
-            on_text: root.obtenerCondicion(condicion.text)
-
+            on_text: root.condicion.text = condicion.text
         TextInput:
             id: raza
             font_size: 22
@@ -149,7 +148,7 @@
             hint_text: 'Color'
 
         TextInput:
-            id: datos
+            id: descripcion
             font_size: 20
             multiline: True
             pos_hint: {'center_x': .5}
@@ -158,11 +157,11 @@
 
         TextInput:
             id: fecha
-            font_size: 22
-            multiline: False
+            font_size: 20
+            multiline: True
             pos_hint: {'center_x': .5}
-            size_hint: 1, 0.1
-            hint_text: 'Fecha de perdido/encontrado'
+            size_hint: 1, 0.15
+            hint_text: 'Fecha de perdido/encontrado (año-mes-dia)'
 
         TextInput:
             id: ubicacion
@@ -180,6 +179,8 @@
             background_color: (220/255, 171/255, 107/255, 1) if self.state == 'normal' else (106/255, 56/255, 31/255, 1)
             background_normal: ''
             background_down: ''
+            on_release:
+                app.root.current = "imagen"
 
         Button:
             pos_hint:{'center_x': .5}
@@ -195,5 +196,26 @@
             background_color: (1, 0, 0, .75)
             on_release:
                 app.root.current = "login"
+                root.manager.transition.direction = "down"
+
+<importarImagen>:
+    id: imagen
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        
+        FileChooserIconView:
+            id: archivo
+            on_selection: imagen.selected(archivo.selection)
+        Button:
+            pos_hint:{'center_x': .5}
+            size_hint: 1, 0.15
+            text: "Subir imagen"
+            background_color: (220/255, 171/255, 107/255, 1) if self.state == 'normal' else (106/255, 56/255, 31/255, 1)
+            background_normal: ''
+            background_down: ''
+            on_release:
+                app.root.current = "main"
                 root.manager.transition.direction = "down"
 

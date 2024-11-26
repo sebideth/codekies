@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
+{% block petsactive %} class="active" {% endblock %}
 {% block body %}
 <div class="pf-columns">
-    
+
     <div class="pf-photoBox">
         <img class="pf-photo" src="{{ mascota.urlFoto }}">
     </div>
@@ -18,53 +19,28 @@
             <p class="typo-characPet"><strong>Color:</strong> {{ mascota.color }}</p>
             <p class="typo-characPet"><strong>Condición:</strong> {{ mascota.condicion }}</p>
             {% if mascota.fechaPerdido  %}
-            <p class="typo-characPet"><strong>Fecha de perdida:</strong> {{ mascota.fechaPerdido }}</p>
+                <p class="typo-characPet"><strong>Fecha de perdida:</strong> {{ mascota.fechaPerdido }}</p>
             {% else %}
-            <p class="typo-characPet"><strong>Fecha de encontrada:</strong> {{ mascota.fechaEncontrado }}</p>
+                <p class="typo-characPet"><strong>Fecha de encontrada:</strong> {{ mascota.fechaEncontrado }}</p>
             {% endif %}
         </div>
     </div>
 </div>
 
 <div class="pf-columns">
-    
+
     <div class="pf-descBox">
         <h3 class="typo-descTitle">Descripción:</h3>
 
         <p class="typo-descChar">{{ mascota.descripcion }}</p>
-        <p><a style="width: 500px; margin-top:250px; border-color: rgb(83, 51, 2);" class="btn btn-primary btn-demo" id="boton-reclamar"></i> Reclamar/Lo Encontre</a>
+        <p><a style="width: 500px; margin-top:250px; border-color: rgb(83, 51, 2);" class="btn btn-primary btn-demo" id="boton-reclamar" href="{{ url_for('pet_confirm', pet_id=mascota.id) }}"></i> Reclamar/Lo Encontre</a>
 
     </div>
-    
+
     <div class="pf-mapBox">
         <h3 class="typo-descTitle">Dirección:</h3>
         <iframe class="map"
-            src="https://maps.google.com/maps?hl=es&q={{ mascota.ubicacion }}&t=m&z=14&ie=UTF8&iwloc=B&output=embed"></iframe>
+            src="https://maps.google.com/maps?hl=es&q={{ mascota.direccion }}&t=m&z=14&ie=UTF8&iwloc=B&output=embed"></iframe>
     </div>
 </div>
-<script>
-    const reclamar = document.getElementById('boton-reclamar');
-
-    reclamar.addEventListener('click', function() {
-
-        const tarjeta = document.createElement('div');
-        tarjeta.classList.add('tarjeta');
-
-        tarjeta.innerHTML = `
-        
-            <h3 class="titulo-tarjeta">Le enviaremos tu información al dueño del post</h3>
-            <p class="texto-tarjeta">¿Estas de acuerdo con compartir tus datos personales para que el dueño pueda contactarse contigo?</p>
-            <button class="btn btn-primary btn-demo">Estoy de acuerdo</button>
-            <button class="btn boton-eliminar">Eliminar tarjeta</button>
-            
-        `;
-    
-        document.body.appendChild(tarjeta);
-
-        const btnEliminar = tarjeta.querySelector('.boton-eliminar');
-        btnEliminar.addEventListener('click', function() {
-            tarjeta.remove();
-        });
-    });
-</script>
 {% endblock %}
