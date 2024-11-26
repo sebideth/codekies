@@ -11,7 +11,7 @@ import requests
 Config.set('graphics', 'width', '200')
 Config.set('graphics', 'height', '200')
 Window.size = (414, 736)
-#
+
 class Login(Screen):
     user = ObjectProperty(None)
     password = ObjectProperty(None)
@@ -33,11 +33,9 @@ class Login(Screen):
             else:
                 invalidLogin()
 
-
     def reset(self):
         self.user.text = ""
         self.password.text = ""
-
 
 class Main(Screen):
     #La foto de la mascota tendra una ruta harcodeada para que la pagina funcione, ya que de lo contrario se guardaria una ruta perteneciente al celular del usuario y el programa no podria buscar la foto de forma local.
@@ -69,7 +67,7 @@ class Main(Screen):
             self.raza = "Desconocida"
         else:
             self.raza = str(raza)
-
+                
     def añadirBtn(self):
         url = "http://localhost:5001/api/login"
         datos = {
@@ -79,6 +77,7 @@ class Main(Screen):
         session = requests.Session()
         response_login = session.post(url, json=datos)
         if response_login.status_code == 200:
+            
             foto = str(importarImagen.getFoto)
             animal = self.animal.text
             condicion = self.condicion.text
@@ -86,8 +85,10 @@ class Main(Screen):
             color = self.color.text
             descripcion = self.descripcion.text
             ubicacion = self.ubicacion.text
+            
             self.definirCondicion(condicion)
             self.definirRaza(raza)
+            
             url = 'http://localhost:5001/api/animales'
             params = {
                 "animal": animal,
@@ -100,6 +101,7 @@ class Main(Screen):
                 "direccion": ubicacion,
                 "urlFoto": "static/images/imagenes_mascotas/grumpy.jpeg "
                 }
+            
             response = session.post(url, json=params)
             if response.status_code == 201:
                 successUpload()
@@ -119,8 +121,6 @@ class importarImagen(Screen):
     
     def getFoto(self):
         return str(self.foto)
-
-
 
 class WindowManager(ScreenManager):
     pass
@@ -142,9 +142,6 @@ kv = Builder.load_file("templates/layout.kv")
 
 screen = WindowManager()
 
-logged_user = ""
-logged_passwd = ""
-
 paginas = [Login(name = "login"), Main(name = "main"), importarImagen(name = 'imagen')]
 for pagina in paginas:
     screen.add_widget(pagina)
@@ -154,6 +151,8 @@ class App(App):
     def build(self):
         return screen
     
+#Las fuentes consultadas estarán en el readme.
+
 if __name__ == "__main__":
     App().run()
 

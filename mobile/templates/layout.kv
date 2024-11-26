@@ -87,7 +87,7 @@
     BoxLayout:
         size: root.width, root.height
         padding: 50
-        spacing: 15
+        spacing: 12
         orientation: 'vertical'
         canvas.before:
             Color:
@@ -154,14 +154,14 @@
             pos_hint: {'center_x': .5}
             size_hint: 1, 0.15
             hint_text: 'Información relevante (edad, tamaño, etc)'
-#
+
         TextInput:
             id: fecha
-            font_size: 22
-            multiline: False
+            font_size: 20
+            multiline: True
             pos_hint: {'center_x': .5}
-            size_hint: 1, 0.1
-            hint_text: 'Fecha de perdido/encontrado'
+            size_hint: 1, 0.15
+            hint_text: 'Fecha de perdido/encontrado (año-mes-dia)'
 
         TextInput:
             id: ubicacion
