@@ -163,13 +163,16 @@
             size_hint: 1, 0.15
             hint_text: 'Fecha de perdido/encontrado (año-mes-dia)'
 
-        TextInput:
+        Button:
             id: ubicacion
-            font_size: 22
-            multiline: False
-            pos_hint: {'center_x': .5}
-            size_hint: 1, 0.1
-            hint_text: 'Ubicación'
+            pos_hint:{'center_x': .5}
+            size_hint: 1, 0.15
+            text: "Ingresar ubicacion"
+            background_color: (220/255, 171/255, 107/255, 1) if self.state == 'normal' else (106/255, 56/255, 31/255, 1)
+            background_normal: ''
+            background_down: ''
+            on_release:
+                app.root.current = "mapa"
 
         Button:
             id: foto
@@ -204,6 +207,13 @@
         size: root.size
         pos: root.pos
         orientation: "vertical"
+        #Con la modificacion que aplique ya no se veia el fondo para seleccionar imagen negro, asi que le aplique el color aca
+        canvas.before:
+            Color:
+                rgba: 0, 0, 0, 1  # Color negro
+            Rectangle:
+                pos: self.pos
+                size: self.size        
         
         FileChooserIconView:
             id: archivo
@@ -219,3 +229,39 @@
                 app.root.current = "main"
                 root.manager.transition.direction = "down"
 
+<MostrarMapa>:
+    id: mapa
+    MDRelativeLayout:
+        MapView:
+            id: mapa
+            lat: -34.7
+            lon: -58.4
+            zoom: 10
+        
+        MDBoxLayout:
+            orientation: 'vertical'
+            size_hint: (0.8, None)
+            pos_hint: {"center_x": 0.5, "y": 0.9}
+            
+            MDTextField:
+                id: input_text
+                hint_text: "Ingrese una descripción o dirección"
+                multiline: False
+                mode: "round"
+                background_color: 1, 1, 1, 1
+                max_text_length: 60
+                on_text: root.actualizar_sugerencias(self.text)
+
+        ScrollView:
+            size_hint: 0.75, None
+            pos_hint: {"center_x": 0.5, "y": 0.625}
+            height: "200dp"
+            MDList:
+                id: suggestions_list
+                md_bg_color: 0.9, 0.9, 0.9, 1
+
+        Button:
+            size_hint: 1, 0.1
+            text: "Guardar dirección"
+            background_color: (220/255, 171/255, 107/255, 1)
+            on_release: root.guardar_direccion()   
