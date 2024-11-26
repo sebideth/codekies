@@ -178,8 +178,9 @@ def logout():
     return jsonify({"message": "Bye"}), http.client.OK
 
 @app.route('/api/usuarios/<int:id>', methods=['PUT'])
+@login_required
 def update_user(id):
-    if not usuarios.exist_user(id): 
+    if not usuarios.exist_user(id):
         return jsonify({'error': ERROR_USUARIO_NO_ENCONTRADRO}), http.client.NOT_FOUND
     datos = request.get_json()
     is_valid, column = usuarios.validate_all_columns(datos)
@@ -193,10 +194,12 @@ def update_user(id):
     return jsonify(usuarios.usuario_by_id(id)), http.client.OK
 
 @app.route('/api/usuarios/<int:id>', methods=['GET'])
+@login_required
 def get_user(id):
-    if not usuarios.exist_user(id): 
+    if not usuarios.exist_user(id):
         return jsonify({'error': ERROR_USUARIO_NO_ENCONTRADRO}), http.client.NOT_FOUND
     return jsonify(usuarios.usuario_by_id(id)[0]), http.client.OK
+
 
 if __name__ == "__main__":
     app.run("127.0.0.1", port=5001, debug=config.debug)
