@@ -40,6 +40,7 @@ class Login(Screen):
 
 
 class Main(Screen):
+    #La foto de la mascota tendra una ruta harcodeada para que la pagina funcione, ya que de lo contrario se guardaria una ruta perteneciente al celular del usuario y el programa no podria buscar la foto de forma local.
     animal = ObjectProperty(None)
     raza = ""
     condicion = ObjectProperty(None)
@@ -48,7 +49,6 @@ class Main(Screen):
     fecha = ""
     fechaPerdido = ""
     fechaEncontrado = ""
-    foto = ""
     ubicacion = ""
     current_user = ""
     current_passwd = ""
@@ -79,6 +79,7 @@ class Main(Screen):
         session = requests.Session()
         response_login = session.post(url, json=datos)
         if response_login.status_code == 200:
+            foto = str(importarImagen.getFoto)
             animal = self.animal.text
             condicion = self.condicion.text
             raza = self.raza.text
@@ -97,7 +98,7 @@ class Main(Screen):
                 "fechaPerdido": self.fechaPerdido,
                 "raza": self.raza,
                 "direccion": ubicacion,
-                "urlFoto": 'IMGURL',
+                "urlFoto": "static/images/imagenes_mascotas/grumpy.jpeg "
                 }
             response = session.post(url, json=params)
             if response.status_code == 201:
@@ -111,8 +112,15 @@ class Main(Screen):
         Login.reset
 
 class importarImagen(Screen):
-    #esta vista va a ser para agregar la foto
-    pass
+    foto = ObjectProperty(None)
+    
+    def selected(self, archivo):
+        self.foto = str(archivo[0])
+    
+    def getFoto(self):
+        return str(self.foto)
+
+
 
 class WindowManager(ScreenManager):
     pass
@@ -137,7 +145,7 @@ screen = WindowManager()
 logged_user = ""
 logged_passwd = ""
 
-paginas = [Login(name = "login"), Main(name = "main")]
+paginas = [Login(name = "login"), Main(name = "main"), importarImagen(name = 'imagen')]
 for pagina in paginas:
     screen.add_widget(pagina)
 screen.current = "login"
