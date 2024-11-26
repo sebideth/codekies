@@ -33,7 +33,7 @@
         <h3 class="typo-descTitle">Descripción:</h3>
 
         <p class="typo-descChar">{{ mascota.descripcion }}</p>
-        <p><a style="width: 500px; margin-top:250px; border-color: rgb(83, 51, 2);" class="btn btn-primary btn-demo" id="boton-reclamar" href="{{ url_for('pet_confirm', pet_id=1) }}"></i> Reclamar/Lo Encontre</a>
+        <p><a style="width: 500px; margin-top:250px; border-color: rgb(83, 51, 2);" class="btn btn-primary btn-demo" id="boton-reclamar" href="{{ url_for('pet_confirm', pet_id=mascota.id) }}"></i> Reclamar/Lo Encontre</a>
 
     </div>
 
