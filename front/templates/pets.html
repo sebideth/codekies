@@ -54,9 +54,9 @@
 						<img src="{{animal.urlFoto}}" alt="foto de la mascota" class="img-fluid img-pets">
 						<div class="blog-text">
 							{% if animal.fechaPerdido %}
-								<span class="posted_on">{{animal.fechaPerdido}}</span>
+								<span class="posted_on">Fecha de perdido: {{animal.fechaPerdido}}</span>
 							{% else %}
-								<span class="posted_on">{{animal.fechaEncontrado}}</span>
+								<span class="posted_on">Fecha de encontrado: {{animal.fechaEncontrado}}</span>
 							{% endif %}
 							<h3><a href="#">{{animal.animal}}</a></h3>
 							<p class="descripcion">{{animal.descripcion}}</p>

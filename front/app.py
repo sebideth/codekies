@@ -20,16 +20,21 @@ def home():
 @app.route('/pets')
 def pets():
     try:
-        animales_response = requests.get('http://localhost:5001/api/animales')
         datos_filtro_response = requests.get('http://localhost:5001/api/animales/datos')
-        animales_response.raise_for_status()
         datos_filtro_response.raise_for_status()
-        animales = animales_response.json()
         datos_filtro = datos_filtro_response.json()
     except requests.exceptions.RequestException as e:
-        print(f"e: {e}")
-        animales = []
+        print(f"error al obtener los datos de animales: {e}")
         datos_filtro = []
+    
+    try:
+        animales_response = requests.get('http://localhost:5001/api/animales')
+        animales_response.raise_for_status()
+        animales = animales_response.json()
+    except requests.exceptions.RequestException as e:
+        print(f"error al obtener animales: {e}")
+        animales = []
+
     return render_template('pets.html', animales=animales, datos_filtro=datos_filtro, is_logged_in = is_logged_in())
 
 @app.route('/pets/search', methods=['GET','POST'])
@@ -41,7 +46,7 @@ def pets_search():
     except requests.exceptions.RequestException as e:
         print(f"e: {e}")
         datos_filtro = []
-    datosFiltro = ['animal', 'color', 'condicion', 'fecha_encontrado', 'fecha_perdido', 'raza', 'resuelto', 'ubicacion']
+    datosFiltro = ['animal', 'color', 'condicion', 'fechaEncontrado', 'fechaPerdido', 'raza', 'resuelto', 'ubicacion']
     filtro = {}
     for dato in datosFiltro:
         valor = request.args.get(dato)
