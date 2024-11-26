@@ -193,11 +193,5 @@ def get_user(id):
         return jsonify({'error': ERROR_USUARIO_NO_ENCONTRADRO}), http.client.NOT_FOUND
     return jsonify(usuarios.usuario_by_id(id)[0]), http.client.OK
 
-@app.route('/api/usuarios/loggeado', methods=['GET'])
-def get_logged_user():
-    if not session.get('logged_in'):
-        return jsonify({'error': 'No hay usuario loggeado'}), http.client.BAD_REQUEST
-    return jsonify({"user_id": session['user_id']}), http.client.OK
-
 if __name__ == "__main__":
     app.run("127.0.0.1", port=5001, debug=config.debug)
