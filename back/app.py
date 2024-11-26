@@ -34,6 +34,15 @@ def get_all_animales():
         return jsonify({"error": ERROR_INESPERADO}), http.client.INTERNAL_SERVER_ERROR
     return jsonify(result), http.client.OK
 
+@app.route('/api/animales/ultimos/<int:n>', methods=['GET'])
+def get_last_n_animales(n):
+    try:
+        result = animales.last_n_animales(n)
+    except Exception as error:
+        logger.error(LOG_ERROR_QUERY + 'animales.last_n_animales' + str(error))
+        return jsonify({"error": ERROR_INESPERADO}), http.client.INTERNAL_SERVER_ERROR
+    return jsonify(result), http.client.OK
+
 @app.route('/api/animales/<int:id>', methods=['GET'])
 def get_animal_by_id(id):
     try:
