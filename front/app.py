@@ -15,7 +15,7 @@ def home():
     except requests.exceptions.RequestException as e:
         print(f"e: {e}")
         animales = []
-    return render_template('index.html', animales=animales, is_logged_in = is_logged_in())
+    return render_template('index.html', animales=animales, is_logged_in=is_logged_in())
 
 @app.route('/pets')
 def pets():
@@ -35,7 +35,7 @@ def pets():
         print(f"error al obtener animales: {e}")
         animales = []
 
-    return render_template('pets.html', animales=animales, datos_filtro=datos_filtro, is_logged_in = is_logged_in())
+    return render_template('pets.html', animales=animales, datos_filtro=datos_filtro, is_logged_in=is_logged_in())
 
 @app.route('/pets/search', methods=['GET','POST'])
 def pets_search():
@@ -59,14 +59,14 @@ def pets_search():
     except requests.exceptions.RequestException as e:
         animales = []
         print(f"Error al obtener animales: {e}")
-    return render_template('pets.html', animales=animales, datos_filtro = datos_filtro, is_logged_in = is_logged_in())
+    return render_template('pets.html', animales=animales, datos_filtro = datos_filtro, is_logged_in=is_logged_in())
 
 
 @app.route('/pets/confirm/<pet_id>', methods=['GET'])
 def pet_confirm(pet_id=None):
     if not is_logged_in():
         return redirect(url_for('auth'))
-    return render_template('pet_confirm.html', pet_id=pet_id, is_logged_in = is_logged_in())
+    return render_template('pet_confirm.html', pet_id=pet_id, is_logged_in=is_logged_in())
 
 
 @app.route('/pets/found/<pet_id>', methods=['GET'])
@@ -80,10 +80,74 @@ def pet_found(pet_id=None):
         return render_template('pet_found.html')
     return render_template('pet_found.html')
 
+@app.route('/pets/edit/<int:id>', methods=["GET"])
+def pet_edit(id):
+    try:
+        response = requests.get(f"http://localhost:5001/api/animales/{id}")
+        response.raise_for_status()
+        animal = response.json()
+    except requests.exceptions.RequestException as e:
+        print(f"error:{e}")
+    return render_template('pet_edit.html', animal=animal, is_logged_in=is_logged_in())
+
+@app.route('/pets/edit/<int:id>', methods=["POST"])
+def pet_update(id):
+    try:
+        animal = request.form.get('animal')
+        color = request.form.get('color')
+        condicion = request.form.get('condicion')
+        raza = request.form.get('raza')
+        raza = raza if raza else "Desconocida"
+        descripcion = request.form.get('descripcion')
+        descripcion = descripcion if descripcion else "Sin descripción"
+        fecha = request.form.get('fecha')
+        if condicion == "Perdido":
+            fechaPerdido = fecha
+            fechaEncontrado = None
+        elif condicion == "Encontrado sin dueño":
+            fechaEncontrado = fecha
+            fechaPerdido = None
+        foto = request.files['foto']
+        if foto:
+            ruta = os.path.join('static/images/imagenes_mascotas', foto.filename)
+            foto.save(ruta)
+            urlfoto = f"/{'static/images/imagenes_mascotas'}/{foto.filename}"
+        ubicacion = request.form.get('ubicacion')
+        datos = {
+                "animal": animal,
+                "color" : color,
+                "condicion" : condicion,
+                "descripcion" : descripcion,
+                "fechaEncontrado" : fechaEncontrado,
+                "fechaPerdido" : fechaPerdido,
+                "raza" : raza,
+                "direccion" : ubicacion,
+            }
+        if foto: 
+            datos['urlFoto'] = urlfoto
+        response = requests.put(f"http://localhost:5001/api/animales/{id}", json=datos, cookies=session.get('cookie'))
+        response.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        print(f"error:{e}")
+    if response.status_code == 403:
+        abort(403)
+    return redirect(url_for('pets'))
+
+@app.route('/pets/delete/<int:id>', methods=["GET"])
+def pet_delete(id):
+    try:
+        response = requests.delete(f"http://localhost:5001/api/animales/{id}", cookies=session.get('cookie'))
+        response.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        print(f"error:{e}")
+    response_code = response.status_code
+    if response_code in [403, 404]:
+        abort(response_code)
+    return redirect(url_for('pets'))
 
 @app.route('/about')
 def about():
-    return render_template('about.html', is_logged_in = is_logged_in())
+    return render_template('about.html', is_logged_in=is_logged_in())
 
 @app.route('/auth', methods=["POST", "GET"])
 def auth():
@@ -120,7 +184,7 @@ def auth():
                 }
             response = requests.post('http://127.0.0.1:5001/api/register', json = datos)
             #if response.status_code != 201:
-    return render_template('auth.html', is_logged_in = is_logged_in())
+    return render_template('auth.html', is_logged_in=is_logged_in())
 
 @app.route('/logout')
 def logout():
@@ -132,13 +196,15 @@ def logout():
 @app.route('/pets/<int:id>')
 def petinfo(id):
     try:
-        response = requests.get(f'http://localhost:5001/api/animales/{id}')
+        response = requests.get(f"http://localhost:5001/api/animales/{id}")
         response.raise_for_status()
         mascota = response.json()
     except requests.exceptions.RequestException as e:
         print(f"error:{e}")
         mascota = []
-    return render_template('pet_info.html', mascota=mascota, is_logged_in = is_logged_in())
+    if response.status_code == 404:
+        abort(404)
+    return render_template('pet_info.html', mascota=mascota, is_logged_in=is_logged_in())
 
 @app.route('/upload_pet', methods=["GET","POST"])
 def upload_pet():
@@ -178,22 +244,23 @@ def upload_pet():
                 "urlFoto" : urlfoto
             }
         if animal and color and condicion and fecha and foto and urlfoto and ubicacion:
-            requests.post('http://127.0.0.1:5001/api/animales', json=datos, cookies=session['cookie'])
+            requests.post('http://127.0.0.1:5001/api/animales', json=datos, cookies=session.get('cookie'))
             return redirect(url_for('pets'))
-    return render_template('upload_pet.html', is_logged_in = is_logged_in())
+    return render_template('upload_pet.html', is_logged_in=is_logged_in())
 
 @app.route('/profile', methods=["GET"])
 def profile():
     if not is_logged_in():
-        return render_template('auth.html', is_logged_in = is_logged_in())
+        return render_template('auth.html', is_logged_in=is_logged_in())
     try:
         response = requests.get(f"http://localhost:5001/api/usuarios/{session.get('user_id')}")
         response.raise_for_status()
         user = response.json()
+        animales_response = requests.get(f"http://localhost:5001/api/animales/usuario/{session.get('user_id')}", cookies=session.get('cookie'))
+        my_animals = animales_response.json()
     except requests.exceptions.RequestException as e:
         print(f"error:{e}")
-    return render_template('profile.html', user=user, is_logged_in = is_logged_in())
-
+    return render_template('profile.html', user=user, animales=my_animals, is_logged_in=is_logged_in())
 
 @app.route('/profile/update', methods=["GET"])
 def profile_edit():
@@ -203,8 +270,7 @@ def profile_edit():
         user = response.json()
     except requests.exceptions.RequestException as e:
         print(f"error:{e}")
-    return render_template('update_profile.html', user=user, is_logged_in = is_logged_in())
-
+    return render_template('update_profile.html', user=user, is_logged_in=is_logged_in())
 
 @app.route('/profile', methods=["POST"])
 def profile_update():
@@ -219,15 +285,19 @@ def profile_update():
         user = response.json()
     except requests.exceptions.RequestException as e:
         print(f"error:{e}")
-    return render_template('profile.html', user=user, is_logged_in = is_logged_in())
+    return render_template('profile.html', user=user, is_logged_in=is_logged_in())
 
 @app.errorhandler(500)
 def internal_server_error(error):
-    return render_template('critical_errors.html', is_logged_in = is_logged_in()), 500
+    return render_template('critical_errors.html', is_logged_in=is_logged_in()), 500
 
 @app.errorhandler(404)
 def page_not_found(error):
-    return render_template('404.html', is_logged_in = is_logged_in()), 404
+    return render_template('404.html', is_logged_in=is_logged_in()), 404
+
+@app.errorhandler(403)
+def forbidden(error):
+    return render_template('403.html', is_logged_in=is_logged_in()), 403
 
 def is_logged_in():
     return session.get('cookie') != None

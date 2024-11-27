@@ -81,9 +81,9 @@ def add_animal():
 def update_animal(id):
     datos = request.get_json()
     try:
-        animales.update_animal(id, datos)
         if not animales.validate_user_owner(id, session['user_id']):
             return jsonify({'error': 'Esta publicación no pertenece al usuario'}), http.client.FORBIDDEN
+        animales.update_animal(id, datos)
     except Exception as error:
         logger.error(LOG_ERROR_QUERY + 'animales.update_animal' + str(error))
         return jsonify({"error": ERROR_INESPERADO}), http.client.INTERNAL_SERVER_ERROR
@@ -154,11 +154,11 @@ def pet_found():
     return jsonify({"mensaje": "animal encontrado"}), http.client.CREATED
 
 
-@app.route('/api/animales/usuario', methods=['GET'])
+@app.route('/api/animales/usuario/<int:id>', methods=['GET'])
 @login_required
-def get_all_animales_from_usuario():
+def get_all_animales_from_usuario(id):
     try:
-        result = animales.filter_animal({'userID': session["user_id"]})
+        result = animales.filter_animal({'userID': id})
     except Exception as error:
         logger.error(LOG_ERROR_QUERY + 'animales.filter_animal' + str(error))
         return jsonify({"error": ERROR_INESPERADO}), http.client.INTERNAL_SERVER_ERROR

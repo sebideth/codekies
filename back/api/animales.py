@@ -110,7 +110,6 @@ def filter_animal(filtros):
     try:
         connection = engine().connect()
         query = QUERY_TODOS_LOS_ANIMALES
-        print(filtros)
         if len(filtros) > 0:
             query += ' WHERE '
             for filtro in filtros:
