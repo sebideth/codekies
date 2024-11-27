@@ -8,6 +8,12 @@ logger = logging.getLogger(__name__)
 
 
 def send_email(to, subject, content):
+    if os.environ.get('debug'):
+        print('In debug mode wont send mails')
+        print('to {}'.format(to))
+        print('subject {}'.format(subject))
+        print('content {}'.format(content))
+        return
     try:
         message = Mail(
             from_email=os.environ.get('SENDER'),
