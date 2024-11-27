@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block profileactive %} class="active" {% endblock %}
+{% block body %}
+
+<div class="container-wrap-empty">
+    <div class="row-center row-no-margin">
+        <form class="col-md-8 card-container" action=" {{ url_for('profile_update')}}" method="post">
+            <div class="row row-no-margin">
+                <div class="col-xs-6">
+                    <h1>Editar perfil</h1>
+                </div>
+                <div class="col-xs-6" style="text-align: right;">
+                    <button type="submit" class="button" href=" {{ url_for('profile_edit')}}">Guardar cambios</button>
+                </div>
+            </div>
+
+            <div class="row row-no-margin container-inner">
+                <div class="col-md-12">
+                    <div class="row row-no-margin">
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Nombre</label>
+                                <input class="form-control" name="name" placeholder="Nombre"
+                                    value="{{user.nombre}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="lastname">Apellido</label>
+                                <input class="form-control" name="lastname" placeholder="Apellido"
+                                    value="{{user.apellido}}" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="cellphone">Telefono</label>
+                                <input class="form-control" name="cellphone" placeholder="Telefono"
+                                    value="{{user.telefono}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="password">Contraseña</label>
+                                <input type="password" class="form-control" name="password" placeholder="Contraseña">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+</div>
+
+{% endblock %}

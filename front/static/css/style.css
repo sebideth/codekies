@@ -1646,5 +1646,31 @@ form button {
 .titulo-tarjeta{
   background-color: rgba(175, 115, 3, 0.8);
 }
-
+.card-container{
+  padding: 24px;
+  background: #fff;
+  border-radius: 7px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+}
+.container-wrap-empty{
+  max-width: 1060px;
+  margin: 0 auto;
+}
+.container-inner{
+  background-color: #f1c88b;
+  border-radius: 5px;
+  padding: 20px;
+}
+.row-no-margin{
+  margin-left: 0;
+  margin-right: 0;
+}
+.button{
+  background-color: #c56639;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
 /*# sourceMappingURL=style.css.map

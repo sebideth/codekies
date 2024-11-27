@@ -184,8 +184,9 @@ def update_user(id):
     try:
         usuarios.update_user(id,datos)
     except Exception as e:
+        logger.error(LOG_ERROR_QUERY + 'usuarios.update_user', e)
         return jsonify({'error': ERROR_INESPERADO}), http.client.INTERNAL_SERVER_ERROR
-    return jsonify(usuarios.usuario_by_id(id)), http.client.OK
+    return jsonify(usuarios.usuario_by_id(id)[0]), http.client.OK
 
 @app.route('/api/usuarios/<int:id>', methods=['GET'])
 def get_user(id):

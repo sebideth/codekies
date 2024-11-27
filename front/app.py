@@ -183,27 +183,42 @@ def upload_pet():
 
 @app.route('/profile', methods=["GET"])
 def profile():
+    if not is_logged_in():
+        return render_template('auth.html', is_logged_in = is_logged_in())
     try:
-        response = requests.get(f'http://localhost:5001/api/usuarios/{session['user_id']}')
+        response = requests.get(f'http://localhost:5001/api/usuarios/{session.get('user_id')}')
         response.raise_for_status()
         user = response.json()
     except requests.exceptions.RequestException as e:
         print(f"error:{e}")
     return render_template('profile.html', user=user, is_logged_in = is_logged_in())
 
+
+@app.route('/profile/update', methods=["GET"])
+def profile_edit():
+    try:
+        response = requests.get(f'http://localhost:5001/api/usuarios/{session['user_id']}')
+        response.raise_for_status()
+        user = response.json()
+    except requests.exceptions.RequestException as e:
+        print(f"error:{e}")
+    return render_template('update_profile.html', user=user, is_logged_in = is_logged_in())
+
+
 @app.route('/profile', methods=["POST"])
 def profile_update():
-    name = request.form.get('name')
-    email = request.form.get('email')
-    password = request.form.get('password')
-    cellphone = request.form.get('cellphone')
-    print(name, email, password,cellphone)
-    return render_template('profile.html', user={
-    "nombre": name,
-    "apellido": "Aznarez",
-    "email": email,
-    "telefono": cellphone
-}, is_logged_in = is_logged_in())
+    try:
+        response = requests.put(f'http://localhost:5001/api/usuarios/{session['user_id']}', json={
+            "nombre" :request.form.get('name'),
+            "apellido" : request.form.get('lastname'),
+            "password": request.form.get('password'),
+            "telefono" : request.form.get('cellphone')
+        })
+        response.raise_for_status()
+        user = response.json()
+    except requests.exceptions.RequestException as e:
+        print(f"error:{e}")
+    return render_template('profile.html', user=user, is_logged_in = is_logged_in())
 
 @app.errorhandler(500)
 def internal_server_error(error):
