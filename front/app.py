@@ -143,7 +143,7 @@ def pet_delete(id):
     response_code = response.status_code
     if response_code in [403, 404]:
         abort(response_code)
-    return redirect(url_for('pets'))
+    return redirect(url_for('profile'))
 
 @app.route('/about')
 def about():
@@ -171,8 +171,8 @@ def auth():
                 session['cookie'] = request_session.cookies.get_dict()
                 session['user_id'] = response.json()['user_id']
                 return redirect(url_for('home'))
-            #else:
-                #return redirect(url_for('index.html'))
+            else:
+                return render_template('auth_error.html', error=response.json()['error'])
         else:
             datos = {
                     "email": newemail,
@@ -183,7 +183,8 @@ def auth():
                     "apellido" : newlastname
                 }
             response = requests.post('http://127.0.0.1:5001/api/register', json = datos)
-            #if response.status_code != 201:
+            if response.status_code != 201:
+                return render_template('auth_error.html', error=response.json()['error'])
     return render_template('auth.html', is_logged_in=is_logged_in())
 
 @app.route('/logout')
