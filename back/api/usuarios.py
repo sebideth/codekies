@@ -25,6 +25,14 @@ INSERTS_USUARIOS_DEFAULT =  [
     VALUES ("test3", "test3", "Nombre3", "Apellido3", "email3@gmail.com", "111333333");'''
 ]
 
+QUERY_CARGAR_DATOS_USUARIO_MASCOTA_ENCONTRADA = '''
+select animales.animal, animales.raza, animales.urlFoto, animales.descripcion, animales.id, usuarios.nombre, usuarios.apellido, usuarios.email 
+From usuarios_animales, usuarios, animales 
+where animal_id in (
+select id from animales where userID=:usuario_id
+) and usuario_id = usuarios.id and animal_id = animales.id  
+'''
+
 def usuario_by_id(id):
     try:
         connection = engine().connect()
@@ -67,6 +75,13 @@ def update_user(id, datos):
         if connection:
             connection.close()
 
+
+def get_my_founded_pets(user_id):
+    with engine().connect() as connection:
+        result = pet_found_to_dict(run_query(connection, QUERY_CARGAR_DATOS_USUARIO_MASCOTA_ENCONTRADA, {'usuario_id': user_id}))
+        return result
+
+
 def validate_all_columns(data):
     for columna in COLUMNAS_ACTUALIZAR:
         if columna not in data.keys():
@@ -83,5 +98,21 @@ def to_dict(data):
             'apellido':     row[4],
             'email':        row[5],
             'telefono':     row[6]
+        })
+    return result
+
+
+def pet_found_to_dict(data):
+    result = []
+    for row in data:
+        result.append({
+            'animal': row[0],
+            'raza': row[1],
+            'fotoUrl': row[2],
+            'descripcion': row[3],
+            'animal_id': row[4],
+            'nombre_usuario': row[5],
+            'apellido_usuario': row[6],
+            'email_usuario': row[7]
         })
     return result

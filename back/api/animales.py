@@ -10,6 +10,11 @@ INSERT INTO animales (animal, raza, condicion, color, direccion, urlFoto, descri
 VALUES (:animal, :raza, :condicion, :color, :direccion, :urlFoto, :descripcion, :fechaPerdido, :fechaEncontrado, :userID)
 '''
 
+QUERY_CARGAR_ANIMAL_ENCONTRADO = '''
+INSERT INTO usuarios_animales (animal_id, usuario_id) VALUES (:animal_id, :usuario_id)
+'''
+
+
 QUERY_BORRAR_ANIMAL = 'DELETE FROM animales WHERE id = :id'
 
 QUERY_ULTIMOS_N_ANIMALES = 'SELECT * FROM animales ORDER BY id DESC LIMIT :n'
@@ -72,6 +77,13 @@ def add_animal(datos, user_id):
     finally:
         if connection:
             connection.close()
+
+
+def add_animal_encontrado(datos, user_id):
+    with engine().connect() as connection:
+        datos["usuario_id"] = user_id
+        run_query(connection, QUERY_CARGAR_ANIMAL_ENCONTRADO, datos)
+
 
 def update_animal(id, datos):
     try:

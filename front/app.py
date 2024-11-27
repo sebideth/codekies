@@ -84,6 +84,11 @@ def pet_confirm(pet_id=None):
 def pet_found(pet_id=None):
     if not session.get('cookie'):
         redirect(url_for('login'))
+    if not pet_id:
+        return redirect(url_for('pets'))
+    response = requests.post("http://127.0.0.1:5001/api/animales/found", json={"animal_id": pet_id}, cookies=session.get('cookie'))
+    if response.status_code != 201:
+        return render_template('pet_found.html')
     return render_template('pet_found.html')
 
 

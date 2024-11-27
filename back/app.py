@@ -10,6 +10,8 @@ from flask import (
     session,
 )
 from sqlalchemy import exc
+
+from utils.email import send_email
 from utils.decorators import login_required
 import config
 from commands.database import database_cli
@@ -105,6 +107,30 @@ def search_animales():
         return jsonify({"error": ERROR_INESPERADO}), http.client.INTERNAL_SERVER_ERROR
     return jsonify(result), http.client.OK
 
+@app.route('/api/animales/found', methods=['POST'])
+@login_required
+def pet_found():
+    data = request.get_json()
+    # TODO: Validar que esten todos los campos
+    if not data:
+        return jsonify({'error': 'Faltan datos'}), http.client.BAD_REQUEST
+    try:
+        animal = animales.animal_by_id(data.get('animal_id'))
+        if not animal:
+            return jsonify({'error': "Mascota inexistente"}), http.client.NOT_FOUND
+    except Exception as error:
+        logger.error(LOG_ERROR_QUERY + 'animales.animal_by_id' + str(error))
+        return jsonify({"error": ERROR_INESPERADO}), http.client.INTERNAL_SERVER_ERROR
+
+    try:
+        animales.add_animal_encontrado(data, session["user_id"])
+        send_email("dnadares@gmail.com", "Test", "some content")
+    except Exception as error:
+        logger.error(LOG_ERROR_QUERY + 'animales.add_animal_encontrado' + str(error))
+        return jsonify({"error": ERROR_INESPERADO}), http.client.INTERNAL_SERVER_ERROR
+    return jsonify({"mensaje": "animal encontrado"}), http.client.CREATED
+
+
 @app.route('/api/animales/usuario', methods=['GET'])
 @login_required
 def get_all_animales_from_usuario():
@@ -179,7 +205,7 @@ def logout():
 
 @app.route('/api/usuarios/<int:id>', methods=['PUT'])
 def update_user(id):
-    if not usuarios.exist_user(id): 
+    if not usuarios.exist_user(id):
         return jsonify({'error': ERROR_USUARIO_NO_ENCONTRADRO}), http.client.NOT_FOUND
     datos = request.get_json()
     is_valid, column = usuarios.validate_all_columns(datos)
@@ -194,9 +220,21 @@ def update_user(id):
 
 @app.route('/api/usuarios/<int:id>', methods=['GET'])
 def get_user(id):
-    if not usuarios.exist_user(id): 
+    if not usuarios.exist_user(id):
         return jsonify({'error': ERROR_USUARIO_NO_ENCONTRADRO}), http.client.NOT_FOUND
     return jsonify(usuarios.usuario_by_id(id)[0]), http.client.OK
+
+
+@app.route('/api/usuarios/founded', methods=['GET'])
+@login_required
+def get_found_pets():
+    if not usuarios.exist_user(session.get('user_id')):
+        return jsonify({'error': ERROR_USUARIO_NO_ENCONTRADRO}), http.client.NOT_FOUND
+    found = usuarios.get_my_founded_pets(session.get('user_id'))
+    return jsonify({"mascotas": found}), http.client.OK
+
+
+
 
 if __name__ == "__main__":
     app.run("127.0.0.1", port=5001, debug=config.debug)

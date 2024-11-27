@@ -51,6 +51,14 @@ def init_database(database):
                                 "FOREIGN KEY (userID) REFERENCES usuarios(id))"
                                 )
                            )
+        connection.execute(text("CREATE TABLE usuarios_animales ("
+                                "usuario_id INT NOT NULL,"
+                                "animal_id INT NOT NULL,"
+                                "PRIMARY KEY (usuario_id, animal_id),"
+                                "FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,"
+                                "FOREIGN KEY (animal_id) REFERENCES animales(id) ON DELETE CASCADE)"
+                                )
+                           )
         print(f"[{Fore.GREEN}*{Style.RESET_ALL}] Created successfully!")
     except Exception as e:
         print(f"[{Fore.RED}*{Style.RESET_ALL}] Could not create database -> {e}")
