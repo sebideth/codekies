@@ -8,6 +8,7 @@ from flask import (
     request,
     jsonify,
     session,
+    render_template,
 )
 from sqlalchemy import exc
 
@@ -26,6 +27,7 @@ LOG_ERROR_QUERY = "Error al correr la query: "
 ERROR_INESPERADO = "Error inesperado."
 ERROR_USUARIO_NO_ENCONTRADRO = "Usuario no encontrado"
 
+
 # Animales
 @app.route('/api/animales', methods=['GET'])
 def get_all_animales():
@@ -36,6 +38,7 @@ def get_all_animales():
         return jsonify({"error": ERROR_INESPERADO}), http.client.INTERNAL_SERVER_ERROR
     return jsonify(result), http.client.OK
 
+
 @app.route('/api/animales/ultimos/<int:n>', methods=['GET'])
 def get_last_n_animales(n):
     try:
@@ -44,6 +47,7 @@ def get_last_n_animales(n):
         logger.error(LOG_ERROR_QUERY + 'animales.last_n_animales' + str(error))
         return jsonify({"error": ERROR_INESPERADO}), http.client.INTERNAL_SERVER_ERROR
     return jsonify(result), http.client.OK
+
 
 @app.route('/api/animales/<int:id>', methods=['GET'])
 def get_animal_by_id(id):
@@ -55,6 +59,7 @@ def get_animal_by_id(id):
         logger.error(LOG_ERROR_QUERY + 'animales.animal_by_id' + str(error))
         return jsonify({"error": ERROR_INESPERADO}), http.client.INTERNAL_SERVER_ERROR
     return jsonify(result[0]), http.client.OK
+
 
 @app.route('/api/animales', methods=['POST'])
 @login_required
@@ -70,18 +75,20 @@ def add_animal():
         return jsonify({"error": ERROR_INESPERADO}), http.client.INTERNAL_SERVER_ERROR
     return jsonify(datos), http.client.CREATED
 
+
 @app.route('/api/animales/<int:id>', methods=['PUT'])
 @login_required
 def update_animal(id):
     datos = request.get_json()
     try:
-        animales.update_animal(id,datos)
+        animales.update_animal(id, datos)
         if not animales.validate_user_owner(id, session['user_id']):
             return jsonify({'error': 'Esta publicación no pertenece al usuario'}), http.client.FORBIDDEN
     except Exception as error:
         logger.error(LOG_ERROR_QUERY + 'animales.update_animal' + str(error))
         return jsonify({"error": ERROR_INESPERADO}), http.client.INTERNAL_SERVER_ERROR
     return jsonify(animales.animal_by_id(id)), http.client.OK
+
 
 @app.route('/api/animales/<int:id>', methods=['DELETE'])
 @login_required
@@ -97,6 +104,7 @@ def delete_animal(id):
         return jsonify({"error": ERROR_INESPERADO}), http.client.INTERNAL_SERVER_ERROR
     return jsonify({"message": "Publicación eliminada con éxito"}), http.client.OK
 
+
 @app.route('/api/animales/buscar', methods=['GET'])
 def search_animales():
     datos = request.get_json()
@@ -106,6 +114,7 @@ def search_animales():
         logger.error(LOG_ERROR_QUERY + 'animales.filter_animal' + str(error))
         return jsonify({"error": ERROR_INESPERADO}), http.client.INTERNAL_SERVER_ERROR
     return jsonify(result), http.client.OK
+
 
 @app.route('/api/animales/found', methods=['POST'])
 @login_required
@@ -124,10 +133,24 @@ def pet_found():
 
     try:
         animales.add_animal_encontrado(data, session["user_id"])
-        send_email("dnadares@gmail.com", "Test", "some content")
     except Exception as error:
         logger.error(LOG_ERROR_QUERY + 'animales.add_animal_encontrado' + str(error))
         return jsonify({"error": ERROR_INESPERADO}), http.client.INTERNAL_SERVER_ERROR
+
+    try:
+        # get user email
+        usuario = usuarios.usuario_by_id(animal[0]['userID'])
+        if not usuario:
+            return jsonify({'error': 'Usuario del animal inexistente'}), http.client.NOT_FOUND
+        usuario_reclamo = usuarios.usuario_by_id(session.get("user_id"))
+        if not usuario_reclamo:
+            return jsonify({'error': 'Usuario que reclama inexistente'}), http.client.NOT_FOUND
+        content = render_template('email.html', usuario=usuario[0], animal=animal[0], usuario_reclamo=usuario_reclamo[0])
+        print(f"Sending email to {usuario[0]['email']}")
+        send_email(usuario[0]['email'], "Alguien reclamó tu mascota!", content)
+    except Exception as error:
+        logger.error(f"No se pudo enviar el e-mail {error}")
+
     return jsonify({"mensaje": "animal encontrado"}), http.client.CREATED
 
 
@@ -141,6 +164,7 @@ def get_all_animales_from_usuario():
         return jsonify({"error": ERROR_INESPERADO}), http.client.INTERNAL_SERVER_ERROR
     return jsonify(result), http.client.OK
 
+
 @app.route('/api/animales/datos', methods=['GET'])
 def datos_animales_():
     try:
@@ -148,7 +172,8 @@ def datos_animales_():
     except Exception as error:
         logger.error(LOG_ERROR_QUERY + 'animales.datos_animales' + str(error))
         return jsonify({"error": ERROR_INESPERADO}), http.client.INTERNAL_SERVER_ERROR
-    return jsonify(result),http.client.OK
+    return jsonify(result), http.client.OK
+
 
 # Users
 @app.route("/api/register", methods=["POST"])
@@ -192,16 +217,19 @@ def login():
         return jsonify({"error": "Error al iniciar sesión."}), http.client.INTERNAL_SERVER_ERROR
     return jsonify({"message": "Bienvenido!"}), http.client.OK
 
+
 @app.route('/api/usuarios/login')
 def is_logged_in():
     if session.get('logged_in'):
         return jsonify({"message": "Usuario loggeado"}), http.client.OK
     return jsonify({"message": "No hay usuario loggeado"}), http.client.BAD_REQUEST
 
+
 @app.route("/api/logout", methods=["GET"])
 def logout():
     session.clear()
     return jsonify({"message": "Bye"}), http.client.OK
+
 
 @app.route('/api/usuarios/<int:id>', methods=['PUT'])
 def update_user(id):
@@ -213,10 +241,11 @@ def update_user(id):
         logger.error(f"{column} no puede ser null")
         return jsonify({'error': "Error al actualizar tus datos."}), http.client.BAD_REQUEST
     try:
-        usuarios.update_user(id,datos)
+        usuarios.update_user(id, datos)
     except Exception as e:
         return jsonify({'error': ERROR_INESPERADO}), http.client.INTERNAL_SERVER_ERROR
     return jsonify(usuarios.usuario_by_id(id)), http.client.OK
+
 
 @app.route('/api/usuarios/<int:id>', methods=['GET'])
 def get_user(id):
@@ -232,8 +261,6 @@ def get_found_pets():
         return jsonify({'error': ERROR_USUARIO_NO_ENCONTRADRO}), http.client.NOT_FOUND
     found = usuarios.get_my_founded_pets(session.get('user_id'))
     return jsonify({"mascotas": found}), http.client.OK
-
-
 
 
 if __name__ == "__main__":

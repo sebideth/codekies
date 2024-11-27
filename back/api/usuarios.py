@@ -14,15 +14,15 @@ COLUMNAS_ACTUALIZAR = ['nombre', 'apellido', 'telefono', 'password']
 INSERTS_USUARIOS_DEFAULT =  [
     '''
     INSERT INTO usuarios (nombreUsuario, password, nombre, apellido, email, telefono)
-    VALUES ("test", "test", "Nombre", "Apellido", "email@gmail.com", "111234565");
+    VALUES ("test", "test", "Pedro", "Perez", "fdarias@fi.uba.ar", "111234565");
     ''',
     '''
     INSERT INTO usuarios (nombreUsuario, password, nombre, apellido, email, telefono)
-    VALUES ("test2", "test2", "Nombre2", "Apellido2", "email2@gmail.com", "111333333");
+    VALUES ("test2", "test2", "Maria", "Lopez", "dnadares@fi.uba.ar", "111333333");
     ''',
     '''
     INSERT INTO usuarios (nombreUsuario, password, nombre, apellido, email, telefono)
-    VALUES ("test3", "test3", "Nombre3", "Apellido3", "email3@gmail.com", "111333333");'''
+    VALUES ("test3", "test3", "Juan", "Gomez", "mcmena@fi.uba.ar", "111333333");'''
 ]
 
 QUERY_CARGAR_DATOS_USUARIO_MASCOTA_ENCONTRADA = '''

@@ -65,7 +65,7 @@ def init_database(database):
 
 @database_cli.command("build", help="Building the database.")
 @click.argument("database", default=config.db_name)
-def init_database(database):
+def build_database(database):
     print(f"[{Fore.GREEN}*{Style.RESET_ALL}] Building database...")
     print(f"[{Fore.GREEN}*{Style.RESET_ALL}] Database name {database}")
     try:

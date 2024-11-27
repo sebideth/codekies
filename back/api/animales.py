@@ -30,11 +30,11 @@ INSERTS_ANIMALES_DEFAULT = [
     ''',
     '''
     INSERT INTO animales (animal, raza, condicion, color, direccion, urlFoto, descripcion, fechaPerdido, fechaEncontrado, userID)
-    VALUES ("Perro", "Desconocida", "Encontrado sin dueño", "Marron claro", "Villa Devoto, Buenos Aires, Argentina", "/static/images/imagenes_mascotas/doge.png", "Sin descripción", null, "2024-06-11", 1);
+    VALUES ("Perro", "Desconocida", "Encontrado sin dueño", "Marron claro", "Villa Devoto, Buenos Aires, Argentina", "/static/images/imagenes_mascotas/doge.png", "Cara de meme", null, "2024-06-11", 1);
     ''',
     '''
     INSERT INTO animales (animal, raza, condicion, color, direccion, urlFoto, descripcion, fechaPerdido, fechaEncontrado, userID)
-    VALUES ("Gato", "Desconocida", "Encontrado sin dueño", "Negro", "UBA Facultad de Ingeniería, Avenida Paseo Colón 850, San Telmo, C1100 AAC Buenos Aires, Argentina", "/static/images/imagenes_mascotas/gato.jpg", "Sin descripción", null, "2024-06-11", 2);
+    VALUES ("Gato", "Desconocida", "Encontrado sin dueño", "Negro", "UBA Facultad de Ingeniería, Avenida Paseo Colón 850, San Telmo, C1100 AAC Buenos Aires, Argentina", "/static/images/imagenes_mascotas/gato.jpg", "Gato negro", null, "2024-06-11", 2);
     ''',
     '''
     INSERT INTO animales (animal, raza, condicion, color, direccion, urlFoto, descripcion, fechaPerdido, fechaEncontrado, userID)

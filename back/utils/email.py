@@ -1,21 +1,26 @@
 import os
+import logging
+
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
+logger = logging.getLogger(__name__)
 
 
 def send_email(to, subject, content):
-    message = Mail(
-        from_email='dnadares@gmail.com',
-        to_emails='fdarias@fi.uba.ar',
-        subject='Sending with Twilio SendGrid is Fun',
-        html_content='<strong>and easy to do anywhere, even with Python</strong>')
     try:
-        print(os.environ.get('SENDGRID_API_KEY'))
+        message = Mail(
+            from_email=os.environ.get('SENDER'),
+            to_emails=to,
+            subject=subject,
+            html_content=content
+        )
         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
         response = sg.send(message)
-        print(response.status_code)
-        print(response.body)
-        print(response.headers)
+        logger.debug(response.status_code)
+        logger.debug(response.body)
+        logger.debug(response.headers)
+        return True
     except Exception as e:
-        print(e.message)
+        logger.error(e)
+        return False

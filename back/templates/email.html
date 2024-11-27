@@ -1,0 +1,67 @@
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>¡Han Encontrado a Tu Mascota!</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f4f4f4;
+                    margin: 0;
+                    padding: 0;
+                }
+                .email-container {
+                    width: 100%;
+                    max-width: 600px;
+                    margin: 20px auto;
+                    background-color: #ffffff;
+                    padding: 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                }
+                h1 {
+                    color: #4CAF50;
+                    text-align: center;
+                }
+                p {
+                    font-size: 16px;
+                    line-height: 1.6;
+                    color: #333333;
+                }
+                .highlight {
+                    color: #FF5722;
+                    font-weight: bold;
+                }
+                .btn {
+                    display: inline-block;
+                    background-color: #4CAF50;
+                    color: #ffffff;
+                    padding: 12px 20px;
+                    text-decoration: none;
+                    border-radius: 5px;
+                    text-align: center;
+                    font-weight: bold;
+                }
+                .footer {
+                    text-align: center;
+                    font-size: 12px;
+                    color: #888888;
+                    margin-top: 20px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="email-container">
+                <h1>¡Buenas noticias! Alguien a reclamado tu mascota!</h1>
+                <p>Querido/a {{ usuario['nombre'] }} {{ usuario['apellido'] }},</p>
+                <p>Nos complace informarte que tu querida mascota con la descripción <span class="highlight">{{ animal['descripcion'] }}</span> ha sido reclamada. Una persona atenta ha decidido ponerse en contacto con nosotros para reclamarla.</p>
+                <p>A continuación, te proporcionamos los detalles para que puedas coordinar:</p>
+                <ul>
+                    <li><strong>Información de contacto:</strong>{{ usuario_reclamo['nombre'] }} {{ usuario_reclamo['apellido'] }} / {{ usuario_reclamo['email'] }}</li>
+                </ul>
+                <p>¡Estamos muy contentos de que alguien la haya encontrado! Si tienes alguna duda o pregunta, no dudes en ponerte en contacto con nosotros.</p>
+
+                <div class="footer">
+                    <p>Gracias por confiar en nosotros. Si tienes más preguntas, puedes responder a este correo.</p>
+                    <p>&copy; 2024 Pata a Casa</p>
+                </div>
+            </div>
