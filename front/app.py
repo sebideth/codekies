@@ -26,7 +26,7 @@ def pets():
     except requests.exceptions.RequestException as e:
         print(f"error al obtener los datos de animales: {e}")
         datos_filtro = []
-    
+
     try:
         animales_response = requests.get('http://localhost:5001/api/animales')
         animales_response.raise_for_status()
@@ -186,7 +186,7 @@ def profile():
     if not is_logged_in():
         return render_template('auth.html', is_logged_in = is_logged_in())
     try:
-        response = requests.get(f'http://localhost:5001/api/usuarios/{session.get('user_id')}')
+        response = requests.get(f"http://localhost:5001/api/usuarios/{session.get('user_id')}")
         response.raise_for_status()
         user = response.json()
     except requests.exceptions.RequestException as e:
@@ -197,7 +197,7 @@ def profile():
 @app.route('/profile/update', methods=["GET"])
 def profile_edit():
     try:
-        response = requests.get(f'http://localhost:5001/api/usuarios/{session['user_id']}')
+        response = requests.get(f"http://localhost:5001/api/usuarios/{session['user_id']}")
         response.raise_for_status()
         user = response.json()
     except requests.exceptions.RequestException as e:
@@ -208,7 +208,7 @@ def profile_edit():
 @app.route('/profile', methods=["POST"])
 def profile_update():
     try:
-        response = requests.put(f'http://localhost:5001/api/usuarios/{session['user_id']}', json={
+        response = requests.put(f"http://localhost:5001/api/usuarios/{session['user_id']}", json={
             "nombre" :request.form.get('name'),
             "apellido" : request.form.get('lastname'),
             "password": request.form.get('password'),

@@ -10,7 +10,7 @@ VALUES (:username, :password, :nombre, :apellido, :email, :telefono)
 QUERY_LOGIN_USER = 'SELECT * FROM usuarios WHERE nombreUsuario = :username and password = :password'
 
 COLUMNAS_ACTUALIZAR_USUARIO = ['nombre', 'apellido', 'telefono']
-QUERY_ACTUALIZAR_USUARIO = f"UPDATE usuarios SET {", ".join([f"{col} = :{col}" for col in COLUMNAS_ACTUALIZAR_USUARIO])}"
+QUERY_ACTUALIZAR_USUARIO = f'UPDATE usuarios SET {", ".join([f"{col} = :{col}" for col in COLUMNAS_ACTUALIZAR_USUARIO])}'
 
 INSERTS_USUARIOS_DEFAULT =  [
     '''
@@ -59,12 +59,12 @@ def update_user(id, datos):
     query = QUERY_ACTUALIZAR_USUARIO
     params = {col: datos.get(col) for col in COLUMNAS_ACTUALIZAR_USUARIO}
     params["id"] = id
-    
+
     password = datos.get("password")
     if password is not None and password.strip() != "":
         query += ", password = :password"
         params["password"] = password
-        
+
     query += ' WHERE id = :id'
     try:
         connection = engine().connect()
