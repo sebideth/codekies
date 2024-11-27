@@ -1,0 +1,112 @@
+{
+	"info": {
+		"_postman_id": "fd00341f-a84e-425a-b201-191bf417b936",
+		"name": "animales",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "39751995"
+	},
+	"item": [
+		{
+			"name": "todos los animales",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:5001/api/animales"
+			},
+			"response": []
+		},
+		{
+			"name": "cargar animal",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"animal\": \"Perro\",\n    \"raza\": \"Desconocida\",\n    \"condicion\": \"Encontrado sin dueño\",\n    \"color\": \"Blanco\",\n    \"direccion\": \"UBA Facultad de Ingeniería, Avenida Paseo Colón 850, San Telmo, C1100 AAC Buenos Aires, Argentina\",\n    \"urlFoto\": \"/static/images/imagenes_mascotas/doge.png\",\n    \"descripcion\": \"Sin descripción\",\n    \"fechaPerdido\": null,\n    \"fechaEncontrado\": \"2024-01-01\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:5001/api/animales"
+			},
+			"response": []
+		},
+		{
+			"name": "animal por id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:5001/api/animales/2"
+			},
+			"response": []
+		},
+		{
+			"name": "actualizar animal",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"animal\": \"gato\",\n    \"raza\": \"siames\",\n    \"condicion\": \"perdido\",\n    \"color\": \"gris\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:5001/api/animales/1"
+			},
+			"response": []
+		},
+		{
+			"name": "borrar animal",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://127.0.0.1:5001/api/animales/2"
+			},
+			"response": []
+		},
+		{
+			"name": "filtrar animales",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"animal\": \"Perro\",\n    \"condicion\": \"Perdido\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:5001/api/animales/buscar"
+			},
+			"response": []
+		},
+		{
+			"name": "todos los animales de un usuario",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:5001/api/animales/usuario"
+			},
+			"response": []
+		},
+		{
+			"name": "ultimos n animales",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:5001/api/animales/ultimos/2"
+			},
+			"response": []
+		}
+	]
+}

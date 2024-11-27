@@ -1,0 +1,82 @@
+{
+	"info": {
+		"_postman_id": "269b3c55-ffba-4b39-b2b2-d599ed4abfaf",
+		"name": "users",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "39751995"
+	},
+	"item": [
+		{
+			"name": "registrar usuario",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"test4\",\n    \"password\": \"test4\",\n    \"email\": \"email4@email.com\",\n    \"telefono\": \"11444444\",\n    \"nombre\": \"Nombre4\",\n    \"apellido\": \"Apellido4\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:5001/api/register"
+			},
+			"response": []
+		},
+		{
+			"name": "usuario por id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:5001/api/usuarios/2"
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"test2\",\n    \"password\": \"test2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:5001/api/login"
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:5001/api/logout"
+			},
+			"response": []
+		},
+		{
+			"name": "update usuario",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"password\": \"nuevacontraseña\",\n    \"telefono\": \"113423651\",\n    \"nombre\": \"Pepito\",\n    \"apellido\": \"Smith\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:5001/api/usuarios/1"
+			},
+			"response": []
+		}
+	]
+}

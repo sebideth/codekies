@@ -210,12 +210,13 @@ def login():
         user = usuarios.login_user(user_data)
         if not user:
             return jsonify({'error': 'Usuario o Password invalidos'}), http.client.FORBIDDEN
+        session.clear()
         session["logged_in"] = True
         session["user_id"] = user.id
     except Exception as error:
         logger.error(f"Could not fetch user {user_data.get('username')}. {error}")
         return jsonify({"error": "Error al iniciar sesión."}), http.client.INTERNAL_SERVER_ERROR
-    return jsonify({"message": "Bienvenido!"}), http.client.OK
+    return jsonify({"message": "Bienvenido!", "user_id": session["user_id"]}), http.client.OK
 
 
 @app.route('/api/usuarios/login')
@@ -243,8 +244,9 @@ def update_user(id):
     try:
         usuarios.update_user(id, datos)
     except Exception as e:
+        logger.error(LOG_ERROR_QUERY + 'usuarios.update_user', e)
         return jsonify({'error': ERROR_INESPERADO}), http.client.INTERNAL_SERVER_ERROR
-    return jsonify(usuarios.usuario_by_id(id)), http.client.OK
+    return jsonify(usuarios.usuario_by_id(id)[0]), http.client.OK
 
 
 @app.route('/api/usuarios/<int:id>', methods=['GET'])

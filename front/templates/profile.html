@@ -1,42 +1,43 @@
 {% extends 'base.html' %}
 {% block profileactive %} class="active" {% endblock %}
 {% block body %}
-<div class="container-wrap">
-    <div class="row-center" >
-        <form class="col-md-6 animate-box" action=" {{ url_for('profile_update')}}" method="post">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" name="email" placeholder="Email" value="{{user.email}}" required>
-                    </div>
+<div class="container-wrap-empty">
+    <div class="row-center row-no-margin" >
+        <div class="col-md-8 card-container">
+            <div class="row row-no-margin">
+                <div class="col-xs-6">
+                    <h1>Perfil</h1>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="cellphone">Telefono</label>
-                        <input type="number" class="form-control" name="cellphone" placeholder="Cellphone" value="{{user.telefono}}" required>
+                <div class="col-xs-6" style="text-align: right;">
+                    <a class="button" href=" {{ url_for('profile_edit')}}">Editar</a>
+                </div>
+            </div>
+
+            <div class="row row-no-margin container-inner">
+                <div class="col-md-12">
+                    <div class="row row-no-margin">
+                        <div class="col-md-6">
+                            <label>Nombre</label>
+                            <p>{{ user.nombre }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Apellido</label>
+                            <p>{{ user.apellido }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Email</label>
+                            <p>{{ user.email }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Telefono</label>
+                            <p>{{ user.telefono }}</p>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="name">Nombre</label>
-                        <input type="password" class="form-control" name="name" placeholder="Name" value="{{user.nombre}}" required>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="password">Contrasena</label>
-                        <input type="text" class="form-control" name="password" placeholder="Password" required>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <input type="submit" value="Editar datos" class="btn btn-primary btn-modify">
-                    </div>
-                </div>
             </div>
-        </form>
+
+        </div>
     </div>
 </div>
 

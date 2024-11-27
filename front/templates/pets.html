@@ -5,7 +5,7 @@
 		<aside id="fh5co-hero" class="fondoa">
 			<div class="flexslider">
 				<ul class="slides">
-			   	<li style="background-image: url(images/img_bg_3.jpg);">
+				<li>
 			   		<div class="overlay-gradient"></div>
 			   		<div class="container-fluids">
 			   			<div class="row">
@@ -14,7 +14,7 @@
 									<h1 class="titulo-pets">Encontrá tu mascota</h1>
 									<p>
 										<a class="btn btn-primary btn-demo" href="{{ url_for('pets_search', condicion='Perdido') }}">Perdidas</a>
-										<a class="btn btn-primary btn-demo" href="{{ url_for('pets_search', condicion='encontrado') }}">Encontradas</a>
+										<a class="btn btn-primary btn-demo" href="{{ url_for('pets_search', condicion='Encontrado sin dueño') }}">Encontradas</a>
 									</p>
 									<form method="get" action="{{ url_for('pets_search') }}" class="form_filtro">
 										<label for="filtro">Filtrar por:</label>
@@ -54,9 +54,9 @@
 						<img src="{{animal.urlFoto}}" alt="foto de la mascota" class="img-fluid img-pets">
 						<div class="blog-text">
 							{% if animal.fechaPerdido %}
-								<span class="posted_on">{{animal.fechaPerdido}}</span>
+								<span class="posted_on">Fecha de perdido: {{animal.fechaPerdido}}</span>
 							{% else %}
-								<span class="posted_on">{{animal.fechaEncontrado}}</span>
+								<span class="posted_on">Fecha de encontrado: {{animal.fechaEncontrado}}</span>
 							{% endif %}
 							<h3><a href="#">{{animal.animal}}</a></h3>
 							<p class="descripcion">{{animal.descripcion}}</p>
