@@ -22,7 +22,7 @@
 										{% for filtro, valores in datos_filtro.items() %}
 
 											<select name="{{filtro}}">
-												<option value="">{{filtro}}</option>
+												<option value="" disabled selected>{{filtro}}</option>
 
 												{% for valor in valores %}
 												<option value="{{ valor }}">{{ valor }}</option>
@@ -49,7 +49,7 @@
 			<div class="row">
 				{% for animal in animales %}
 
-				<div class="col-md-4 ">
+				<div class="col-md-4 targeta-hover">
 					<div class="fh5co-blog animate-box targeta-animales">
 						<img src="{{animal.urlFoto}}" alt="foto de la mascota" class="img-fluid img-pets">
 						<div class="blog-text">
