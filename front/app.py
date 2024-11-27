@@ -87,10 +87,6 @@ def about():
 
 @app.route('/auth', methods=["POST", "GET"])
 def auth():
-    if is_logged_in():
-        req = requests.get('http://localhost:5001/api/usuarios/login', cookies=is_logged_in())
-        if req.status_code == 200:
-            return redirect(url_for('pets'))
     if request.method == 'POST':
         username = request.form.get("username")
         passwd = request.form.get('passwd')
