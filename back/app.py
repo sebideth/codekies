@@ -71,7 +71,7 @@ def add_animal():
     try:
         animales.add_animal(datos, session["user_id"])
     except Exception as error:
-        logger.error(LOG_ERROR_QUERY + 'animales.add_animal' + str(error))
+        logger.error(LOG_ERROR_QUERY + ' animales.add_animal' + str(error))
         return jsonify({"error": ERROR_INESPERADO}), http.client.INTERNAL_SERVER_ERROR
     return jsonify(datos), http.client.CREATED
 

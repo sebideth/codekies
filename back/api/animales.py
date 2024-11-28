@@ -6,8 +6,8 @@ QUERY_TODOS_LOS_ANIMALES = 'SELECT * FROM animales'
 QUERY_ANIMAL_POR_ID = 'SELECT * FROM animales WHERE id = :id'
 
 QUERY_CARGAR_ANIMAL = '''
-INSERT INTO animales (animal, raza, condicion, color, zona, urlFoto, descripcion, fechaPerdido, fechaEncontrado, userID)
-VALUES (:animal, :raza, :condicion, :color, :zona, :urlFoto, :descripcion, :fechaPerdido, :fechaEncontrado, :userID)
+INSERT INTO animales (animal, raza, condicion, color, zona, lat, lng, urlFoto, descripcion, fechaPerdido, fechaEncontrado, userID)
+VALUES (:animal, :raza, :condicion, :color, :zona, :lat, :lng, :urlFoto, :descripcion, :fechaPerdido, :fechaEncontrado, :userID)
 '''
 
 QUERY_CARGAR_ANIMAL_ENCONTRADO = '''
@@ -19,7 +19,7 @@ QUERY_BORRAR_ANIMAL = 'DELETE FROM animales WHERE id = :id'
 
 QUERY_ULTIMOS_N_ANIMALES = 'SELECT * FROM animales ORDER BY id DESC LIMIT :n'
 
-COLUMNAS_REQUERIDAS = ['animal', 'condicion', 'color', 'zona', 'urlFoto', 'descripcion', 'fechaPerdido', 'fechaEncontrado']
+COLUMNAS_REQUERIDAS = ['animal', 'condicion', 'color', 'zona', 'lat', 'lng', 'urlFoto', 'descripcion', 'fechaPerdido', 'fechaEncontrado']
 
 COLUMNAS_FILTRO = ['animal', 'raza', 'condicion', 'color', 'fechaPerdido', 'fechaEncontrado', 'zona']
 
@@ -160,13 +160,15 @@ def to_dict(data):
             'condicion':        row[3],
             'color':            row[4],
             'zona':             row[5],
-            'urlFoto':          row[6],
-            'descripcion':      row[7],
-            'fechaPerdido':     row[8].strftime('%Y-%m-%d') if row[8] else row[8],
-            'fechaEncontrado':  row[9].strftime('%Y-%m-%d') if row[9] else row[9],
-            'fechaAlta':        row[10],
-            'resuelto':         bool(row[11]),
-            'userID':           row[12]
+            'lat': row[6],
+            'lng': row[7],
+            'urlFoto':          row[8],
+            'descripcion':      row[9],
+            'fechaPerdido':     row[10].strftime('%Y-%m-%d') if row[10] else row[10],
+            'fechaEncontrado':  row[11].strftime('%Y-%m-%d') if row[11] else row[11],
+            'fechaAlta':        row[12],
+            'resuelto':         bool(row[13]),
+            'userID':           row[14]
         })
     return result
 

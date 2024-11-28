@@ -36,11 +36,11 @@
 
 .pf-descBox,.pf-mapBox {
     width: 530px;
-    height: 315px
+    height: 315px;
 }
 
 .pf-mapBox {
-    height: 425px
+    height: 425px;
 }
 
 .pf-photoBox {
@@ -61,7 +61,7 @@
     margin-top: 15px;
     margin-left: 3px;
     width: 500px;
-    height: 320px
+    height: 300px
 }
 
 /* letras */
