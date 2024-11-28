@@ -40,7 +40,7 @@ def init_database(database):
                                 "raza VARCHAR(255) DEFAULT NULL,"
                                 "condicion VARCHAR(255) NOT NULL,"
                                 "color VARCHAR(50),"
-                                "direccion VARCHAR(255),"
+                                "zona VARCHAR(255),"
                                 "urlFoto VARCHAR(255),"
                                 "descripcion TEXT,"
                                 "fechaPerdido DATE,"

@@ -38,9 +38,11 @@
     </div>
 
     <div class="pf-mapBox">
-        <h3 class="typo-descTitle">Dirección:</h3>
+        <h3 class="typo-descTitle">Zona: {{ mascota.zona }}</h3>
+        <!-- <iframe class="map"
+            src="https://maps.geoapify.com/v1/staticmap?style=osm-bright&width=600&height=400&center=lonlat:-122.304378,47.526022&zoom=14&marker=lonlat:-122.30289742062351,47.525717721578246;color:%23ff0000;size:medium|lonlat:-122.30289742062351,47.525717721578246;color:%23ff0000;size:medium&apiKey=9d82b10b02a649e883471f803f7ffed5"></iframe> -->
         <iframe class="map"
-            src="https://maps.google.com/maps?hl=es&q={{ mascota.direccion }}&t=m&z=14&ie=UTF8&iwloc=B&output=embed"></iframe>
+            src="https://maps.google.com/maps?hl=es&q={{ mascota.zona }}&t=m&z=14&ie=UTF8&iwloc=B&output=embed"></iframe>
     </div>
 </div>
 {% endblock %}

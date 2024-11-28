@@ -121,7 +121,7 @@ class Main(Screen):
                     "fechaEncontrado": self.fechaEncontrado,
                     "fechaPerdido": self.fechaPerdido,
                     "raza": self.raza,
-                    "direccion": ubicacion,
+                    "zona": ubicacion,
                     "urlFoto": "static/images/imagenes_mascotas/grumpy.jpeg"
                     }
                 

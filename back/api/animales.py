@@ -6,8 +6,8 @@ QUERY_TODOS_LOS_ANIMALES = 'SELECT * FROM animales'
 QUERY_ANIMAL_POR_ID = 'SELECT * FROM animales WHERE id = :id'
 
 QUERY_CARGAR_ANIMAL = '''
-INSERT INTO animales (animal, raza, condicion, color, direccion, urlFoto, descripcion, fechaPerdido, fechaEncontrado, userID)
-VALUES (:animal, :raza, :condicion, :color, :direccion, :urlFoto, :descripcion, :fechaPerdido, :fechaEncontrado, :userID)
+INSERT INTO animales (animal, raza, condicion, color, zona, urlFoto, descripcion, fechaPerdido, fechaEncontrado, userID)
+VALUES (:animal, :raza, :condicion, :color, :zona, :urlFoto, :descripcion, :fechaPerdido, :fechaEncontrado, :userID)
 '''
 
 QUERY_CARGAR_ANIMAL_ENCONTRADO = '''
@@ -19,33 +19,34 @@ QUERY_BORRAR_ANIMAL = 'DELETE FROM animales WHERE id = :id'
 
 QUERY_ULTIMOS_N_ANIMALES = 'SELECT * FROM animales ORDER BY id DESC LIMIT :n'
 
-COLUMNAS_REQUERIDAS = ['animal', 'condicion', 'color', 'direccion', 'urlFoto', 'descripcion', 'fechaPerdido', 'fechaEncontrado']
+COLUMNAS_REQUERIDAS = ['animal', 'condicion', 'color', 'zona', 'urlFoto', 'descripcion', 'fechaPerdido', 'fechaEncontrado']
 
-COLUMNAS_FILTRO = ['animal', 'raza', 'condicion', 'color', 'fechaPerdido', 'fechaEncontrado', 'resuelto']
+COLUMNAS_FILTRO = ['animal', 'raza', 'condicion', 'color', 'fechaPerdido', 'fechaEncontrado', 'zona']
 
 INSERTS_ANIMALES_DEFAULT = [
     '''
-    INSERT INTO animales (animal, raza, condicion, color, direccion, urlFoto, descripcion, fechaPerdido, fechaEncontrado, userID)
-    VALUES ("Perro", "Chihuahua", "Perdido", "Blanco", "Avenida Paseo Colón 805, San Telmo, C1100 AAC Buenos Aires, Argentina", "/static/images/imagenes_mascotas/chihuahua.jpg", "Es muy simpaticón, responde al nombre Pepito", "2024-11-23", null, 1);
+    INSERT INTO animales (animal, raza, condicion, color, zona, urlFoto, descripcion, fechaPerdido, fechaEncontrado, userID)
+    VALUES ("Perro", "Chihuahua", "Perdido", "Blanco", "San Telmo", "/static/images/imagenes_mascotas/chihuahua.jpg", "Es muy simpaticón, responde al nombre Pepito", "2024-11-23", null, 1);
     ''',
     '''
-    INSERT INTO animales (animal, raza, condicion, color, direccion, urlFoto, descripcion, fechaPerdido, fechaEncontrado, userID)
-    VALUES ("Perro", "Desconocida", "Encontrado sin dueño", "Marron claro", "Villa Devoto, Buenos Aires, Argentina", "/static/images/imagenes_mascotas/doge.png", "Cara de meme", null, "2024-06-11", 1);
+    INSERT INTO animales (animal, raza, condicion, color, zona, urlFoto, descripcion, fechaPerdido, fechaEncontrado, userID)
+    VALUES ("Perro", "Desconocida", "Encontrado sin dueño", "Marron claro", "Villa Devoto", "/static/images/imagenes_mascotas/doge.png", "Cara de meme", null, "2024-06-11", 1);
     ''',
     '''
-    INSERT INTO animales (animal, raza, condicion, color, direccion, urlFoto, descripcion, fechaPerdido, fechaEncontrado, userID)
-    VALUES ("Gato", "Desconocida", "Encontrado sin dueño", "Negro", "UBA Facultad de Ingeniería, Avenida Paseo Colón 850, San Telmo, C1100 AAC Buenos Aires, Argentina", "/static/images/imagenes_mascotas/gato.jpg", "Gato negro", null, "2024-06-11", 2);
+    INSERT INTO animales (animal, raza, condicion, color, zona, urlFoto, descripcion, fechaPerdido, fechaEncontrado, userID)
+    VALUES ("Gato", "Desconocida", "Encontrado sin dueño", "Negro", "San Telmo", "/static/images/imagenes_mascotas/gato.jpg", "Gato negro", null, "2024-06-11", 2);
     ''',
     '''
-    INSERT INTO animales (animal, raza, condicion, color, direccion, urlFoto, descripcion, fechaPerdido, fechaEncontrado, userID)
-    VALUES ("Gato", "Siames", "Perdido", "Marron claro", "General San Martín, B, Argentina", "/static/images/imagenes_mascotas/grumpy.jpeg", "No se lo ve muy contento", "2024-01-22", null, 3);
+    INSERT INTO animales (animal, raza, condicion, color, zona, urlFoto, descripcion, fechaPerdido, fechaEncontrado, userID)
+    VALUES ("Gato", "Siames", "Perdido", "Marron claro", "General San Martín", "/static/images/imagenes_mascotas/grumpy.jpeg", "No se lo ve muy contento", "2024-01-22", null, 3);
     '''
 ]
 
 def all_animales():
     try:
         connection = engine().connect()
-        result = to_dict(run_query(connection, QUERY_TODOS_LOS_ANIMALES).fetchall())
+        query = QUERY_TODOS_LOS_ANIMALES + " WHERE resuelto = false"
+        result = to_dict(run_query(connection, query).fetchall())
     finally:
         if connection:
             connection.close()
@@ -158,7 +159,7 @@ def to_dict(data):
             'raza':             row[2],
             'condicion':        row[3],
             'color':            row[4],
-            'direccion':        row[5],
+            'zona':             row[5],
             'urlFoto':          row[6],
             'descripcion':      row[7],
             'fechaPerdido':     row[8].strftime('%Y-%m-%d') if row[8] else row[8],

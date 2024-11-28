@@ -15,7 +15,7 @@ const apiKey = "9d82b10b02a649e883471f803f7ffed5";
 input.addEventListener("input", function() {
     const query = input.value.trim();
     if (query.length >= 3) {  
-        fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${query}&format=json&apiKey=${apiKey}`)
+        fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${query}&filter=countrycode:ar&format=json&apiKey=${apiKey}`)
             .then(response => response.json())
             .then(data => {
                 suggestionsDiv.innerHTML = "";

@@ -46,7 +46,7 @@ def pets_search():
     except requests.exceptions.RequestException as e:
         print(f"e: {e}")
         datos_filtro = []
-    datosFiltro = ['animal', 'color', 'condicion', 'fechaEncontrado', 'fechaPerdido', 'raza', 'resuelto', 'ubicacion']
+    datosFiltro = ['animal', 'color', 'condicion', 'fechaEncontrado', 'fechaPerdido', 'raza', 'zona']
     filtro = {}
     for dato in datosFiltro:
         valor = request.args.get(dato)
@@ -113,6 +113,9 @@ def pet_update(id):
             foto.save(ruta)
             urlfoto = f"/{'static/images/imagenes_mascotas'}/{foto.filename}"
         ubicacion = request.form.get('ubicacion')
+        apiKey = "9d82b10b02a649e883471f803f7ffed5"
+        ubicacion_request = requests.get(f"https://api.geoapify.com/v1/geocode/search?text={ubicacion}&limit=1&filter=countrycode:ar&format=json&apiKey={apiKey}")
+        zona = ubicacion_request.json()['results'][0]['suburb']
         datos = {
                 "animal": animal,
                 "color" : color,
@@ -121,7 +124,7 @@ def pet_update(id):
                 "fechaEncontrado" : fechaEncontrado,
                 "fechaPerdido" : fechaPerdido,
                 "raza" : raza,
-                "direccion" : ubicacion,
+                "zona" : zona,
             }
         if foto: 
             datos['urlFoto'] = urlfoto
@@ -233,6 +236,9 @@ def upload_pet():
         foto.save(ruta)
         urlfoto = f"/{app.config['imagenes_mascotas']}/{foto.filename}"
         ubicacion = request.form.get('ubicacion')
+        apiKey = "9d82b10b02a649e883471f803f7ffed5"
+        ubicacion_request = requests.get(f"https://api.geoapify.com/v1/geocode/search?text={ubicacion}&limit=1&filter=countrycode:ar&format=json&apiKey={apiKey}")
+        zona = ubicacion_request.json()['results'][0]['suburb']
         datos = {
                 "animal": animal,
                 "color" : color,
@@ -241,7 +247,7 @@ def upload_pet():
                 "fechaEncontrado" : fechaEncontrado,
                 "fechaPerdido" : fechaPerdido,
                 "raza" : raza,
-                "direccion" : ubicacion,
+                "zona" : zona,
                 "urlFoto" : urlfoto
             }
         if animal and color and condicion and fecha and foto and urlfoto and ubicacion:

@@ -81,6 +81,8 @@ def add_animal():
 def update_animal(id):
     datos = request.get_json()
     try:
+        if not animales.exist_animal(id):
+            return jsonify({'error': 'No se encontró al animal.'}), http.client.NOT_FOUND
         if not animales.validate_user_owner(id, session['user_id']):
             return jsonify({'error': 'Esta publicación no pertenece al usuario'}), http.client.FORBIDDEN
         animales.update_animal(id, datos)
@@ -217,13 +219,6 @@ def login():
         logger.error(f"Could not fetch user {user_data.get('username')}. {error}")
         return jsonify({"error": "Error al iniciar sesión."}), http.client.INTERNAL_SERVER_ERROR
     return jsonify({"message": "Bienvenido!", "user_id": session["user_id"]}), http.client.OK
-
-
-@app.route('/api/usuarios/login')
-def is_logged_in():
-    if session.get('logged_in'):
-        return jsonify({"message": "Usuario loggeado"}), http.client.OK
-    return jsonify({"message": "No hay usuario loggeado"}), http.client.BAD_REQUEST
 
 
 @app.route("/api/logout", methods=["GET"])
