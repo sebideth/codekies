@@ -24,7 +24,7 @@ class Login(Screen):
     password = ObjectProperty(None)
 
     def loginBtn(self):
-            url = "http://localhost:5001/api/login"
+            url = "https://nescobaro.pythonanywhere.com//api/login"
             datos = {
                 "username": str(self.user.text),
                 "password": str(self.password.text)
@@ -54,7 +54,9 @@ class Main(Screen):
     fecha = ""
     fechaPerdido = ""
     fechaEncontrado = ""
-    ubicacion = ""
+    zona = ""
+    lat = ""
+    lng = ""
     current_user = ""
     current_passwd = ""
 
@@ -90,14 +92,16 @@ class Main(Screen):
             if campo == "" or campo == None:
                 return True
     def añadirBtn(self):
-        url = "http://localhost:5001/api/login"
+        url = "https://nescobaro.pythonanywhere.com/api/login"
         datos = {
             "username": self.current_user,
             "password": self.current_passwd
         }
         session = requests.Session()
         response_login = session.post(url, json=datos)
-        campos = [self.animal.text, self.condicion.text, self.color.text, self.ubicacion.text]
+        
+        campos = [self.animal.text, self.condicion.text, self.color.text, self.zona.text]
+        
         if self.fechaVacia(self.fecha.text) or self.camposVacios(campos):
             camposObligatorios()            
         elif response_login.status_code == 200:
@@ -107,12 +111,14 @@ class Main(Screen):
                 raza = self.raza.text
                 color = self.color.text
                 descripcion = self.descripcion.text
-                ubicacion = self.ubicacion.text
+                zona = self.zona.text
+                lat = self.lat
+                lng = self.lng
                 
                 self.definirCondicion(condicion)
                 self.definirRaza(raza)
                 
-                url = 'http://localhost:5001/api/animales'
+                url = 'https://nescobaro.pythonanywhere.com/api/animales'
                 params = {
                     "animal": animal,
                     "color": color,
@@ -121,8 +127,10 @@ class Main(Screen):
                     "fechaEncontrado": self.fechaEncontrado,
                     "fechaPerdido": self.fechaPerdido,
                     "raza": self.raza,
-                    "zona": ubicacion,
-                    "urlFoto": "static/images/imagenes_mascotas/grumpy.jpeg"
+                    "zona": zona,
+                    "lat": "lat",
+                    "lng": "lng",
+                    "urlFoto": "grumpy.jpeg"
                     }
                 
                 response = session.post(url, json=params)
@@ -153,10 +161,12 @@ class MostrarMapa(Screen):
     _search_timer = None
     direccion_seleccionada = None  
     marcador = None  
+    lat = ""
+    lng = ""
 
     def obtener_direcciones(self, query):
         api_key = "9d82b10b02a649e883471f803f7ffed5"
-        url = f"https://api.geoapify.com/v1/geocode/autocomplete?text={query}&apiKey={api_key}"
+        url = f"https://api.geoapify.com/v1/geocode/autocomplete?text={query}&filter=countrycode:ar&apiKey={api_key}"
 
         response = requests.get(url)
     
@@ -189,27 +199,33 @@ class MostrarMapa(Screen):
         direccion = instance.direccion
         print(f"Seleccionaste: {direccion['properties']['formatted']}")
 
-        lat = direccion['geometry']['coordinates'][1]
-        lon = direccion['geometry']['coordinates'][0]
+        self.lat = direccion['geometry']['coordinates'][1]
+        self.lng = direccion['geometry']['coordinates'][0]
 
-        self.ids.mapa.center_on(lat, lon) 
+        self.ids.mapa.center_on(self.lat, self.lng) 
         self.ids.mapa.zoom = 17  
 
         if self.marcador:
             self.ids.mapa.remove_widget(self.marcador)
 
-        self.marcador = MapMarker(lat=lat, lon=lon)
+        self.marcador = MapMarker(lat=self.lat, lon=self.lng)
         self.ids.mapa.add_widget(self.marcador) 
 
         self.ids.suggestions_list.clear_widgets()
 
-        self.direccion_seleccionada = direccion['properties']['formatted']     
+        self.direccion_seleccionada = direccion['properties']['formatted']
+
+        print(self.direccion_seleccionada)     
 
 
     def guardar_direccion(self):
+        print("guardando direccion")
+        print(self.direccion_seleccionada)
         if self.direccion_seleccionada:
             main_screen = self.manager.get_screen("main")
-            main_screen.ids.ubicacion.text = self.direccion_seleccionada
+            main_screen.ids.zona.text = self.direccion_seleccionada
+            main_screen.ids.lat = self.lat
+            main_screen.ids.lng = self.lng
         
         self.manager.current = "main"
 
