@@ -34,7 +34,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
 
         </div>
@@ -47,7 +47,7 @@
                 {% for animal in animales %}
                     <div class="col-md-4 ">
                         <div class="fh5co-blog animate-box targeta-animales">
-                            <img src="{{animal.urlFoto}}" alt="foto de la mascota" class="img-fluid img-pets">
+                            <img src="{{url_for('static', filename='images/imagenes_mascotas/' + animal.urlFoto)}}" alt="foto de la mascota" class="img-fluid img-pets">
                             <div class="blog-text">
                                 {% if animal.fechaPerdido %}
                                     <span class="posted_on">Fecha de perdido: {{animal.fechaPerdido}}</span>
@@ -59,7 +59,7 @@
                                 <p><a href="{{ url_for('pet_edit', id=animal.id)}}" class="button">Editar</a></p>
                                 <p><a href="{{ url_for('pet_delete', id=animal.id)}}" class="boton-eliminar">Eliminar</a></p>
                                 <p><a href="{{ url_for('petinfo', id=animal.id)}}" class="button">Mas detalles</a></p>
-                            </div> 
+                            </div>
                         </div>
                     </div>
                 {% endfor %}

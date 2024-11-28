@@ -26,19 +26,19 @@ COLUMNAS_FILTRO = ['animal', 'raza', 'condicion', 'color', 'fechaPerdido', 'fech
 INSERTS_ANIMALES_DEFAULT = [
     '''
     INSERT INTO animales (animal, raza, condicion, color, zona, lat, lng, urlFoto, descripcion, fechaPerdido, fechaEncontrado, userID)
-    VALUES ("Perro", "Chihuahua", "Perdido", "Blanco", "Monserrat", "-34.610723", "-58.373274", "/static/images/imagenes_mascotas/chihuahua.jpg", "Es muy simpaticón, responde al nombre Pepito", "2024-11-23", null, 1);
+    VALUES ("Perro", "Chihuahua", "Perdido", "Blanco", "Monserrat", "-34.610723", "-58.373274", "chihuahua.jpg", "Es muy simpaticón, responde al nombre Pepito", "2024-11-23", null, 1);
     ''',
     '''
     INSERT INTO animales (animal, raza, condicion, color, zona, lat, lng, urlFoto, descripcion, fechaPerdido, fechaEncontrado, userID)
-    VALUES ("Perro", "Desconocida", "Encontrado sin dueño", "Marron claro", "Villa Devoto", "-34.599378599999994", "-58.512232440627876", "/static/images/imagenes_mascotas/doge.png", "Cara de meme", null, "2024-06-11", 1);
+    VALUES ("Perro", "Desconocida", "Encontrado sin dueño", "Marron claro", "Villa Devoto", "-34.599378599999994", "-58.512232440627876", "doge.png", "Cara de meme", null, "2024-06-11", 1);
     ''',
     '''
     INSERT INTO animales (animal, raza, condicion, color, zona, lat, lng, urlFoto, descripcion, fechaPerdido, fechaEncontrado, userID)
-    VALUES ("Gato", "Desconocida", "Encontrado sin dueño", "Negro", "Caballito", "-34.628132300000004", "-58.446159399734796", "/static/images/imagenes_mascotas/gato.jpg", "Gato negro", null, "2024-06-11", 2);
+    VALUES ("Gato", "Desconocida", "Encontrado sin dueño", "Negro", "Caballito", "-34.628132300000004", "-58.446159399734796", "gato.jpg", "Gato negro", null, "2024-06-11", 2);
     ''',
     '''
     INSERT INTO animales (animal, raza, condicion, color, zona, lat, lng, urlFoto, descripcion, fechaPerdido, fechaEncontrado, userID)
-    VALUES ("Gato", "Siames", "Perdido", "Marron claro", "Lomas de San Isidro", "-34.4809015", "-58.5528059", "/static/images/imagenes_mascotas/grumpy.jpeg", "No se lo ve muy contento", "2024-01-22", null, 3);
+    VALUES ("Gato", "Siames", "Perdido", "Marron claro", "Lomas de San Isidro", "-34.4809015", "-58.5528059", "grumpy.jpeg", "No se lo ve muy contento", "2024-01-22", null, 3);
     '''
 ]
 

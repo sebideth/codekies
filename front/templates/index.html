@@ -69,7 +69,7 @@
 			<div class="row">
 				{% for animal in animales %}
 					<div class="col-md-4 text-center animate-box">
-						<a href="{{ url_for('petinfo', id=animal.id)}}" class="work"  style="background-image: url({{animal.urlFoto}});">
+						<a href="{{ url_for('petinfo', id=animal.id)}}" class="work"  style="background-image: url({{url_for('static', filename='images/imagenes_mascotas/' + animal.urlFoto)}});">
 							<div class="desc">
 								<h3>{{ animal.condicion }}</h3>
 								{% if animal.fechaPerdido  %}
@@ -115,4 +115,3 @@
 		</div>
 	</div><!-- END container-wrap -->
 {% endblock %}
-	

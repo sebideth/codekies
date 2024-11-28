@@ -18,7 +18,7 @@
 									</p>
 									<form method="get" action="{{ url_for('pets_search') }}" class="form_filtro">
 										<label for="filtro">Filtrar por:</label>
-										
+
 										{% for filtro, valores in datos_filtro.items() %}
 
 											<select name="{{filtro}}">
@@ -31,27 +31,28 @@
 											</select>
 
 										{% endfor %}
-										
+
 										<button type="submit">Filtrar</button>
 									</form>
 
 								</div>
-								
+
 				   			</div>
 				   		</div>
 			   		</div>
-			   	</li>		   	
+			   	</li>
 			  	</ul>
 		  	</div>
-			
-		</aside>		
+
+		</aside>
 		<div id="fh5co-blog">
 			<div class="row">
 				{% for animal in animales %}
 
 				<div class="col-md-4 targeta-hover">
 					<div class="fh5co-blog animate-box targeta-animales">
-						<img src="{{animal.urlFoto}}" alt="foto de la mascota" class="img-fluid img-pets">
+						<!--<img src="{{animal.urlFoto}}" alt="foto de la mascota" class="img-fluid img-pets">-->
+						<img src="{{url_for('static', filename='images/imagenes_mascotas/' + animal.urlFoto)}}" alt="foto de la mascota" class="img-fluid img-pets">
 						<div class="blog-text">
 							{% if animal.fechaPerdido %}
 								<span class="posted_on">Fecha de perdido: {{animal.fechaPerdido}}</span>
@@ -66,10 +67,10 @@
 								<li><i class="icon-eye2"></i>1,308</li>
 								<li><a href="{{ url_for('petinfo', id=animal.id)}}" class="botoninfo">Mas detalles<i class="icon-arrow-right22"></i></a></li>
 							</ul>
-						</div> 
+						</div>
 					</div>
 				</div>
-	
+
 				{% endfor %}
 			</div>
 		</div>

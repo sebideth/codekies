@@ -4,7 +4,7 @@
 <div class="pf-columns">
 
     <div class="pf-photoBox">
-        <img class="pf-photo" src="{{ mascota.urlFoto }}">
+        <img class="pf-photo" src="{{url_for('static', filename='images/imagenes_mascotas/' + mascota.urlFoto)}}">
     </div>
 
     <div class="pf-files">

@@ -2,7 +2,7 @@ import os
 from flask import Flask, redirect, render_template, url_for, request, session, abort, jsonify
 from werkzeug import exceptions
 import requests
-from config import api_url
+from config import api_url, app_path, statics_files_path
 
 app = Flask(__name__)
 app.secret_key = 'sarasa'
@@ -116,9 +116,9 @@ def pet_update(id):
             fechaPerdido = None
         foto = request.files['foto']
         if foto:
-            ruta = os.path.join('static/images/imagenes_mascotas', foto.filename)
+            ruta = statics_files_path + "/" + foto.filename
             foto.save(ruta)
-            urlfoto = f"/{'static/images/imagenes_mascotas'}/{foto.filename}"
+            urlfoto = foto.filename
         ubicacion = request.form.get('ubicacion')
         lat = request.form.get('lat')
         lng = request.form.get('lng')
@@ -227,8 +227,6 @@ def petinfo(id):
 
 @app.route('/upload_pet', methods=["GET", "POST"])
 def upload_pet():
-    imagenes_mascotas = 'static/images/imagenes_mascotas'
-    app.config['imagenes_mascotas'] = imagenes_mascotas
     if not is_logged_in():
         return redirect(url_for('auth'))
     if request.method == "POST":
@@ -247,9 +245,9 @@ def upload_pet():
             fechaEncontrado = fecha
             fechaPerdido = None
         foto = request.files['foto']
-        ruta = os.path.join(app.config['imagenes_mascotas'], foto.filename)
+        ruta = statics_files_path + "/" + foto.filename  # os.path.join(app_path, statics, foto.filename)
         foto.save(ruta)
-        urlfoto = f"/{app.config['imagenes_mascotas']}/{foto.filename}"
+        urlfoto = foto.filename
         ubicacion = request.form.get('ubicacion')
         lat = request.form.get('lat')
         lng = request.form.get('lng')

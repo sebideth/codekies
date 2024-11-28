@@ -17,6 +17,12 @@ input.addEventListener("input", function () {
     let lat = document.getElementById("lat")
     let lng = document.getElementById("lng")
     let zona = document.getElementById("zona")
+    // if (lat.value && lng.value){
+    //     const latlng = new L.latlng(lat, lng)
+    //     alert(latlng)
+    // }
+
+
     if (query.length >= 3) {
         fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${query}&filter=countrycode:ar&format=json&apiKey=${apiKey}`)
             .then(response => response.json())
