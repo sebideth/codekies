@@ -14,6 +14,7 @@ database_cli = AppGroup('database', help='Database related commands')
 def init_database(database):
     print(f"[{Fore.GREEN}*{Style.RESET_ALL}] Initializing database...")
     print(f"[{Fore.GREEN}*{Style.RESET_ALL}] Database name {database}")
+    connection = None
     try:
         connection = engine_with_no_database().connect()
         print(f"[{Fore.YELLOW}*{Style.RESET_ALL}] Dropping existing database ...")
@@ -64,14 +65,18 @@ def init_database(database):
         print(f"[{Fore.GREEN}*{Style.RESET_ALL}] Created successfully!")
     except Exception as e:
         print(f"[{Fore.RED}*{Style.RESET_ALL}] Could not create database -> {e}")
+    finally:
+        if connection:
+            connection.close()
 
 @database_cli.command("build", help="Building the database.")
 @click.argument("database", default=config.db_name)
 def build_database(database):
+    connection = None
     print(f"[{Fore.GREEN}*{Style.RESET_ALL}] Building database...")
     print(f"[{Fore.GREEN}*{Style.RESET_ALL}] Database name {database}")
     try:
-        connection = engine().connect()
+        connection = engine.connect()
         print(f"[{Fore.YELLOW}*{Style.RESET_ALL}] Populating tables ...")
         queries = [*INSERTS_USUARIOS_DEFAULT, *INSERTS_ANIMALES_DEFAULT]
         for query in queries:
@@ -79,3 +84,7 @@ def build_database(database):
         print(f"[{Fore.GREEN}*{Style.RESET_ALL}] Builded successfully!")
     except Exception as e:
         print(f"[{Fore.RED}*{Style.RESET_ALL}] Could not build database -> {e}")
+        return
+    finally:
+        if connection is not None:
+            connection.close()

@@ -43,8 +43,9 @@ INSERTS_ANIMALES_DEFAULT = [
 ]
 
 def all_animales():
+    connection = None
     try:
-        connection = engine().connect()
+        connection = engine.connect()
         query = QUERY_TODOS_LOS_ANIMALES + " WHERE resuelto = false"
         result = to_dict(run_query(connection, query).fetchall())
     finally:
@@ -53,8 +54,9 @@ def all_animales():
     return result
 
 def last_n_animales(n):
+    connection = None
     try:
-        connection = engine().connect()
+        connection = engine.connect()
         result = to_dict(run_query(connection, QUERY_ULTIMOS_N_ANIMALES, {'n': n}).fetchall())
     finally:
         if connection:
@@ -62,8 +64,9 @@ def last_n_animales(n):
     return result
 
 def animal_by_id(id):
+    connection = None
     try:
-        connection = engine().connect()
+        connection = engine.connect()
         result = to_dict(run_query(connection, QUERY_ANIMAL_POR_ID, {'id': id}).fetchall())
     finally:
         if connection:
@@ -71,8 +74,9 @@ def animal_by_id(id):
     return result
 
 def add_animal(datos, user_id):
+    connection = None
     try:
-        connection = engine().connect()
+        connection = engine.connect()
         datos["userID"] = user_id
         run_query(connection, QUERY_CARGAR_ANIMAL, datos)
     finally:
@@ -81,14 +85,15 @@ def add_animal(datos, user_id):
 
 
 def add_animal_encontrado(datos, user_id):
-    with engine().connect() as connection:
+    with engine.connect() as connection:
         datos["usuario_id"] = user_id
         run_query(connection, QUERY_CARGAR_ANIMAL_ENCONTRADO, datos)
 
 
 def update_animal(id, datos):
+    connection = None
     try:
-        connection = engine().connect()
+        connection = engine.connect()
         query = 'UPDATE animales SET'
         for dato in datos:
             query += f' {dato} = :{dato},'
@@ -100,16 +105,18 @@ def update_animal(id, datos):
             connection.close()
 
 def delete_animal(id):
+    connection = None
     try:
-        connection = engine().connect()
+        connection = engine.connect()
         run_query(connection, QUERY_BORRAR_ANIMAL, {'id': id})
     finally:
         if connection:
             connection.close()
 
 def filter_animal(filtros):
+    connection = None
     try:
-        connection = engine().connect()
+        connection = engine.connect()
         query = QUERY_TODOS_LOS_ANIMALES
         if len(filtros) > 0:
             query += ' WHERE '
@@ -123,8 +130,9 @@ def filter_animal(filtros):
     return result
 
 def datos_animales():
+    connection = None
     try:
-        connection = engine().connect()
+        connection = engine.connect()
         datos_unicos = {}
         for columna in COLUMNAS_FILTRO:
             query = f"SELECT DISTINCT {columna} FROM animales"

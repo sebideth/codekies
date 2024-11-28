@@ -35,8 +35,9 @@ select id from animales where userID=:usuario_id
 '''
 
 def usuario_by_id(id):
+    connection = None
     try:
-        connection = engine().connect()
+        connection = engine.connect()
         result = to_dict(run_query(connection, QUERY_USUARIO_POR_ID, {'id': id}).fetchall())
     finally:
         if connection:
@@ -47,16 +48,18 @@ def exist_user(id):
     return usuario_by_id(id) != []
 
 def register_user(datos):
+    connection = None
     try:
-        connection = engine().connect()
+        connection = engine.connect()
         run_query(connection, QUERY_INSERT_USER, datos)
     finally:
         if connection:
             connection.close()
 
 def login_user(datos):
+    connection = None
     try:
-        connection = engine().connect()
+        connection = engine.connect()
         result = run_query(connection, QUERY_LOGIN_USER, datos).fetchone()
     finally:
         if connection:
@@ -64,6 +67,7 @@ def login_user(datos):
     return result
 
 def update_user(id, datos):
+    connection = None
     query = QUERY_ACTUALIZAR_USUARIO
     params = {col: datos.get(col) for col in COLUMNAS_ACTUALIZAR_USUARIO}
     params["id"] = id
@@ -75,7 +79,7 @@ def update_user(id, datos):
 
     query += ' WHERE id = :id'
     try:
-        connection = engine().connect()
+        connection = engine.connect()
         run_query(connection, query, params)
     finally:
         if connection:
@@ -83,7 +87,7 @@ def update_user(id, datos):
 
 
 def get_my_founded_pets(user_id):
-    with engine().connect() as connection:
+    with engine.connect() as connection:
         result = pet_found_to_dict(run_query(connection, QUERY_CARGAR_DATOS_USUARIO_MASCOTA_ENCONTRADA, {'usuario_id': user_id}))
         return result
 
