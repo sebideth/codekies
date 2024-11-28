@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -70,19 +72,19 @@ class Main(Screen):
         else:
             self.fechaEncontrado = self.normalizarFecha(str(fecha))
             self.fechaPerdido = None
-    
-    #definirRaza toma la raza que haya ingresado el usuario, o si el usuario deja el campo vacio, cambia la raza a "Desconocida".   
+
+    #definirRaza toma la raza que haya ingresado el usuario, o si el usuario deja el campo vacio, cambia la raza a "Desconocida".
     def definirRaza(self, raza):
         if raza == "":
             self.raza = "Desconocida"
         else:
             self.raza = str(raza)
 
-    #normalizarFecha utiliza la libreria dateutil para guardar la fecha ingresada en el mismo formato que está en la base de datos (Lamentablemente no se pueden poner fechas en español).            
+    #normalizarFecha utiliza la libreria dateutil para guardar la fecha ingresada en el mismo formato que está en la base de datos (Lamentablemente no se pueden poner fechas en español).
     def normalizarFecha(self, fecha):
         fecha_normal = parser().parse(fecha)
         return str(fecha_normal)
-    
+
     def fechaVacia(self, fecha):
         if fecha == "" or fecha == None:
             return True
@@ -99,11 +101,11 @@ class Main(Screen):
         }
         session = requests.Session()
         response_login = session.post(url, json=datos)
-        
+
         campos = [self.animal.text, self.condicion.text, self.color.text, self.zona.text]
-        
+
         if self.fechaVacia(self.fecha.text) or self.camposVacios(campos):
-            camposObligatorios()            
+            camposObligatorios()
         elif response_login.status_code == 200:
                 foto = str(importarImagen.getFoto)
                 animal = self.animal.text
@@ -112,12 +114,12 @@ class Main(Screen):
                 color = self.color.text
                 descripcion = self.descripcion.text
                 zona = self.zona.text
-                lat = self.lat
-                lng = self.lng
-                
+                lat = self.lat.text
+                lng = self.lng.text
+
                 self.definirCondicion(condicion)
                 self.definirRaza(raza)
-                
+
                 url = 'https://nescobaro.pythonanywhere.com/api/animales'
                 params = {
                     "animal": animal,
@@ -128,11 +130,11 @@ class Main(Screen):
                     "fechaPerdido": self.fechaPerdido,
                     "raza": self.raza,
                     "zona": zona,
-                    "lat": "lat",
-                    "lng": "lng",
+                    "lat": lat,
+                    "lng": lng,
                     "urlFoto": "grumpy.jpeg"
                     }
-                
+
                 response = session.post(url, json=params)
                 if response.status_code == 201:
                     successUpload()
@@ -145,13 +147,13 @@ class Main(Screen):
 
 class importarImagen(Screen):
     foto = ObjectProperty(None)
-    
+
     def selected(self, archivo):
         self.foto = str(archivo[0])
-    
+
     def getFoto(self):
         return str(self.foto)
-    
+
 class WindowManager(ScreenManager):
     pass
 
@@ -159,8 +161,8 @@ class WindowManager(ScreenManager):
 class MostrarMapa(Screen):
 
     _search_timer = None
-    direccion_seleccionada = None  
-    marcador = None  
+    direccion_seleccionada = None
+    marcador = None
     lat = ""
     lng = ""
 
@@ -169,7 +171,7 @@ class MostrarMapa(Screen):
         url = f"https://api.geoapify.com/v1/geocode/autocomplete?text={query}&filter=countrycode:ar&apiKey={api_key}"
 
         response = requests.get(url)
-    
+
         if response.status_code == 200:
             data = response.json()
             return data.get('features', [])
@@ -202,31 +204,34 @@ class MostrarMapa(Screen):
         self.lat = direccion['geometry']['coordinates'][1]
         self.lng = direccion['geometry']['coordinates'][0]
 
-        self.ids.mapa.center_on(self.lat, self.lng) 
-        self.ids.mapa.zoom = 17  
+        self.ids.mapa.center_on(self.lat, self.lng)
+        self.ids.mapa.zoom = 17
 
         if self.marcador:
             self.ids.mapa.remove_widget(self.marcador)
 
         self.marcador = MapMarker(lat=self.lat, lon=self.lng)
-        self.ids.mapa.add_widget(self.marcador) 
+        self.ids.mapa.add_widget(self.marcador)
 
         self.ids.suggestions_list.clear_widgets()
-
-        self.direccion_seleccionada = direccion['properties']['formatted']
-
-        print(self.direccion_seleccionada)     
-
+        properties = direccion.get('properties')
+        if properties:
+            if properties.get('suburb'):
+                self.direccion_seleccionada = properties.get('suburb')
+            else:
+                self.direccion_seleccionada = properties.get('city')
 
     def guardar_direccion(self):
         print("guardando direccion")
         print(self.direccion_seleccionada)
+        print(self.lat)
+        print(self.lng)
         if self.direccion_seleccionada:
             main_screen = self.manager.get_screen("main")
             main_screen.ids.zona.text = self.direccion_seleccionada
-            main_screen.ids.lat = self.lat
-            main_screen.ids.lng = self.lng
-        
+            main_screen.ids.lat.text = str(self.lat)
+            main_screen.ids.lng.text = str(self.lng)
+
         self.manager.current = "main"
 
 def invalidLogin():
@@ -255,7 +260,7 @@ class MyApp(MDApp):
         paginas = [Login(name = "login"), Main(name = "main"), importarImagen(name = 'imagen'), MostrarMapa(name = 'mapa')]
         for pagina in paginas:
             self.manager.add_widget(pagina)
-        
+
         self.manager.current = "login"
 
         return self.manager

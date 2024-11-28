@@ -19,7 +19,7 @@
                 pos: self.pos
                 size: self.size
                 source: 'assets/images/fondomain3.jpg'
-        
+
         Label:
             text:"Pata a Casa"
             color: (1, 1, 179/255, 1)
@@ -49,7 +49,7 @@
             pos_hint: {'center_x': .5}
             size_hint: 0.9, 0.1
             hint_text: 'Ingrese su usuario'
-        
+
         TextInput:
             id: password
             font_size: 24
@@ -82,6 +82,8 @@
     descripcion: descripcion
     fecha: fecha
     zona: zona
+    lat: lat
+    lng: lng
     foto: foto
 
     BoxLayout:
@@ -106,7 +108,7 @@
             outline_width: 2
             size_hint: (None, None)
             size: self.texture_size
-  
+
         Spinner:
             id: animal
             text: 'Tipo de mascota'
@@ -137,7 +139,6 @@
             pos_hint: {'center_x': .5}
             size_hint: 1, 0.1
             hint_text: 'Raza (si no tiene, dejar vacío)'
-
 
         TextInput:
             id: color
@@ -185,6 +186,26 @@
             on_release:
                 app.root.current = "imagen"
 
+        TextInput:
+            id: lat
+            font_size: 1
+            multiline: True
+            pos_hint: {'center_x': .5}
+            size_hint: 0.2, None
+            height: 1
+            hint_text: 'latitud'
+            opacity: 0
+
+        TextInput:
+            id: lng
+            font_size: 1
+            multiline: True
+            pos_hint: {'center_x': .5}
+            size_hint: 0.2, None
+            height: 1
+            hint_text: 'longitud'
+            opacity: 0
+
         Button:
             pos_hint:{'center_x': .5}
             size_hint: 1, 0.15
@@ -213,8 +234,8 @@
                 rgba: 0, 0, 0, 1  # Color negro
             Rectangle:
                 pos: self.pos
-                size: self.size        
-        
+                size: self.size
+
         FileChooserIconView:
             id: archivo
             on_selection: imagen.selected(archivo.selection)
@@ -237,12 +258,12 @@
             lat: -34.7
             lon: -58.4
             zoom: 10
-        
+
         MDBoxLayout:
             orientation: 'vertical'
             size_hint: (0.8, None)
             pos_hint: {"center_x": 0.5, "y": 0.9}
-            
+
             MDTextField:
                 id: input_text
                 hint_text: "Ingrese una descripción o dirección"
@@ -264,4 +285,4 @@
             size_hint: 1, 0.1
             text: "Guardar dirección"
             background_color: (220/255, 171/255, 107/255, 1)
-            on_release: root.guardar_direccion()   
+            on_release: root.guardar_direccion()
