@@ -3,7 +3,7 @@ const suggestionsDiv = document.getElementById("suggestions");
 const mapDiv = document.getElementById("map");
 
 // centrado en Arg
-const map = L.map(mapDiv).setView([-34.6037, -58.3816], 5);  
+const map = L.map(mapDiv).setView([-34.6037, -58.3816], 5);
 
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: '© OpenStreetMap contributors',
@@ -12,9 +12,12 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 // API Key geoapify
 const apiKey = "9d82b10b02a649e883471f803f7ffed5";
 
-input.addEventListener("input", function() {
+input.addEventListener("input", function () {
     const query = input.value.trim();
-    if (query.length >= 3) {  
+    let lat = document.getElementById("lat")
+    let lng = document.getElementById("lng")
+    let zona = document.getElementById("zona")
+    if (query.length >= 3) {
         fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${query}&filter=countrycode:ar&format=json&apiKey=${apiKey}`)
             .then(response => response.json())
             .then(data => {
@@ -23,11 +26,22 @@ input.addEventListener("input", function() {
                     const suggestion = document.createElement("div");
                     suggestion.classList.add("suggestion-item");
                     suggestion.innerText = result.formatted;
-                    suggestion.addEventListener("click", function() {
+                    suggestion.addEventListener("click", function () {
                         input.value = result.formatted;
-                        map.setView([result.lat, result.lon], 13);  
-                        L.marker([result.lat, result.lon]).addTo(map);  
-                        suggestionsDiv.innerHTML = "";  
+                        map.setView([result.lat, result.lon], 13);
+                        L.marker([result.lat, result.lon]).addTo(map);
+                        suggestionsDiv.innerHTML = "";
+                        console.log("DATOS!!!")
+                        console.log(result)
+                        lat.value = result.lat
+                        lng.value = result.lon
+
+                        if (result.suburb){
+                            zona.value = result.suburb
+                        }
+                        else{
+                            zona.value = result.city
+                        }
                     });
                     suggestionsDiv.appendChild(suggestion);
                 });

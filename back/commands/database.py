@@ -41,6 +41,8 @@ def init_database(database):
                                 "condicion VARCHAR(255) NOT NULL,"
                                 "color VARCHAR(50),"
                                 "zona VARCHAR(255),"
+                                "lat VARCHAR(255),"
+                                "lng VARCHAR(255),"
                                 "urlFoto VARCHAR(255),"
                                 "descripcion TEXT,"
                                 "fechaPerdido DATE,"
