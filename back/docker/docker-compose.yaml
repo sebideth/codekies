@@ -1,0 +1,9 @@
+services:
+  db:
+    image: mysql
+    restart: always
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_DATABASE: codekies
+      MYSQL_ROOT_PASSWORD: change_me

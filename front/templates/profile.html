@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block profileactive %} class="active" {% endblock %}
+{% block body %}
+<div class="container-wrap-empty">
+    <div class="row-center row-no-margin" >
+        <div class="col-md-8 card-container">
+            <div class="row row-no-margin">
+                <div class="col-xs-6">
+                    <h1>Perfil</h1>
+                </div>
+                <div class="col-xs-6" style="text-align: right;">
+                    <a class="button" href=" {{ url_for('profile_edit')}}">Editar</a>
+                </div>
+            </div>
+
+            <div class="row row-no-margin container-inner">
+                <div class="col-md-12">
+                    <div class="row row-no-margin">
+                        <div class="col-md-6">
+                            <label>Nombre</label>
+                            <p>{{ user.nombre }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Apellido</label>
+                            <p>{{ user.apellido }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Email</label>
+                            <p>{{ user.email }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Telefono</label>
+                            <p>{{ user.telefono }}</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <br>
+    <div class="container-wrap">
+        <div id="fh5co-blog">
+            <h2>Mis Posteos</h2>
+            <div class="row">
+                {% for animal in animales %}
+                    <div class="col-md-4 ">
+                        <div class="fh5co-blog animate-box targeta-animales">
+                            <img src="{{url_for('static', filename='images/imagenes_mascotas/' + animal.urlFoto)}}" alt="foto de la mascota" class="img-fluid img-pets">
+                            <div class="blog-text">
+                                {% if animal.fechaPerdido %}
+                                    <span class="posted_on">Fecha de perdido: {{animal.fechaPerdido}}</span>
+                                {% else %}
+                                    <span class="posted_on">Fecha de encontrado: {{animal.fechaEncontrado}}</span>
+                                {% endif %}
+                                <h3>{{animal.animal}}</h3>
+                                <p>Condición: {{animal.condicion}}</p>
+                                <p><a href="{{ url_for('pet_edit', id=animal.id)}}" class="button">Editar</a></p>
+                                <p><a href="{{ url_for('pet_delete', id=animal.id)}}" class="boton-eliminar">Eliminar</a></p>
+                                <p><a href="{{ url_for('petinfo', id=animal.id)}}" class="button">Mas detalles</a></p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block scrips %}
+<script src="{{ url_for('static', filename = 'js/deleteconfirmation.js') }}"></script>
+{% endblock %}

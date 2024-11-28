@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block profileactive %} class="active" {% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="login form">
+            <form action="{{ url_for('pet_update', id=animal.id) }}" method="post" enctype="multipart/form-data">
+                <u>
+                    <header>Formulario de Mascota</header>
+                </u>
+                <label for="animal">Indique la especie de la mascota</label>
+                <br>
+                <select id="animal" name="animal" required>
+                    <option {{ 'selected="selected"' if animal.animal == 'Perro' else '' }}>Perro</option>
+                    <option {{ 'selected="selected"' if animal.animal == 'Gato' else '' }}>Gato</option>
+                    <option {{ 'selected="selected"' if animal.animal == 'Ave' else '' }}>Ave</option>
+                    <option {{ 'selected="selected"' if animal.animal == 'Roedor' else '' }}>Roedor</option>
+                    <option {{ 'selected="selected"' if animal.animal == 'Reptil' else '' }}>Reptil</option>
+                    <option {{ 'selected="selected"' if animal.animal == 'Otro' else '' }}>Otro</option>
+                </select>
+                <label for="raza">Indique la raza de la mascota (opcional)</label>
+                <input type="text" name="raza" id="raza" value="{{ animal.raza }}">
+                <label for="condicion">Indique el estado de la mascota</label>
+                <select id="condicion" name="condicion" required>
+                    <option {{ 'selected="selected"' if animal.condicion == 'Perdido' else '' }}>Perdido</option>
+                    <option {{ 'selected="selected"' if animal.condicion == 'Encontrado sin dueño' else '' }}>Encontrado
+                        sin dueño
+                    </option>
+                </select>
+                <label for="color">Indique el color de la mascota</label>
+                <input type="text" name="color" id="color" value="{{ animal.color }}" required>
+                <label for="fecha">Indique la fecha de perdida/encontrada</label>
+                <input type="date" name="fecha" id="fecha"
+                       value="{{ animal.fechaPerdido if animal.fechaPerdido else animal.fechaEncontrado }}" required>
+                <label for="foto">Suba una imágen de la mascota</label>
+                <!-- Permite al usuario subir un archivo, pero este tiene la condicion de ser algun tipo de imagen -->
+                <input type="file" name="foto" id="foto" accept="image/*">
+                <span><b>Zona actual:</b> {{ animal.zona }}</span>
+                <br>
+                <label for="ubicacion">Indique la ubicacion donde se perdió/encontró</label>
+                <input type="text" id="ubicacion" name="ubicacion">
+                <div id="suggestions" class="suggestions"></div>
+                <div id="map"></div>
+                <input type="hidden" name="lat" id="lat">
+                <input type="hidden" name="lng" id="lng">
+                <input type="hidden" name="zona" id="zona">
+                <input type="text" name="descripcion" value="{{ animal.descripcion }}">
+                <button type="submit">Enviar</button>
+            </form>
+            <br>
+            <a href="{{ url_for('profile') }}">
+                <button>Cancelar</button>
+            </a>
+        </div>
+    </div>
+{% endblock %}
+{% block scrips %}
+    <script src="https://unpkg.com/leaflet@1.9.1/dist/leaflet.js"></script>
+    <script src="{{ url_for('static', filename = 'js/mapa.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div class="container-wrap">
+        <aside id="fh5co-hero">
+            <div class="flexslider">
+                <ul class="slides">
+                    <li style="background-image: url({{ url_for('static', filename='images/501.jpeg') }})">
+                        <div class="overlay-gradient"></div>
+                        <div class="container-fluids">
+                            <div class="row">
+                                <div class="col-md-6 col-md-offset-3 slider-text">
+                                    <div class="slider-text-inner text-center">
+                                        <h1 id="titulo-home">Se ha producido un error en el servidor. Haga click en
+                                            Inicio para volver</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+{% endblock %}

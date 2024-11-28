@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block petsactive %} class="active" {% endblock %}
+{% block body %}
+<div class="pf-columns">
+
+    <div class="pf-photoBox">
+        <img class="pf-photo" src="{{url_for('static', filename='images/imagenes_mascotas/' + mascota.urlFoto)}}">
+    </div>
+
+    <div class="pf-files">
+        <div class="pf-nameBox">
+            <h1 class="typo-petName">{{ mascota.animal }}</h1>
+        </div>
+
+        <div class="pf-characBox">
+            <h5 class="typo-characTitle">Características:</h5>
+            <p class="typo-characPet"><strong>Especie:</strong> {{ mascota.animal }}</p>
+            <p class="typo-characPet"><strong>Raza:</strong> {{ mascota.raza }}</p>
+            <p class="typo-characPet"><strong>Color:</strong> {{ mascota.color }}</p>
+            <p class="typo-characPet"><strong>Condición:</strong> {{ mascota.condicion }}</p>
+            {% if mascota.fechaPerdido  %}
+                <p class="typo-characPet"><strong>Fecha de perdida:</strong> {{ mascota.fechaPerdido }}</p>
+            {% else %}
+                <p class="typo-characPet"><strong>Fecha de encontrada:</strong> {{ mascota.fechaEncontrado }}</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="pf-columns">
+
+    <div class="pf-descBox">
+        <h3 class="typo-descTitle">Descripción:</h3>
+
+        <p class="typo-descChar">{{ mascota.descripcion }}</p>
+        <p><a style="width: 500px; margin-top:250px; border-color: rgb(83, 51, 2);" class="btn btn-primary btn-demo" id="boton-reclamar" href="{{ url_for('pet_confirm', pet_id=mascota.id) }}"></i> Reclamar/Lo Encontre</a>
+
+    </div>
+
+    <div class="pf-mapBox">
+        <h3 class="typo-descTitle">Zona: {{ mascota.zona }}</h3>
+        <iframe class="map" scrolling="no"
+                src="https://maps.geoapify.com/v1/staticmap?style=osm-bright&width=600&height=400&center=lonlat:{{ mascota.lng }},{{ mascota.lat }}&zoom=14&marker=lonlat:{{ mascota.lng }},{{ mascota.lat }};color:%23ff0000;size:medium|lonlat:{{ mascota.lng }},{{ mascota.lat }};color:%23ff0000;size:medium&apiKey=9d82b10b02a649e883471f803f7ffed5"></iframe>
+    </div>
+</div>
+{% endblock %}
+
+{% block scrips %}
+<script src="https://unpkg.com/leaflet@1.9.1/dist/leaflet.js"></script>
+{% endblock %}

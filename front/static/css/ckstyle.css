@@ -1,0 +1,148 @@
+/* pet_info */
+
+/* estilos */
+
+.pf-characBox {
+    height: 360px
+}
+
+.pf-characBox,.pf-descBox,.pf-mapBox {
+    padding: 10px;
+    background-color: #f3e1c8;
+    box-shadow: 1px 1px 10px 0#000;
+}
+
+.pf-columns {
+    display: flex;
+    flex-direction: row;
+    margin: auto auto 20px;
+    width: 1060px;
+    height: 425px;
+    gap: 5px
+}
+
+.pf-files {
+    display: flex;
+    flex-direction: column;
+    gap: 5px
+}
+
+.pf-nameBox {
+    background-color: #f3e1c8;
+    box-shadow: 1px 1px 10px 0#000;
+    height: 60px;
+    width: 355px
+}
+
+.pf-descBox,.pf-mapBox {
+    width: 530px;
+    height: 315px;
+}
+
+.pf-mapBox {
+    height: 425px;
+}
+
+.pf-photoBox {
+    padding: 10px;
+    background-color: #f3e1c8;
+    box-shadow: 1px 1px 10px 0#000;
+    width: 700px;
+    height: 425px
+}
+
+.pf-photo {
+    width: 680px;
+    max-height: 400px;
+    border-radius: 3px
+}
+
+.map {
+    margin-top: 15px;
+    margin-left: 3px;
+    width: 500px;
+    height: 300px
+}
+
+/* letras */
+
+.typo-petName {
+    font-family: "Oxygen",sans-serif;
+    color: #311603;
+    font-size: 29px;
+    font-weight: 900;
+    text-align: center;
+    padding: 12px
+}
+
+.typo-characTitle,.typo-descPet {
+    font-family: "Oxygen",sans-serif;
+    color: #311603;
+    font-size: 24px;
+    font-weight: 650;
+    padding-left: 4px;
+    margin-top: 4px;
+    margin-bottom: 12px
+}
+
+.typo-descTitle {
+    padding-left: 14px;
+    padding-bottom: 14px;
+    margin-bottom: 8px;
+    padding-top: 8px;
+    border-bottom: 1px solid rgba(49,22,3,.192);
+}
+
+.typo-characPet {
+    padding-top: 5px
+}
+
+.typo-characPet,.typo-descChar {
+    font-family: "Oxygen",sans-serif;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    color: #462d0f
+}
+
+.typo-characPet {
+    padding-left: 8px;
+    border-bottom: 1px solid rgba(49,22,3,.192);
+    font-size: 16px
+}
+
+.typo-descChar {
+    padding-left: 20px;
+    font-size: 15.5px;
+    overflow-wrap: break-word
+}
+
+/* upload_pet */
+
+#map {
+    height: 400px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+#ubicacion {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    font-size: 16px;
+}
+.suggestions {
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: white;
+    position: absolute;
+    width: 75%;
+    z-index: 1000;
+    margin-top: -10px;
+}
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+}
+.suggestion-item:hover {
+    background-color: #f0f0f0;
+}
