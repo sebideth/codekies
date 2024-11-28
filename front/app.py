@@ -2,6 +2,7 @@ import os
 from flask import Flask, redirect, render_template, url_for, request, session, abort, jsonify
 from werkzeug import exceptions
 import requests
+from config import api_url
 
 app = Flask(__name__)
 app.secret_key = 'sarasa'
@@ -10,7 +11,7 @@ app.secret_key = 'sarasa'
 @app.route('/')
 def home():
     try:
-        animales_response = requests.get('http://localhost:5001/api/animales/ultimos/3')
+        animales_response = requests.get(f'{api_url}/api/animales/ultimos/3')
         animales_response.raise_for_status()
         animales = animales_response.json()
     except requests.exceptions.RequestException as e:
@@ -22,7 +23,7 @@ def home():
 @app.route('/pets')
 def pets():
     try:
-        datos_filtro_response = requests.get('http://localhost:5001/api/animales/datos')
+        datos_filtro_response = requests.get(f'{api_url}/api/animales/datos')
         datos_filtro_response.raise_for_status()
         datos_filtro = datos_filtro_response.json()
     except requests.exceptions.RequestException as e:
@@ -30,7 +31,7 @@ def pets():
         datos_filtro = []
 
     try:
-        animales_response = requests.get('http://localhost:5001/api/animales')
+        animales_response = requests.get(f'{api_url}/api/animales')
         animales_response.raise_for_status()
         animales = animales_response.json()
     except requests.exceptions.RequestException as e:
@@ -43,7 +44,7 @@ def pets():
 @app.route('/pets/search', methods=['GET', 'POST'])
 def pets_search():
     try:
-        datos_filtro_response = requests.get('http://localhost:5001/api/animales/datos')
+        datos_filtro_response = requests.get(f'{api_url}/api/animales/datos')
         datos_filtro_response.raise_for_status()
         datos_filtro = datos_filtro_response.json()
     except requests.exceptions.RequestException as e:
@@ -56,7 +57,7 @@ def pets_search():
         if valor:
             filtro[dato] = valor
     try:
-        response = requests.get('http://localhost:5001/api/animales/buscar', json=filtro)
+        response = requests.get(f'{api_url}/api/animales/buscar', json=filtro)
         response.raise_for_status()
         animales = response.json()
     except requests.exceptions.RequestException as e:
@@ -78,7 +79,7 @@ def pet_found(pet_id=None):
         redirect(url_for('login'))
     if not pet_id:
         return redirect(url_for('pets'))
-    response = requests.post("http://127.0.0.1:5001/api/animales/found", json={"animal_id": pet_id},
+    response = requests.post(f"{api_url}/api/animales/found", json={"animal_id": pet_id},
                              cookies=session.get('cookie'))
     if response.status_code != 201:
         return render_template('pet_found.html')
@@ -88,7 +89,7 @@ def pet_found(pet_id=None):
 @app.route('/pets/edit/<int:id>', methods=["GET"])
 def pet_edit(id):
     try:
-        response = requests.get(f"http://localhost:5001/api/animales/{id}")
+        response = requests.get(f"{api_url}/api/animales/{id}")
         response.raise_for_status()
         animal = response.json()
     except requests.exceptions.RequestException as e:
@@ -119,10 +120,9 @@ def pet_update(id):
             foto.save(ruta)
             urlfoto = f"/{'static/images/imagenes_mascotas'}/{foto.filename}"
         ubicacion = request.form.get('ubicacion')
-        apiKey = "9d82b10b02a649e883471f803f7ffed5"
-        ubicacion_request = requests.get(
-            f"https://api.geoapify.com/v1/geocode/search?text={ubicacion}&limit=1&filter=countrycode:ar&format=json&apiKey={apiKey}")
-        zona = ubicacion_request.json()['results'][0]['suburb']
+        lat = request.form.get('lat')
+        lng = request.form.get('lng')
+        zona = request.form.get('zona')
         datos = {
             "animal": animal,
             "color": color,
@@ -132,10 +132,12 @@ def pet_update(id):
             "fechaPerdido": fechaPerdido,
             "raza": raza,
             "zona": zona,
+            "lat": lat,
+            "lng": lng,
         }
         if foto:
             datos['urlFoto'] = urlfoto
-        response = requests.put(f"http://localhost:5001/api/animales/{id}", json=datos, cookies=session.get('cookie'))
+        response = requests.put(f"{api_url}/api/animales/{id}", json=datos, cookies=session.get('cookie'))
         response.raise_for_status()
     except requests.exceptions.RequestException as e:
         print(f"error:{e}")
@@ -147,7 +149,7 @@ def pet_update(id):
 @app.route('/pets/delete/<int:id>', methods=["GET"])
 def pet_delete(id):
     try:
-        response = requests.delete(f"http://localhost:5001/api/animales/{id}", cookies=session.get('cookie'))
+        response = requests.delete(f"{api_url}/api/animales/{id}", cookies=session.get('cookie'))
         response.raise_for_status()
     except requests.exceptions.RequestException as e:
         print(f"error:{e}")
@@ -179,7 +181,7 @@ def auth():
                 "password": passwd
             }
             request_session = requests.Session()
-            response = request_session.post('http://127.0.0.1:5001/api/login', json=datos)
+            response = request_session.post(f'{api_url}/api/login', json=datos)
             if response.status_code == 200:
                 session['cookie'] = request_session.cookies.get_dict()
                 session['user_id'] = response.json()['user_id']
@@ -195,7 +197,7 @@ def auth():
                 "nombre": newname,
                 "apellido": newlastname
             }
-            response = requests.post('http://127.0.0.1:5001/api/register', json=datos)
+            response = requests.post(f'{api_url}/api/register', json=datos)
             if response.status_code != 201:
                 return render_template('auth_error.html', error=response.json()['error'])
     return render_template('auth.html', is_logged_in=is_logged_in())
@@ -203,7 +205,7 @@ def auth():
 
 @app.route('/logout')
 def logout():
-    response = requests.get('http://127.0.0.1:5001/api/logout')
+    response = requests.get(f'{api_url}/api/logout')
     if response.status_code == 200:
         session.clear()
         return redirect(url_for('home'))
@@ -212,7 +214,7 @@ def logout():
 @app.route('/pets/<int:id>')
 def petinfo(id):
     try:
-        response = requests.get(f"http://localhost:5001/api/animales/{id}")
+        response = requests.get(f"{api_url}/api/animales/{id}")
         response.raise_for_status()
         mascota = response.json()
     except requests.exceptions.RequestException as e:
@@ -270,7 +272,7 @@ def upload_pet():
             "urlFoto": urlfoto
         }
         if animal and color and condicion and fecha and foto and urlfoto and ubicacion:
-            requests.post('http://127.0.0.1:5001/api/animales', json=datos, cookies=session.get('cookie'))
+            requests.post(f'{api_url}/api/animales', json=datos, cookies=session.get('cookie'))
             return redirect(url_for('pets'))
     return render_template('upload_pet.html', is_logged_in=is_logged_in())
 
@@ -280,10 +282,10 @@ def profile():
     if not is_logged_in():
         return render_template('auth.html', is_logged_in=is_logged_in())
     try:
-        response = requests.get(f"http://localhost:5001/api/usuarios/{session.get('user_id')}")
+        response = requests.get(f"{api_url}/api/usuarios/{session.get('user_id')}")
         response.raise_for_status()
         user = response.json()
-        animales_response = requests.get(f"http://localhost:5001/api/animales/usuario/{session.get('user_id')}",
+        animales_response = requests.get(f"{api_url}/api/animales/usuario/{session.get('user_id')}",
                                          cookies=session.get('cookie'))
         my_animals = animales_response.json()
     except requests.exceptions.RequestException as e:
@@ -294,7 +296,7 @@ def profile():
 @app.route('/profile/update', methods=["GET"])
 def profile_edit():
     try:
-        response = requests.get(f"http://localhost:5001/api/usuarios/{session['user_id']}")
+        response = requests.get(f"{api_url}/api/usuarios/{session['user_id']}")
         response.raise_for_status()
         user = response.json()
     except requests.exceptions.RequestException as e:
@@ -305,7 +307,7 @@ def profile_edit():
 @app.route('/profile', methods=["POST"])
 def profile_update():
     try:
-        response = requests.put(f"http://localhost:5001/api/usuarios/{session['user_id']}", json={
+        response = requests.put(f"{api_url}/api/usuarios/{session['user_id']}", json={
             "nombre": request.form.get('name'),
             "apellido": request.form.get('lastname'),
             "password": request.form.get('password'),
