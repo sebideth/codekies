@@ -37,18 +37,19 @@
                 <span><b>Zona actual:</b> {{ animal.zona }}</span>
                 <br>
                 <label for="ubicacion">Indique la ubicacion donde se perdió/encontró</label>
-                <input type="text" id="ubicacion" name="ubicacion" value="{{ animal.direccion }}" required>
+                <input type="text" id="ubicacion" name="ubicacion">
                 <div id="suggestions" class="suggestions"></div>
                 <div id="map"></div>
-                <input type="hidden" name="lat" id="lat" value="{{ animal.lat }}">
-                <input type="hidden" name="lng" id="lng" value="{{ animal.lng }}">
+                <input type="hidden" name="lat" id="lat">
+                <input type="hidden" name="lng" id="lng">
                 <input type="hidden" name="zona" id="zona">
                 <input type="text" name="descripcion" value="{{ animal.descripcion }}">
                 <button type="submit">Enviar</button>
-                <a href="{{ url_for('pets') }}">
-                    <button>Cancelar</button>
-                </a>
             </form>
+            <br>
+            <a href="{{ url_for('profile') }}">
+                <button>Cancelar</button>
+            </a>
         </div>
     </div>
 {% endblock %}

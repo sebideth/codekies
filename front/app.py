@@ -119,7 +119,6 @@ def pet_update(id):
             ruta = statics_files_path + "/" + foto.filename
             foto.save(ruta)
             urlfoto = foto.filename
-        ubicacion = request.form.get('ubicacion')
         lat = request.form.get('lat')
         lng = request.form.get('lng')
         zona = request.form.get('zona')
@@ -131,19 +130,20 @@ def pet_update(id):
             "fechaEncontrado": fechaEncontrado,
             "fechaPerdido": fechaPerdido,
             "raza": raza,
-            "zona": zona,
-            "lat": lat,
-            "lng": lng,
         }
         if foto:
             datos['urlFoto'] = urlfoto
+        if zona:
+            datos['zona'] = zona
+            datos['lat'] = lat
+            datos['lng'] = lng
         response = requests.put(f"{api_url}/api/animales/{id}", json=datos, cookies=session.get('cookie'))
         response.raise_for_status()
     except requests.exceptions.RequestException as e:
         print(f"error:{e}")
     if response.status_code == 403:
         abort(403)
-    return redirect(url_for('pets'))
+    return redirect(url_for('profile'))
 
 
 @app.route('/pets/delete/<int:id>', methods=["GET"])
