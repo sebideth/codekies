@@ -133,6 +133,8 @@ def datos_animales():
             except Exception as e:
                 print(f"Error al obtener datos unicos para '{columna}': {e}")
                 datos_unicos[columna] = []
+    except Exception as e:
+        print(f"Error al obtener datos unicos para '{columna}': {e}")
     finally:
         if connection:
             connection.close()
