@@ -1,37 +1,37 @@
 {%extends 'base.html' %}
 {%block body %}
 {% block authactive %} class="active" {% endblock %}
-  <div class="container">
-    <input type="checkbox" id="check">
-    <div class="login form">
-      <header>Iniciar Sesión</header>
-      <form action="{{ url_for('auth')}}" method="post">
-        <input type="text" name="username" id="username" placeholder="Ingrese su nombre de usuario" required>
-        <input type="password" name="passwd" id="passwd" placeholder="Ingrese su contraseña" required>
-        <a href="#">Olvidé mi contraseña</a>
-        <input type="submit" class="button" value="Iniciar Sesión">
-      </form>
+<div class="container">
+  <input type="checkbox" id="check">
+  <div class="login form">
+    <header>Iniciar Sesión</header>
+    <form action="{{ url_for('auth')}}" method="post">
+      <input type="text" name="username" placeholder="Ingrese su nombre de usuario" required>
+      <input type="password" name="passwd" placeholder="Ingrese su contraseña" required>
+      <a href="#">Olvidé mi contraseña</a>
+      <input type="submit" class="button" value="Iniciar Sesión">
       <div class="signup">
-         <label for="check">Registrarse</label>
-        </span>
+        <label for="check">Registrarse</label>
       </div>
-    </div>
-    <div class="registration form">
-      <header>Registrarse</header>
-      <form action="{{ url_for('auth')}}" method="post">
-        <input type="text" name="newname" id="newname" placeholder="Ingrese su nombre" required>
-        <input type="text" name="newlastname" id="newlastname" placeholder="Ingrese su apellido" required>
-        <input type="text" name="newusername" id="newusername" placeholder="Ingrese un nombre de usuario" required>
-        <input type="text" name="newemail" id="newemail" placeholder="Ingrese su email" required>
-        <input type="text" name="newphone" id="newphone" placeholder="Ingrese su teléfono" required>
-        <input type="password" name="newpasswd" id="newpasswd" placeholder="Crear contraseña" required>
-        <input type="submit" class="button" value="Registrarse">
-      </form>
+    </form>
+  </div>
+ 
+  <div class="registration form">
+    <header>Registrarse</header>
+    <form action="{{ url_for('auth')}}" method="post">
+      <input type="text" name="newname" placeholder="Ingrese su nombre" required>
+      <input type="text" name="newlastname" placeholder="Ingrese su apellido" required>
+      <input type="text" name="newusername" placeholder="Ingrese un nombre de usuario" required>
+      <input type="text" name="newemail" placeholder="Ingrese su email" required>
+      <input type="text" name="newphone" placeholder="Ingrese su teléfono" required>
+      <input type="password" name="newpasswd" placeholder="Crear contraseña" required>
+      <input type="submit" class="button" value="Registrarse">
       <div class="signup">
         <span class="signup">Ya tiene cuenta?
-         <label for="check">Iniciar sesión</label>
+          <label for="check">Iniciar sesión</label>
         </span>
       </div>
-    </div>
+    </form>
   </div>
+ </div>
   {% endblock %}
